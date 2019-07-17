@@ -4,3 +4,5 @@
 
 #### Study List
 * Singleton Pattern
+* Kotlin
+* RxJava
