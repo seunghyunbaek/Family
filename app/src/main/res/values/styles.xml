@@ -11,6 +11,10 @@
 
     <!-- margin style -->
 
+    <style name="margin_5dp">
+        <item name="android:layout_margin">5dp</item>
+    </style>
+
     <style name="margin_10dp">
         <item name="android:layout_margin">10dp</item>
     </style>

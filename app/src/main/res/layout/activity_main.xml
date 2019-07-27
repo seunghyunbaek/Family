@@ -149,24 +149,28 @@
 
         <ImageView
             android:id="@+id/imageView"
+            style="@style/margin_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@drawable/chicken" />
 
         <ImageView
+            style="@style/margin_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@drawable/chicken" />
 
         <ImageView
+            style="@style/margin_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             app:srcCompat="@drawable/chicken" />
 
         <ImageView
+            style="@style/margin_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
