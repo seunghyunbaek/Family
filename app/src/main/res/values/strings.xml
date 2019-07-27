@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <!-- bottom navigation bar items -->
     <string name="title_activity_my_home">MyHomeActivity</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_record">기록</string>
+    <string name="title_calendar">일정</string>
+    <string name="title_family">가족</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

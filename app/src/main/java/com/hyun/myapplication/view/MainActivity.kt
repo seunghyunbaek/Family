@@ -1,8 +1,9 @@
-package com.hyun.myapplication
+package com.hyun.myapplication.view
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.hyun.myapplication.R
 
 class MainActivity : AppCompatActivity() {
 
