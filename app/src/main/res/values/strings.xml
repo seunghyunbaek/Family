@@ -5,6 +5,8 @@
     <string name="title_activity_my_home">MyHomeActivity</string>
     <string name="title_record">기록</string>
     <string name="title_calendar">일정</string>
+    <string name="title_todo">할일</string>
+    <string name="title_pictures">사진</string>
     <string name="title_family">가족</string>
 
     <!-- TODO: Remove or change this placeholder text -->
