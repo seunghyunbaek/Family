@@ -13,5 +13,6 @@ abstract class BaseActivity : AppCompatActivity() {
         initPresenter()
     }
 
+    // view와 상호작용할 Presenter를 주입하기위한 함수
     abstract fun initPresenter()
 }
