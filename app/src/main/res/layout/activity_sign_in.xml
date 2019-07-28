@@ -9,7 +9,8 @@
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="wrap_content"
+        style="@style/margin_50dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
         android:cropToPadding="true"
@@ -24,38 +25,42 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imageView4" />
 
     <Button
-        android:text="구글 로그인"
+        android:id="@+id/btnSignInWithGoogle"
+        style="@style/signing_with_google"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnSignInWithGoogle"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="구글 로그인"
         app:layout_constraintBottom_toTopOf="@id/btnSignInWithKakao"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btnSignInWithKakao"
+        style="@style/signing_with_kakao"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:text="카카오톡 로그인"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/btnSignInWithFacebook"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <Button
-        android:text="페이스북 로그인"
+        android:id="@+id/btnSignInWithFacebook"
+        style="@style/signing_with_facebook"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btnSignInWithFacebook"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="페이스북 로그인"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

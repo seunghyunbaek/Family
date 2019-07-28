@@ -10,7 +10,6 @@
 
 
     <!-- margin style -->
-
     <style name="margin_5dp">
         <item name="android:layout_margin">5dp</item>
     </style>
@@ -30,5 +29,34 @@
         <item name="android:textColor">#ffffff</item>
     </style>
 
+    <style name="margin_50dp">
+        <item name="android:layout_margin">50dp</item>
+    </style>
+
+
+    <!-- button style -->
+    <style name="signing_with_google">
+        <item name="android:background">@color/google</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginLeft">60dp</item>
+        <item name="android:layout_marginRight">60dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="signing_with_kakao">
+        <item name="android:background">@color/kakao</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginLeft">60dp</item>
+        <item name="android:layout_marginRight">60dp</item>
+        <item name="android:layout_marginBottom">16dp</item>
+    </style>
+
+    <style name="signing_with_facebook">
+        <item name="android:background">@color/facebook</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginLeft">60dp</item>
+        <item name="android:layout_marginRight">60dp</item>
+        <item name="android:layout_marginBottom">80dp</item>
+    </style>
 
 </resources>

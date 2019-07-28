@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">KFamily</string>
 
     <!-- bottom navigation bar items -->
     <string name="title_activity_my_home">MyHomeActivity</string>
