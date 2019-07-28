@@ -29,12 +29,12 @@ class SignInActivity : BaseActivity(), SignInContract.View {
 
     fun setButton() {
         btnSignInWithGoogle.setOnClickListener {
-            if (signinPresenter.doLogin("a1@gmail.com", "123")) {
-                Intent(this, MainActivity::class.java).let {
-                    startActivity(it)
-                }
-            }
-
+//            if (signinPresenter.doLogin("a1@gmail.com", "123")) {
+//                Intent(this, MainActivity::class.java).let {
+//                    startActivity(it)
+//                }
+//            }
+            signinPresenter.doLogin("a1@gmail.com", "123")
         }
     }
 
@@ -52,5 +52,11 @@ class SignInActivity : BaseActivity(), SignInContract.View {
 
     override fun hideLoading() {
         progressBar2.visibility = View.GONE
+    }
+
+    override fun successSignIn() {
+        Intent(this, MainActivity::class.java).let {
+            startActivity(it)
+        }
     }
 }

@@ -1,13 +1,11 @@
 package com.hyun.myapplication.presenter
 
-import android.content.Intent
-import com.hyun.myapplication.contract.SignInContract
 import android.os.Handler
+import com.hyun.myapplication.contract.SignInContract
 import com.hyun.myapplication.model.User
 import com.hyun.myapplication.model.UserList.getUserListData
-import com.hyun.myapplication.view.SignInActivity
 
-class SignInPresenter: SignInContract.Presenter {
+class SignInPresenter : SignInContract.Presenter {
 
     private var signinView: SignInContract.View? = null
 
@@ -21,25 +19,47 @@ class SignInPresenter: SignInContract.Presenter {
         signinView = null
     }
 
-    override fun doLogin(email: String, passwd: String):Boolean {
-//        signinView?.showLoading()
+//    override fun doLogin(email: String, passwd: String):Boolean {
+////        signinView?.showLoading()
+//
+//        var isSuccess:Boolean = false
+//        // 로그인 성공 실패 체크하기
+//        val userList:List<User> = getUserListData()
+//
+//        // 입력한 데이터의 유저가 있는지 확인하기
+//        for(item in userList) {
+//            if(item.checkUserValidity(email, passwd)) {
+//                isSuccess = true
+//                break
+//            }
+//        }
+//
+////        Handler().postDelayed({
+////            signinView?.hideLoading()
+////        }, 500)
+//
+//        return isSuccess
+//    }
 
-        var isSuccess:Boolean = false
-        // 로그인 성공 실패 체크하기
-        val userList:List<User> = getUserListData()
+    override fun doLogin(email: String, passwd: String) {
+        signinView?.showLoading()
 
-        // 입력한 데이터의 유저가 있는지 확인하기
-        for(item in userList) {
-            if(item.checkUserValidity(email, passwd)) {
-                isSuccess = true
-                break
+        Handler().postDelayed({
+            var isSuccess: Boolean = false
+            // 로그인 성공 실패 체크하기
+            val userList: List<User> = getUserListData()
+
+            // 입력한 데이터의 유저가 있는지 확인하기
+            for (item in userList) {
+                if (item.checkUserValidity(email, passwd)) {
+                    isSuccess = true
+                    break
+                }
             }
-        }
 
-//        Handler().postDelayed({
-//            signinView?.hideLoading()
-//        }, 500)
-
-        return isSuccess
+            signinView?.hideLoading()
+            if(isSuccess)
+                signinView?.successSignIn()
+        }, 500)
     }
 }
