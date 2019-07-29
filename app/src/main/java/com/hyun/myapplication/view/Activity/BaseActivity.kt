@@ -1,4 +1,4 @@
-package com.hyun.myapplication.view
+package com.hyun.myapplication.view.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

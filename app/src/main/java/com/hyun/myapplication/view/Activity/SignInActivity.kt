@@ -1,4 +1,4 @@
-package com.hyun.myapplication.view
+package com.hyun.myapplication.view.Activity
 
 import android.content.Intent
 import android.os.Bundle

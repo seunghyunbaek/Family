@@ -1,13 +1,15 @@
-package com.hyun.myapplication.view
+package com.hyun.myapplication.view.Activity
 
 import android.os.Bundle
 import android.widget.FrameLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
-import android.widget.TextView
-import androidx.fragment.app.Fragment
 import com.hyun.myapplication.R
-import kotlinx.android.synthetic.main.activity_my_home.*
+import com.hyun.myapplication.view.Fragment.FamilyFragment
+import com.hyun.myapplication.view.Fragment.CalendarFragment
+import com.hyun.myapplication.view.Fragment.PicturesFragment
+import com.hyun.myapplication.view.Fragment.RecordFragment
+import com.hyun.myapplication.view.Fragment.TodoFragment
 
 class MyHomeActivity : AppCompatActivity() {
 

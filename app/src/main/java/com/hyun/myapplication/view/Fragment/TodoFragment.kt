@@ -1,4 +1,4 @@
-package com.hyun.myapplication.view
+package com.hyun.myapplication.view.Fragment
 
 
 import android.os.Bundle
