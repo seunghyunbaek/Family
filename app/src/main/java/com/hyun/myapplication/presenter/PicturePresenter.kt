@@ -1,3 +1,3 @@
 package com.hyun.myapplication.presenter
 
-class RecordPresenter
+class PicturePresenter
