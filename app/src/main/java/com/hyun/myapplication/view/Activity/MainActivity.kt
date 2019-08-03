@@ -22,5 +22,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(it)
             }
         })
+
+        btnNews.setOnClickListener {
+            Intent(this, NewsActivity::class.java).let{
+                startActivity(it)
+            }
+        }
     }
 }
