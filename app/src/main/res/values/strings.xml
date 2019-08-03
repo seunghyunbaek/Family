@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">KFamily</string>
 
+    <!-- main activity menu -->
+    <string name="main_menu1">내 인맥</string>
+    <string name="main_menu2">소식 &amp; 정보</string>
+    <string name="main_menu3">가이드</string>
+    <string name="main_menu4">사용자 의견</string>
+
     <!-- bottom navigation bar items -->
     <string name="title_activity_my_home">MyHomeActivity</string>
     <string name="title_record">기록</string>
@@ -12,7 +18,7 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-
     <!-- write record activity -->
-    <string name="write_record">공유할 내용을 입력하세요</string>
+    <string name="writerecord_write">공유할 내용을 입력하세요</string>
+
 </resources>

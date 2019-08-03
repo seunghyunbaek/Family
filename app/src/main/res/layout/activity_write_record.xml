@@ -53,7 +53,7 @@
         android:background="@android:color/transparent"
         android:ems="10"
         android:gravity="start|top"
-        android:hint="@string/write_record"
+        android:hint="@string/writerecord_write"
         android:inputType="textMultiLine"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
