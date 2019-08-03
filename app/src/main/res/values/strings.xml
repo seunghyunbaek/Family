@@ -11,4 +11,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+
+    <!-- write record activity -->
+    <string name="write_record">공유할 내용을 입력하세요</string>
 </resources>

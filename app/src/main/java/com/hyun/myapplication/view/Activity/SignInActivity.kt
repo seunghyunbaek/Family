@@ -47,11 +47,11 @@ class SignInActivity : BaseActivity(), SignInContract.View {
     }
 
     override fun showLoading() {
-        progressBar2.visibility = View.VISIBLE
+        progressSignIn.visibility = View.VISIBLE
     }
 
     override fun hideLoading() {
-        progressBar2.visibility = View.GONE
+        progressSignIn.visibility = View.GONE
     }
 
     override fun successSignIn() {

@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.myapplication.R
 import com.hyun.myapplication.view.Activity.MainActivity
+import com.hyun.myapplication.view.Activity.WriteRecordActivity
 import com.hyun.myapplication.view.Adapter.RecordAdapter
 import kotlinx.android.synthetic.main.fragment_record.*
 
@@ -36,8 +37,8 @@ class RecordFragment : BaseFragment() {
         initPresenter()
 
         val fab: View = view.findViewById(R.id.recordFab)
-        fab.setOnClickListener { view ->
-            Intent(view.context, MainActivity::class.java).let{
+        fab.setOnClickListener {
+            Intent(view.context, WriteRecordActivity::class.java).let{
                 startActivity(it)
             }
         }

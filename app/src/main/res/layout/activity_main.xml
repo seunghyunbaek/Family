@@ -148,7 +148,6 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/imageView"
             style="@style/margin_5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
