@@ -48,6 +48,13 @@
         <item name="android:layout_margin">20dp</item>
     </style>
 
+    <style name="margin_10dp_20dp">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+    </style>
+
     <style name="margin_50dp">
         <item name="android:layout_margin">50dp</item>
     </style>

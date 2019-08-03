@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.Activity.WriteRecordActivity"></activity>
+        <activity android:name=".view.Activity.NewsActivity"></activity>
+        <activity android:name=".view.Activity.WriteRecordActivity" />
         <activity android:name=".view.Activity.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,7 +22,7 @@
         <activity
             android:name=".view.Activity.MyHomeActivity"
             android:label="@string/title_activity_my_home" />
-        <activity android:name=".view.Activity.MainActivity"></activity>
+        <activity android:name=".view.Activity.MainActivity" />
     </application>
 
 </manifest>

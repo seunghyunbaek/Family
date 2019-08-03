@@ -7,32 +7,6 @@
     android:orientation="vertical"
     tools:context=".view.Fragment.FamilyFragment">
 
-    <ImageView
-        android:id="@+id/btnBackFamily"
-        style="@style/size_40dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:adjustViewBounds="true"
-        android:padding="5dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_left_thin" />
-
-    <TextView
-        android:id="@+id/tvFamily1"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
-        android:gravity="center_vertical"
-        android:text="나의 홈"
-        android:textSize="16dp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/btnBackFamily"
-        app:layout_constraintTop_toTopOf="@+id/btnBackFamily" />
-
     <LinearLayout
         android:id="@+id/groupInvitePeople"
         style="@style/margin_20dp"
@@ -42,7 +16,7 @@
         app:layout_constraintBottom_toTopOf="@id/familyRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBackFamily">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imgPeopleFamily"

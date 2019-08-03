@@ -27,7 +27,6 @@ private const val ARG_PARAM2 = "param2"
 class FamilyFragment : BaseFragment() {
 
     lateinit var invitePeople: LinearLayout
-    lateinit var btnBackHome: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,14 +35,6 @@ class FamilyFragment : BaseFragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_family, container, false)
-
-        btnBackHome = view.findViewById(R.id.btnBackFamily)
-
-        btnBackHome.setOnClickListener {
-            Intent(view.context, MainActivity::class.java).let {
-                startActivity(it)
-            }
-        }
 
         invitePeople = view.findViewById(R.id.groupInvitePeople)
         invitePeople.setOnClickListener {
@@ -59,7 +50,9 @@ class FamilyFragment : BaseFragment() {
         return view
     }
 
+
     override fun initPresenter() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }
