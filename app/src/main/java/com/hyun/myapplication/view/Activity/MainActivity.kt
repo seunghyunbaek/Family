@@ -28,5 +28,11 @@ class MainActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
+        btnGuide.setOnClickListener {
+            Intent(this, GuideActivity::class.java).let {
+                startActivity(it)
+            }
+        }
     }
 }
