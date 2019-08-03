@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.RecyclerView
 
 import com.hyun.myapplication.R
 
@@ -18,15 +19,23 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class PicturesFragment : Fragment() {
+class PicturesFragment : BaseFragment() {
+
+    lateinit var pictureRecyclerView:RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_pictures, container, false)
+        val view = inflater.inflate(R.layout.fragment_pictures, container, false)
+
+        pictureRecyclerView = view.findViewById(R.id.pictureRecyclerView)
+
+        return view
     }
 
-
+    override fun initPresenter() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 }

@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!-- size -->
+    <style name="size_40dp">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+    </style>
 
     <!-- margin style -->
     <style name="margin_5dp">
@@ -23,6 +28,11 @@
         <item name="android:layout_margin">10dp</item>
     </style>
 
+    <style name="margin_0dp_10dp">
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
     <style name="margin_10dp_text_white_font_24dp">
         <item name="android:layout_margin">10dp</item>
         <item name="android:textColor">#ffffff</item>
@@ -32,6 +42,10 @@
     <style name="margin_10dp_text_white">
         <item name="android:layout_margin">10dp</item>
         <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="margin_20dp">
+        <item name="android:layout_margin">20dp</item>
     </style>
 
     <style name="margin_50dp">

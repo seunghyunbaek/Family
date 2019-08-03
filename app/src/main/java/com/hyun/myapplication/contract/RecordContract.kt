@@ -9,12 +9,13 @@ interface RecordContract {
         fun showLoading()
         fun hideLoading()
         fun showRecord() // 기록 보여주기
-        fun updateRecord()
     }
 
     // RecordPresent가 구현해야할 interface
     interface Presenter : BasePresenter<View> {
         // 모델로부터 데이터를 받아와 정제할 함수
         fun getRecord()
+        // 새로운 Record 추가
+        fun updateRecord()
     }
 }
