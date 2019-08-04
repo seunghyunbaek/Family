@@ -8,7 +8,7 @@
     tools:context=".view.Activity.MainActivity">
 
     <LinearLayout
-        style="@style/margin_10dp"
+        style="@style/margin_5dp"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
@@ -18,9 +18,9 @@
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_gravity="start|center_horizontal|left|center_vertical"
-            android:layout_marginLeft="10dip"
             android:adjustViewBounds="true"
             android:cropToPadding="true"
+            android:padding="5dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/hamberger_menu" />
 
@@ -34,13 +34,13 @@
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:layout_gravity="center_vertical"
-            android:layout_marginRight="10dip"
             android:background="#008D1A1A"
+            android:padding="5dp"
             app:srcCompat="@drawable/bell_outline" />
     </LinearLayout>
 
     <LinearLayout
-        style="@style/margin_10dp"
+        style="@style/margin_0dp_10dp"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
@@ -50,7 +50,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="백승현님 안녕하세요!" />
+            android:text="백승현님 안녕하세요!"
+            android:textSize="24dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -59,7 +60,7 @@
             android:layout_weight="1"
             android:gravity="top"
             android:text="오늘은 음력 6월 18일 입니다"
-            android:textSize="20dp" />
+            android:textSize="14dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -73,7 +74,7 @@
             android:layout_width="0dip"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@drawable/round"
+            android:background="@drawable/round1"
             android:orientation="vertical">
 
             <TextView
@@ -101,7 +102,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/round"
+                android:background="@drawable/round2"
                 android:orientation="vertical">
 
                 <TextView
@@ -122,7 +123,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@drawable/round"
+                android:background="@drawable/round3"
                 android:orientation="vertical">
 
                 <TextView

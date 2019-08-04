@@ -9,15 +9,16 @@
     </style>
 
     <!-- size -->
-    <style name="size_40dp">
-        <item name="android:layout_width">40dp</item>
-        <item name="android:layout_height">40dp</item>
-    </style>
 
     <style name="size_20_margin_10">
         <item name="android:layout_width">10dp</item>
         <item name="android:layout_height">10dp</item>
         <item name="android:layout_margin">10dp</item>
+    </style>
+
+    <style name="size_40dp">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
     </style>
 
     <style name="size_40_margin_10_20">
@@ -27,6 +28,11 @@
         <item name="android:layout_marginBottom">10dp</item>
         <item name="android:layout_marginLeft">20dp</item>
         <item name="android:layout_marginRight">20dp</item>
+    </style>
+
+    <style name="size_100">
+        <item name="android:layout_width">100dp</item>
+        <item name="android:layout_height">100dp</item>
     </style>
 
     <!-- margin style -->
