@@ -23,11 +23,15 @@ class PictureAdapter : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: PictureViewHolder, position: Int) {
-        items[position].let {item ->
-            with(holder) {
-                imgPicture.setImageResource(R.drawable.chicken)
-            }
+//        items[position].let {item ->
+//            with(holder) {
+//                imgPicture.setImageResource(R.drawable.chicken)
+//            }/**/
+//        }
+        with(holder) {
+            imgPicture.setImageResource(R.drawable.chicken)
         }
+//        holder.imgPicture.setImageResource(R.drawable.chicken)
     }
 
     inner class PictureViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(

@@ -1,6 +1,7 @@
 package com.hyun.myapplication.view.Fragment
 
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.hyun.myapplication.R
+import com.hyun.myapplication.view.Activity.WriteTodoActivity
 import com.hyun.myapplication.view.Adapter.TodoAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -31,9 +33,11 @@ class TodoFragment : Fragment() {
         // Inflate the layout for this fragment
         val view:View = inflater.inflate(R.layout.fragment_todo, container, false)
 
-        val fab = view.findViewById<FloatingActionButton>(R.id.todoFAB)
+        val fab = view.findViewById<View>(R.id.todoFAB)
         fab.setOnClickListener {
-
+            Intent(view.context,WriteTodoActivity::class.java).let {
+                startActivity(it)
+            }
         }
 
         val todoRecyclerView = view.findViewById<RecyclerView>(R.id.todoRecyclerView)
