@@ -1,9 +1,13 @@
 package com.hyun.myapplication.model
 
-class User(val email: String,val passwd: String) {
+class User(val name: String, val email: String) {
 
-    fun checkUserValidity(email: String, passwd: String):Boolean {
-        return this.email == email && this.passwd == passwd
+    lateinit var appellation:String
+    lateinit var phone:String
+    lateinit var memo:String
+
+    fun checkUserValidity(email: String):Boolean {
+        return this.email == email
     }
 
 }
