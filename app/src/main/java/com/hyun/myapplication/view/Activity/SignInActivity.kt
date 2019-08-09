@@ -34,7 +34,7 @@ class SignInActivity : BaseActivity(), SignInContract.View {
 //                    startActivity(it)
 //                }
 //            }
-            signinPresenter.doLogin("a1@gmail.com", "123")
+            signinPresenter.doLogin("a1@gmail.com")
         }
     }
 

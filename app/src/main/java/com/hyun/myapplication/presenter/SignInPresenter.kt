@@ -41,7 +41,7 @@ class SignInPresenter : SignInContract.Presenter {
 //        return isSuccess
 //    }
 
-    override fun doLogin(email: String, passwd: String) {
+    override fun doLogin(email: String) {
         signinView?.showLoading()
 
         Handler().postDelayed({
@@ -51,7 +51,7 @@ class SignInPresenter : SignInContract.Presenter {
 
             // 입력한 데이터의 유저가 있는지 확인하기
             for (item in userList) {
-                if (item.checkUserValidity(email, passwd)) {
+                if (item.checkUserValidity(email)) {
                     isSuccess = true
                     break
                 }

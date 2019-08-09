@@ -5,18 +5,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.myapplication.R
+import com.hyun.myapplication.model.MainData
 import com.hyun.myapplication.model.User
 import kotlinx.android.synthetic.main.item_news.view.*
 
 class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    var items: MutableList<User> = mutableListOf(
-        User("김김일", "Content1"),
-        User("김김이", "Content2"), User("김김삼", "Content3"),
-        User("김김사", "Content4"), User("김김오", "Content5"),
-        User("김김육", "Content6"), User("김김칠", "Content7"),
-        User("김김팔", "Content8"), User("김김구", "Content9"),
-        User("김김십", "Content10")
+    var items: MutableList<MainData> = mutableListOf(
+        MainData("김김일", "Content1"),
+        MainData("김김이", "Content2"), MainData("김김삼", "Content3"),
+        MainData("김김사", "Content4"), MainData("김김오", "Content5"),
+        MainData("김김육", "Content6"), MainData("김김칠", "Content7"),
+        MainData("김김팔", "Content8"), MainData("김김구", "Content9"),
+        MainData("김김십", "Content10")
     )
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
@@ -27,7 +28,7 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
     override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
         items[position].let { item ->
             with(holder) {
-                tvTitle.text = item.passwd
+                tvTitle.text = item.title
                 tvTime.text = "19년 8월 4일"
                 if (position % 2 == 0)
                     imgNews.visibility = View.VISIBLE
