@@ -18,7 +18,7 @@
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tvTitleWR"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="@id/btnBackWR" />
 
     <EditText
-        android:id="@+id/editWR"
+        android:id="@+id/etWR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -51,6 +51,7 @@
         android:layout_marginEnd="20dp"
         android:layout_marginRight="20dp"
         android:background="@android:color/transparent"
+        android:editable="true"
         android:ems="10"
         android:gravity="start|top"
         android:hint="@string/writerecord_write"
@@ -80,4 +81,5 @@
         app:layout_constraintBottom_toBottomOf="@+id/btnGallaryWR"
         app:layout_constraintStart_toEndOf="@id/btnGallaryWR"
         app:srcCompat="@android:drawable/ic_menu_slideshow" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

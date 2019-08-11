@@ -1,6 +1,15 @@
 package com.hyun.myapplication.model
 
-class Record(val name:String, val date: String) {
-    lateinit var text:String
-    lateinit var img:Array<String>
+class Record {
+    var id : Int = 0
+    var name : String = ""
+    var date: String = ""
+    var content:String = ""
+
+    constructor(){}
+    constructor(name: String, date: String, content: String) {
+        this.name = name
+        this.date = date
+        this.content = content
+    }
 }

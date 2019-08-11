@@ -70,6 +70,7 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/btnMyLine"
             style="@style/margin_10dp"
             android:layout_width="0dip"
             android:layout_height="match_parent"
@@ -119,6 +120,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/btnMessage"
                 style="@style/margin_10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hyun.myapplication.DBHelper.TestDBHelper
 import com.hyun.myapplication.R
-import com.hyun.myapplication.view.Activity.MainActivity
+import com.hyun.myapplication.model.Record
 import com.hyun.myapplication.view.Activity.WriteRecordActivity
 import com.hyun.myapplication.view.Adapter.RecordAdapter
-import kotlinx.android.synthetic.main.fragment_record.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,6 +26,11 @@ private const val ARG_PARAM2 = "param2"
  */
 class RecordFragment : BaseFragment() {
 
+    lateinit var db:TestDBHelper
+    var lstRecrods:List<Record> = ArrayList<Record>()
+
+    lateinit var mRecyclerView : RecyclerView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,7 +39,8 @@ class RecordFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_record, container, false)
 
-        initPresenter()
+        db = TestDBHelper(view.context)
+
 
         val fab: View = view.findViewById(R.id.recordFab)
         fab.setOnClickListener {
@@ -43,15 +49,27 @@ class RecordFragment : BaseFragment() {
             }
         }
 
-        val mRecyclerView = view.findViewById<RecyclerView>(R.id.recordRecyclerView)
+        mRecyclerView = view.findViewById<RecyclerView>(R.id.recordRecyclerView)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        mRecyclerView.adapter = RecordAdapter()
+        refreshData()
+
+//        mRecyclerView.adapter = RecordAdapter(ArrayList<Record>())
 
         return view
+    }
+
+    fun refreshData() {
+        lstRecrods = db.allRecord
+        val adapter = RecordAdapter(context, lstRecrods)
+        mRecyclerView.adapter = adapter
     }
 
     override fun initPresenter() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshData()
+    }
 }
