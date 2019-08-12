@@ -1,11 +1,16 @@
 package com.hyun.myapplication.model
 
 class Todo {
-    lateinit var title: String
-    lateinit var date: String
-
+    var id: Int = 0
+    var title: String = ""
+    var date: String = ""
 //    constructor(title: String, date: String) {
 //        this.title = title
 //        this.date = date
 //    }
+    constructor(){}
+    constructor(title:String, date:String) {
+        this.title = title
+        this.date = date
+    }
 }

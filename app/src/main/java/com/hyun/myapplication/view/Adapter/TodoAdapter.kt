@@ -1,42 +1,81 @@
 package com.hyun.myapplication.view.Adapter
 
-import android.view.LayoutInflater
-import android.view.ViewGroup
+import android.content.Context
+import android.content.Intent
+import android.view.*
 import androidx.recyclerview.widget.RecyclerView
+import com.hyun.myapplication.DBHelper.TodoDBHelper
 import com.hyun.myapplication.R
-import com.hyun.myapplication.model.MainData
+import com.hyun.myapplication.model.Todo
+import com.hyun.myapplication.view.Activity.WriteTodoActivity
 import kotlinx.android.synthetic.main.item_todo.view.*
 
-class TodoAdapter : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
+class TodoAdapter(
+    internal val context: Context?,
+    internal var lstTodo: List<Todo>
+) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder>() {
 
-    var items: MutableList<MainData> = mutableListOf(
-        MainData("Title1", "Content1"),
-        MainData("Title2", "Content2"), MainData("Title3", "Content3"),
-        MainData("Title4", "Content4"), MainData("Title5", "Content5"),
-        MainData("Title6", "Content6"), MainData("Title7", "Content7"),
-        MainData("Title8", "Content8"), MainData("Title9", "Content9"),
-        MainData("Title10", "Content10"), MainData("Title11", "Content11"),
-        MainData("Title12", "Content12"), MainData("Title13", "Content13")
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder =
+        TodoViewHolder(parent)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder = TodoViewHolder(parent)
-
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = lstTodo.size
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        items[position].let { item ->
+        lstTodo[position].let { item ->
             with(holder) {
                 tvTitleTodo.text = item.title
-                tvTimeTodo.text = "2019.08.04 12:22 까지"
+                tvTimeTodo.text = item.date
             }
         }
     }
 
-    inner class TodoViewHolder(parent:ViewGroup) : RecyclerView.ViewHolder(
+    inner class TodoViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_todo, parent, false)
-    ) {
+    ), View.OnCreateContextMenuListener {
         val imgProfileTodo = itemView.imgProfileTodo
         val tvTitleTodo = itemView.tvTitleTodo
         val tvTimeTodo = itemView.tvTimeTodo
+
+        val menu = itemView.setOnCreateContextMenuListener(this)
+
+        val onMenuItemClickListener: MenuItem.OnMenuItemClickListener =
+            MenuItem.OnMenuItemClickListener() {
+                when (it.itemId) {
+                    R.id.update_menu -> {
+                        val intent: Intent = Intent(context, WriteTodoActivity::class.java)
+                        intent.putExtra("id", lstTodo[adapterPosition].id)
+                        intent.putExtra("title", lstTodo[adapterPosition].title)
+                        intent.putExtra("date", lstTodo[adapterPosition].date)
+                        context!!.startActivity(intent)
+
+                        return@OnMenuItemClickListener true
+                    }
+
+                    R.id.delete_menu -> {
+                        val todo = lstTodo[adapterPosition]
+
+                        val db = TodoDBHelper(context)
+                        db.deleteTodo(todo)
+
+                        lstTodo = db.allTodo
+                        notifyDataSetChanged()
+
+                        return@OnMenuItemClickListener true
+                    }
+                }
+                return@OnMenuItemClickListener false
+            }
+
+        override fun onCreateContextMenu(
+            menu: ContextMenu?,
+            v: View?,
+            menuInfo: ContextMenu.ContextMenuInfo?
+        ) {
+            var update: MenuItem = menu!!.add(Menu.NONE, R.id.update_menu, 1, "수정")
+            var del: MenuItem = menu!!.add(Menu.NONE, R.id.delete_menu, 2, "삭제")
+
+            update.setOnMenuItemClickListener(onMenuItemClickListener)
+            del.setOnMenuItemClickListener(onMenuItemClickListener)
+        }
     }
 }

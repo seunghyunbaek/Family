@@ -89,4 +89,8 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
         finish()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        wrPresenter.dropView()
+    }
 }
