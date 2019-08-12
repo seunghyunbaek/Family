@@ -53,8 +53,6 @@ class RecordFragment : BaseFragment() {
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         refreshData()
 
-//        mRecyclerView.adapter = RecordAdapter(ArrayList<Record>())
-
         return view
     }
 
