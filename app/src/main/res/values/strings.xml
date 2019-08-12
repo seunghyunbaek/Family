@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">KFamily</string>
+
+    <!-- main activity menu -->
+    <string name="main_menu1">내 인맥</string>
+    <string name="main_menu2">소식 &amp; 정보</string>
+    <string name="main_menu3">가이드</string>
+    <string name="main_menu4">사용자 의견</string>
+
+    <!-- bottom navigation bar items -->
+    <string name="title_activity_my_home">MyHomeActivity</string>
+    <string name="title_record">기록</string>
+    <string name="title_calendar">일정</string>
+    <string name="title_todo">할일</string>
+    <string name="title_pictures">사진</string>
+    <string name="title_family">가족</string>
+
+    <!-- TODO: Remove or change this placeholder content -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- write record activity -->
+    <string name="writerecord_write">공유할 내용을 입력하세요</string>
+
+</resources>

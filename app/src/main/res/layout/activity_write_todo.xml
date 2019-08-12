@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.Activity.WriteTodoActivity">
+
+    <ImageView
+        android:id="@+id/btnBackWT"
+        style="@style/size_40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:padding="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_left_thin" />
+
+    <TextView
+        android:id="@+id/tvWTTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center_vertical"
+        android:text="할일"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/btnBackWT"
+        app:layout_constraintTop_toTopOf="@+id/btnBackWT" />
+
+    <TextView
+        android:id="@+id/btnWriteWT"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:gravity="center_vertical"
+        android:text="등록"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btnBackWT" />
+
+    <EditText
+        android:id="@+id/editWT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:ems="10"
+        android:focusable="auto"
+        android:hint="할일 제목"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/btnWriteWT"
+        app:layout_constraintStart_toStartOf="@+id/btnBackWT"
+        app:layout_constraintTop_toBottomOf="@+id/btnBackWT" />
+
+    <LinearLayout
+        android:id="@+id/groupDateWT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/editWT"
+        app:layout_constraintStart_toStartOf="@+id/editWT"
+        app:layout_constraintTop_toBottomOf="@+id/editWT">
+
+        <ImageView
+            android:id="@+id/imgCalendarWT"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/ic_calendar" />
+
+        <TextView
+            android:id="@+id/tvDateWT"
+            style="@style/margin_0dp_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="2019년 8월 4일 일요일" />
+
+        <TextView
+            android:id="@+id/tvTimeWT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="오전 08:40" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/groupAlertWT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/editWT"
+        app:layout_constraintStart_toStartOf="@+id/editWT"
+        app:layout_constraintTop_toBottomOf="@id/groupDateWT">
+
+        <ImageView
+            android:id="@+id/imgBellWT"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/bell_outline" />
+
+        <TextView
+            android:id="@+id/tvAlertTitle"
+            style="@style/margin_0dp_10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="알람" />
+
+        <TextView
+            android:id="@+id/tvAlertWT"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="알림 없음" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
