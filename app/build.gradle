@@ -46,4 +46,13 @@ dependencies {
     // ThreeTenABP
     implementation 'com.jakewharton.threetenabp:threetenabp:1.2.1'
     implementation 'com.github.kizitonwose:CalendarView:0.2.6'
+
+    // firebase
+    implementation 'com.google.firebase:firebase-core:16.0.8'
+    implementation 'com.google.firebase:firebase-auth:16.2.1'
+
+    // play service auth
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 }
+
+apply plugin: 'com.google.gms.google-services'

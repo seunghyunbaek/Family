@@ -1,5 +1,6 @@
 package com.hyun.myapplication.view.Activity
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -44,6 +45,12 @@ class MainActivity : AppCompatActivity() {
 
         btnMyLine.setOnClickListener {
             Toast.makeText(this@MainActivity, "hi", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    companion object {
+        fun getLaunchIntent(from: Context) = Intent(from, SignInActivity::class.java).apply {
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
     }
 }
