@@ -31,7 +31,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgSignIn" />
 
-    <com.google.android.gms.common.SignInButton
+    <Button
         android:id="@+id/btnSignInWithGoogle"
         style="@style/signing_with_google"
         android:layout_width="match_parent"
