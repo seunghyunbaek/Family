@@ -8,8 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!-- size -->
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Light" />
 
+
+    <!-- size -->
     <style name="size_20_margin_10">
         <item name="android:layout_width">10dp</item>
         <item name="android:layout_height">10dp</item>

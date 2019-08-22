@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.hyun.myapplication.R
 import com.hyun.myapplication.contract.SignInContract
 import com.hyun.myapplication.presenter.SignInPresenter
+import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : BaseActivity(), SignInContract.View {
@@ -20,6 +21,8 @@ class SignInActivity : BaseActivity(), SignInContract.View {
         signinPresenter.takeView(this)
 
         setButton()
+
+        AndroidThreeTen.init(this)
     }
 
     override fun onDestroy() {
