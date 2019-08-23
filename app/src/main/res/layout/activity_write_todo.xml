@@ -7,7 +7,7 @@
     tools:context=".view.Activity.WriteTodoActivity">
 
     <ImageView
-        android:id="@+id/btnBackWT"
+        android:id="@+id/image_back_write_todo"
         style="@style/size_40dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
@@ -18,7 +18,7 @@
         app:srcCompat="@drawable/ic_arrow_left_thin" />
 
     <TextView
-        android:id="@+id/tvWTTitle"
+        android:id="@+id/text_title_write_todo"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -26,11 +26,11 @@
         android:gravity="center_vertical"
         android:text="할일"
         android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/btnBackWT"
-        app:layout_constraintTop_toTopOf="@+id/btnBackWT" />
+        app:layout_constraintStart_toEndOf="@+id/image_back_write_todo"
+        app:layout_constraintTop_toTopOf="@+id/image_back_write_todo" />
 
     <TextView
-        android:id="@+id/btnWriteWT"
+        android:id="@+id/text_save_write_todo"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginEnd="20dp"
@@ -38,10 +38,10 @@
         android:gravity="center_vertical"
         android:text="등록"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnBackWT" />
+        app:layout_constraintTop_toTopOf="@+id/image_back_write_todo" />
 
     <EditText
-        android:id="@+id/editWT"
+        android:id="@+id/edit_write_todo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -49,28 +49,28 @@
         android:focusable="auto"
         android:hint="할일 제목"
         android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="@+id/btnWriteWT"
-        app:layout_constraintStart_toStartOf="@+id/btnBackWT"
-        app:layout_constraintTop_toBottomOf="@+id/btnBackWT" />
+        app:layout_constraintEnd_toEndOf="@+id/text_save_write_todo"
+        app:layout_constraintStart_toStartOf="@+id/image_back_write_todo"
+        app:layout_constraintTop_toBottomOf="@+id/image_back_write_todo" />
 
     <LinearLayout
-        android:id="@+id/groupDateWT"
+        android:id="@+id/linear_group_date_write_todo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/editWT"
-        app:layout_constraintStart_toStartOf="@+id/editWT"
-        app:layout_constraintTop_toBottomOf="@+id/editWT">
+        app:layout_constraintEnd_toEndOf="@+id/edit_write_todo"
+        app:layout_constraintStart_toStartOf="@+id/edit_write_todo"
+        app:layout_constraintTop_toBottomOf="@+id/edit_write_todo">
 
         <ImageView
-            android:id="@+id/imgCalendarWT"
+            android:id="@+id/image_calendar_write_todo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/ic_calendar" />
+            app:srcCompat="@drawable/ic_menu_calendar" />
 
         <TextView
-            android:id="@+id/tvDateWT"
+            android:id="@+id/text_date_write_todo"
             style="@style/margin_0dp_10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -79,7 +79,7 @@
             android:text="2019년 8월 4일 일요일" />
 
         <TextView
-            android:id="@+id/tvTimeWT"
+            android:id="@+id/text_time_write_todo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
@@ -87,23 +87,23 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/groupAlertWT"
+        android:id="@+id/linear_group_alert_write_todo"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="@+id/editWT"
-        app:layout_constraintStart_toStartOf="@+id/editWT"
-        app:layout_constraintTop_toBottomOf="@id/groupDateWT">
+        app:layout_constraintEnd_toEndOf="@+id/edit_write_todo"
+        app:layout_constraintStart_toStartOf="@+id/edit_write_todo"
+        app:layout_constraintTop_toBottomOf="@id/linear_group_date_write_todo">
 
         <ImageView
-            android:id="@+id/imgBellWT"
+            android:id="@+id/image_bell_write_todo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            app:srcCompat="@drawable/bell_outline" />
+            app:srcCompat="@drawable/ic_bell_outline" />
 
         <TextView
-            android:id="@+id/tvAlertTitle"
+            android:id="@+id/text_alert_title_write_todo"
             style="@style/margin_0dp_10dp"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -112,7 +112,7 @@
             android:text="알람" />
 
         <TextView
-            android:id="@+id/tvAlertWT"
+            android:id="@+id/text_alert_write_todo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"

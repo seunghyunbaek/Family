@@ -1,7 +1,7 @@
 package com.hyun.myapplication.contract
 
 import android.content.Context
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.RecordDBHelper
 import com.hyun.myapplication.model.Record
 import com.hyun.myapplication.presenter.BasePresenter
 import com.hyun.myapplication.view.BaseView
@@ -12,7 +12,7 @@ interface WriteRecordContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun saveRecord(context: Context, dbHelper: TestDBHelper,record: Record)
-        fun updateRecord(context: Context, dbHelper: TestDBHelper,record: Record)
+        fun saveRecord(context: Context, dbHelper: RecordDBHelper, record: Record)
+        fun updateRecord(context: Context, dbHelper: RecordDBHelper, record: Record)
     }
 }

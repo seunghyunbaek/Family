@@ -7,7 +7,7 @@
     tools:context=".view.Activity.WriteRecordActivity">
 
     <ImageView
-        android:id="@+id/btnBackWR"
+        android:id="@+id/image_back_write_record"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -18,7 +18,7 @@
         app:srcCompat="?attr/actionModeCloseDrawable" />
 
     <TextView
-        android:id="@+id/tvTitleWR"
+        android:id="@+id/text_title_write_record"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -26,12 +26,12 @@
         android:gravity="center_vertical"
         android:text="글 쓰기"
         android:textSize="16dp"
-        app:layout_constraintStart_toEndOf="@+id/btnBackWR"
-        app:layout_constraintTop_toTopOf="@id/btnBackWR"
+        app:layout_constraintStart_toEndOf="@+id/image_back_write_record"
+        app:layout_constraintTop_toTopOf="@id/image_back_write_record"
         />
 
     <TextView
-        android:id="@+id/btnWriteWR"
+        android:id="@+id/text_save_write_record"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginEnd="20dp"
@@ -40,10 +40,10 @@
         android:text="등록"
         android:textSize="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/btnBackWR" />
+        app:layout_constraintTop_toTopOf="@id/image_back_write_record" />
 
     <EditText
-        android:id="@+id/etWR"
+        android:id="@+id/edit_write_record"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -61,13 +61,13 @@
         android:maxLines="10"
         android:padding="8dp"
         android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@id/scrollviewWR"
+        app:layout_constraintBottom_toTopOf="@id/scrollview_write_record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnBackWR" />
+        app:layout_constraintTop_toBottomOf="@+id/image_back_write_record" />
 
     <ImageView
-        android:id="@+id/btnGallaryWR"
+        android:id="@+id/image_gallary_write_record"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
@@ -78,28 +78,28 @@
         app:srcCompat="@android:drawable/ic_menu_gallery" />
 
     <ImageView
-        android:id="@+id/btnVideoWR"
+        android:id="@+id/image_video_write_record"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="20dp"
         android:layout_marginLeft="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/btnGallaryWR"
-        app:layout_constraintStart_toEndOf="@id/btnGallaryWR"
+        app:layout_constraintBottom_toBottomOf="@+id/image_gallary_write_record"
+        app:layout_constraintStart_toEndOf="@id/image_gallary_write_record"
         app:srcCompat="@android:drawable/ic_menu_slideshow" />
 
     <ScrollView
-        android:id="@+id/scrollviewWR"
+        android:id="@+id/scrollview_write_record"
         style="@style/margin_10dp_20dp"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/btnGallaryWR"
+        app:layout_constraintBottom_toTopOf="@id/image_gallary_write_record"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/etWR">
+        app:layout_constraintTop_toBottomOf="@id/edit_write_record">
 
         <LinearLayout
-            android:id="@+id/imageContainerWR"
+            android:id="@+id/linear_container_write_record"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" />

@@ -1,8 +1,7 @@
 package com.hyun.myapplication.presenter
 
 import android.content.Context
-import com.hyun.myapplication.DBHelper.FamilyDBOpenHelper
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.RecordDBHelper
 import com.hyun.myapplication.contract.WriteRecordContract
 import com.hyun.myapplication.model.Record
 
@@ -21,7 +20,7 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
     }
 
     // 작성한 기록을 저장한다
-//    override fun saveRecord(context: Context, testDBHelper: TestDBHelper, name: String, date: String, content: String) {
+//    override fun saveRecord(context: Context, testDBHelper: RecordDBHelper, name: String, date: String, content: String) {
 //        // SQLite에 저장하기
 //        val dbHandler = FamilyDBOpenHelper(context, null)
 //        val record = Record(name, date, content)
@@ -31,7 +30,7 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 
     override fun saveRecord(
         context: Context,
-        testDBHelper: TestDBHelper,
+        recordDBHelper: RecordDBHelper,
         record: Record
     ) {
         // SQLite에 저장하기
@@ -40,10 +39,10 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 //        dbHandler.addRecord(record)
 //        wrView?.successRecord()
 
-        testDBHelper.addRecord(record)
+        recordDBHelper.addRecord(record)
     }
 
-    override fun updateRecord(context: Context, testDBHelper: TestDBHelper, record: Record) {
-        testDBHelper.updateRecord(record)
+    override fun updateRecord(context: Context, recordDBHelper: RecordDBHelper, record: Record) {
+        recordDBHelper.updateRecord(record)
     }
 }

@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.RecordDBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Record
 import com.hyun.myapplication.view.Activity.WriteRecordActivity
@@ -26,7 +26,7 @@ private const val ARG_PARAM2 = "param2"
  */
 class RecordFragment : BaseFragment() {
 
-    lateinit var db:TestDBHelper
+    lateinit var db:RecordDBHelper
     var lstRecrods:List<Record> = ArrayList<Record>()
 
     lateinit var mRecyclerView : RecyclerView
@@ -39,17 +39,17 @@ class RecordFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_record, container, false)
 
-        db = TestDBHelper(view.context)
+        db = RecordDBHelper(view.context)
 
 
-        val fab: View = view.findViewById(R.id.recordFab)
+        val fab: View = view.findViewById(R.id.fab_record)
         fab.setOnClickListener {
             Intent(view.context, WriteRecordActivity::class.java).let{
                 startActivity(it)
             }
         }
 
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.recordRecyclerView)
+        mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_record)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         refreshData()
 

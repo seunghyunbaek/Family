@@ -9,9 +9,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Toast
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.RecordDBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.contract.WriteRecordContract
 import com.hyun.myapplication.model.Record
@@ -20,8 +19,8 @@ import kotlinx.android.synthetic.main.activity_write_record.*
 
 class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
 
-    private lateinit var wrPresenter: WriteRecordPresenter
-    internal lateinit var db: TestDBHelper
+    private lateinit var mPresenter: WriteRecordPresenter
+    internal lateinit var db: RecordDBHelper
     var id: Int = -1
     var record: Record? = null
 
@@ -29,8 +28,8 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_record)
 
-        wrPresenter.takeView(this)
-        db = TestDBHelper(this)
+        mPresenter.takeView(this)
+        db = RecordDBHelper(this)
 
         setButton()
 
@@ -47,7 +46,7 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
             record!!.date = date
             record!!.content = content
 
-            etWR.text = Editable.Factory.getInstance().newEditable(content)
+            edit_write_record.text = Editable.Factory.getInstance().newEditable(content)
         }
     }
 
@@ -56,32 +55,35 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
     }
 
     override fun initPresenter() {
-        wrPresenter = WriteRecordPresenter()
+        mPresenter = WriteRecordPresenter()
     }
 
     fun setButton() {
-        btnBackWR.setOnClickListener {
+        image_back_write_record.setOnClickListener {
             onBackPressed()
         }
 
-        btnWriteWR.setOnClickListener {
+        text_save_write_record.setOnClickListener {
             if (record == null) {
                 val record = Record()
-                record.id = db.allRecord.last().id + 1
+                if (db.allRecord.size == 0)
+                    record.id = 0
+                else
+                    record.id = db.allRecord.last().id + 1
                 record.name = "백승현"
                 record.date = "2019년 8월 10일"
-                record.content = etWR.text.toString()
+                record.content = edit_write_record.text.toString()
 
-                wrPresenter.saveRecord(this, db, record)
+                mPresenter.saveRecord(this, db, record)
 //            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
             } else {
-                record!!.content = etWR.text.toString()
-                wrPresenter.updateRecord(this, db, record!!)
+                record!!.content = edit_write_record.text.toString()
+                mPresenter.updateRecord(this, db, record!!)
             }
             finish()
         }
 
-        btnGallaryWR.setOnClickListener {
+        image_gallary_write_record.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
                     PackageManager.PERMISSION_DENIED
@@ -100,7 +102,7 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
             }
         }
 
-        btnVideoWR.setOnClickListener {
+        image_video_write_record.setOnClickListener {
             finish()
         }
     }
@@ -144,13 +146,13 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
             //Add Imageview
             val imageView = ImageView(this@WriteRecordActivity)
             imageView.layoutParams =
-                    ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
 
             imageView.setImageURI(data?.data)
-            imageContainerWR.addView(imageView)
+            linear_container_write_record.addView(imageView)
 
 //            setContentView(linearLayout);
         }
@@ -170,6 +172,6 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        wrPresenter.dropView()
+        mPresenter.dropView()
     }
 }

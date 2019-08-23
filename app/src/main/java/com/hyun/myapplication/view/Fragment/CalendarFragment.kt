@@ -14,9 +14,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatEditText
-import androidx.appcompat.widget.WithHint
 import androidx.core.view.children
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -35,7 +33,6 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_my_home.*
 import kotlinx.android.synthetic.main.calendar_day_legend.view.*
 import kotlinx.android.synthetic.main.example_3_calendar_day.view.*
-import kotlinx.android.synthetic.main.example_3_event_item_view.itemEventText
 import kotlinx.android.synthetic.main.example_3_event_item_view.view.*
 import kotlinx.android.synthetic.main.fragment_calendar.*
 import org.threeten.bp.LocalDate
@@ -246,7 +243,7 @@ class CalendarFragment : Fragment() {
 //            } else {
 //                titleFormatter.format(it.yearMonth)
 //            }
-            requireActivity().tvFamily.text = if (it.year == today.year) {
+            requireActivity().text_family.text = if (it.year == today.year) {
                 titleSameYearFormatter.format(it.yearMonth)
             } else {
                 titleFormatter.format(it.yearMonth)
@@ -341,7 +338,7 @@ class CalendarFragment : Fragment() {
     }
 
     override fun onDestroy() {
-        requireActivity().tvFamily.text = "나의 홈"
+        requireActivity().text_family.text = "나의 홈"
         super.onDestroy()
     }
 }

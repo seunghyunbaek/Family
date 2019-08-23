@@ -14,13 +14,13 @@
         tools:context=".view.Activity.NewsActivity">
 
         <ImageView
-            android:id="@+id/btnBackNews"
+            android:id="@+id/image_back_news"
             style="@style/size_40_margin_10_20"
             android:padding="5dp"
             app:srcCompat="@drawable/ic_arrow_left_thin" />
 
         <TextView
-            android:id="@+id/tv_NewsTitle"
+            android:id="@+id/text_news_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -29,7 +29,7 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/NewsRecyclerView"
+        android:id="@+id/recyclerview_news"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>

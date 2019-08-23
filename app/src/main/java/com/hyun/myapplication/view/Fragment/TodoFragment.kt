@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.TestDBHelper
 import com.hyun.myapplication.DBHelper.TodoDBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Todo
@@ -40,14 +39,14 @@ class TodoFragment : Fragment() {
 
         db = TodoDBHelper(view.context)
 
-        val fab = view.findViewById<View>(R.id.todoFAB)
+        val fab = view.findViewById<View>(R.id.fab_todo)
         fab.setOnClickListener {
             Intent(view.context, WriteTodoActivity::class.java).let {
                 startActivity(it)
             }
         }
 
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.todoRecyclerView)
+        mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_todo)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         refreshData()
 

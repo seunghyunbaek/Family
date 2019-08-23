@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_write_todo.*
 
 class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
 
-    private lateinit var wtPresenter: WriteTodoPresenter
+    private lateinit var mPresenter: WriteTodoPresenter
     internal lateinit var db: TodoDBHelper
     var todo: Todo? = null
 
@@ -20,7 +20,7 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write_todo)
 
-        wtPresenter.takeView(this)
+        mPresenter.takeView(this)
         db = TodoDBHelper(this)
 
         val intent: Intent = intent
@@ -34,32 +34,32 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
             todo!!.title = title
             todo!!.date = date
 
-            editWT.text = Editable.Factory.getInstance().newEditable(title)
+            edit_write_todo.text = Editable.Factory.getInstance().newEditable(title)
         }
 
-        btnBackWT.setOnClickListener { onBackPressed() }
+        image_back_write_todo.setOnClickListener { onBackPressed() }
 
-        btnWriteWT.setOnClickListener {
+        text_save_write_todo.setOnClickListener {
             if (todo == null) {
                 val todo = Todo()
                 if (db.allTodo.size == 0)
                     todo.id = 0
                 else
                     todo.id = db.allTodo.last().id + 1
-                todo.title = editWT.text.toString()
+                todo.title = edit_write_todo.text.toString()
                 todo.date = "2019년 8월 10일"
 
-                wtPresenter.saveTodo(this, db, todo)
+                mPresenter.saveTodo(this, db, todo)
             } else {
-                todo!!.title = editWT.text.toString()
-                wtPresenter.updateTodo(this, db, todo!!)
+                todo!!.title = edit_write_todo.text.toString()
+                mPresenter.updateTodo(this, db, todo!!)
             }
             finish()
         }
     }
 
     override fun initPresenter() {
-        wtPresenter = WriteTodoPresenter()
+        mPresenter = WriteTodoPresenter()
     }
 
     override fun successTodo() {
@@ -72,6 +72,6 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
 
     override fun onDestroy() {
         super.onDestroy()
-        wtPresenter.dropView()
+        mPresenter.dropView()
     }
 }

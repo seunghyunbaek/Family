@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import com.hyun.myapplication.model.Record
 
-class TestDBHelper(context: Context?) :
+class RecordDBHelper(context: Context?) :
     SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VER) {
 
     companion object {

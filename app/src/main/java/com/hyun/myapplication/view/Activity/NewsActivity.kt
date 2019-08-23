@@ -14,10 +14,10 @@ class NewsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_news)
 
-        val newsRecyclerView = findViewById<RecyclerView>(R.id.NewsRecyclerView)
+        val newsRecyclerView = findViewById<RecyclerView>(R.id.recyclerview_news)
         newsRecyclerView.layoutManager = LinearLayoutManager(this)
         newsRecyclerView.adapter = NewsAdapter()
 
-        btnBackNews.setOnClickListener { onBackPressed() }
+        image_back_news.setOnClickListener { onBackPressed() }
     }
 }
