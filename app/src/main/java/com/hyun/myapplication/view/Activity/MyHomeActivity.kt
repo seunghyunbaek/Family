@@ -10,7 +10,20 @@ import kotlinx.android.synthetic.main.activity_my_home.*
 
 class MyHomeActivity : AppCompatActivity() {
 
-    private lateinit var frameLayout: FrameLayout
+    // Private, non-static : m
+    // Private, static : s
+    // Other fields : lowerCaseletter
+    // Static fields (constants) : ALL_CAPS_WITH_UNDERSCORES
+
+    // 1. Constants
+    // 2. Fields
+    // 3. Constructors
+    // 4. Override methods and callbacks ( public or private )
+    // 5. Public methods
+    // 6. Private methods
+    // 7. Inner classes or interfaces
+
+    private lateinit var mFrameLayout: FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,35 +35,35 @@ class MyHomeActivity : AppCompatActivity() {
                     R.id.navigation_record -> {
                         val fragment = RecordFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.myhomeframe, fragment, fragment.javaClass.simpleName)
+                            .replace(R.id.frame_myhome, fragment, fragment.javaClass.simpleName)
                             .commit()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_calendar -> {
                         val fragment = CalendarFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.myhomeframe, fragment, fragment.javaClass.simpleName)
+                            .replace(R.id.frame_myhome, fragment, fragment.javaClass.simpleName)
                             .commit()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_todo -> {
                         val fragment = TodoFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.myhomeframe, fragment, fragment.javaClass.simpleName)
+                            .replace(R.id.frame_myhome, fragment, fragment.javaClass.simpleName)
                             .commit()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_pictures -> {
                         val fragment = PicturesFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.myhomeframe, fragment, fragment.javaClass.simpleName)
+                            .replace(R.id.frame_myhome, fragment, fragment.javaClass.simpleName)
                             .commit()
                         return@OnNavigationItemSelectedListener true
                     }
                     R.id.navigation_family -> {
                         val fragment = FamilyFragment()
                         supportFragmentManager.beginTransaction()
-                            .replace(R.id.myhomeframe, fragment, fragment.javaClass.simpleName)
+                            .replace(R.id.frame_myhome, fragment, fragment.javaClass.simpleName)
                             .commit()
                         return@OnNavigationItemSelectedListener true
                     }
@@ -61,15 +74,15 @@ class MyHomeActivity : AppCompatActivity() {
 
         val navView: BottomNavigationView = findViewById(R.id.nav_view)
 
-        frameLayout = findViewById(R.id.myhomeframe)
+        mFrameLayout = findViewById(R.id.frame_myhome)
         if (savedInstanceState == null) {
             val fragment = RecordFragment()
             supportFragmentManager.beginTransaction()
-                .replace(R.id.myhomeframe, fragment, fragment.javaClass.simpleName).commit()
+                .replace(R.id.frame_myhome, fragment, fragment.javaClass.simpleName).commit()
         }
         navView.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        btnBackMyHome.setOnClickListener { onBackPressed() }
+        button_back_myhome.setOnClickListener { onBackPressed() }
 
     }
 }

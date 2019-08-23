@@ -32,7 +32,7 @@ class PicturesFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_pictures, container, false)
 
-        pictureRecyclerView = view.findViewById(R.id.pictureRecyclerView)
+        pictureRecyclerView = view.findViewById(R.id.recyclerview_picture)
         pictureRecyclerView.layoutManager = GridLayoutManager(view.context, 4)
         pictureRecyclerView.adapter = PictureAdapter()
 

@@ -8,20 +8,20 @@
     tools:context=".view.Fragment.FamilyFragment">
 
     <LinearLayout
-        android:id="@+id/groupInvitePeople"
+        android:id="@+id/linear_group_invite_family"
         style="@style/margin_20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@id/familyRecyclerView"
+        app:layout_constraintBottom_toTopOf="@id/recyclerview_family"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/imgPeopleFamily"
+            android:id="@+id/image_people_family"
             style="@style/size_40dp"
-            android:src="@drawable/people" />
+            android:src="@drawable/ic_people" />
 
         <TextView
             android:id="@+id/tvFamily2"
@@ -36,15 +36,15 @@
             android:id="@+id/imgRightFamily"
             style="@style/size_40dp"
             android:padding="5dp"
-            android:src="@drawable/arrow_right_thin" />
+            android:src="@drawable/ic_right_thin_arrow" />
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/familyRecyclerView"
+        android:id="@+id/recyclerview_family"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/groupInvitePeople" />
+        app:layout_constraintTop_toBottomOf="@+id/linear_group_invite_family" />
 </androidx.constraintlayout.widget.ConstraintLayout>

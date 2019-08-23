@@ -3,13 +3,14 @@ package com.hyun.myapplication.view.Fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.DBHelper.TodoDBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Todo
@@ -25,9 +26,14 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class TodoFragment : Fragment() {
+class TodoFragment : BaseFragment() {
 
-    lateinit var db: TodoDBHelper
+    override fun initPresenter() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+//    lateinit var db: TodoDBHelper
+    lateinit var db: DBHelper
     lateinit var mRecyclerView: RecyclerView
     var lstTodo: List<Todo> = ArrayList<Todo>()
 
@@ -38,18 +44,21 @@ class TodoFragment : Fragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_todo, container, false)
 
-        db = TodoDBHelper(view.context)
+        db = DBHelper(view.context, TABLE_NAME)
+//        db = TodoDBHelper(context!!)
 
-        val fab = view.findViewById<View>(R.id.todoFAB)
+        val fab = view.findViewById<View>(R.id.fab_todo)
         fab.setOnClickListener {
             Intent(view.context, WriteTodoActivity::class.java).let {
                 startActivity(it)
             }
         }
 
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.todoRecyclerView)
+        mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_todo)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         refreshData()
+
+        Log.d("jkljkljkljkl", "TodoOnCreate()")
 
         return view
     }
@@ -64,5 +73,9 @@ class TodoFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         refreshData()
+    }
+
+    companion object {
+        private val TABLE_NAME = "Todo"
     }
 }

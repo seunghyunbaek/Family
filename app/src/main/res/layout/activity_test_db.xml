@@ -8,7 +8,7 @@
 
 
     <TextView
-        android:id="@+id/tvDisplayName"
+        android:id="@+id/text_display_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -25,7 +25,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Name"
-        app:layout_constraintBottom_toTopOf="@+id/tvDisplayName"
+        app:layout_constraintBottom_toTopOf="@+id/text_display_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -60,7 +60,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDisplayName" />
+        app:layout_constraintTop_toBottomOf="@+id/text_display_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

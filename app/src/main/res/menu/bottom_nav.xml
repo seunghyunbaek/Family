@@ -8,12 +8,12 @@
 
     <item
         android:id="@+id/navigation_calendar"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_menu_calendar"
         android:title="@string/title_calendar" />
 
     <item
         android:id="@+id/navigation_todo"
-        android:icon="@drawable/ic_todo"
+        android:icon="@drawable/ic_menu_todo"
         android:title="@string/title_todo" />
 
     <item
@@ -23,7 +23,7 @@
 
     <item
         android:id="@+id/navigation_family"
-        android:icon="@drawable/ic_family"
+        android:icon="@drawable/ic_menu_family"
         android:title="@string/title_family" />
 
 </menu>

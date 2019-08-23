@@ -10,7 +10,7 @@
         android:id="@+id/imgNews"
         style="@style/size_20_margin_10"
         android:layout_height="20dp"
-        android:src="@drawable/mark_thin"
+        android:src="@drawable/ic_mark_thin"
         android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

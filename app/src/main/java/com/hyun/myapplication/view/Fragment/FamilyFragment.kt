@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,14 +35,14 @@ class FamilyFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_family, container, false)
 
-        invitePeople = view.findViewById(R.id.groupInvitePeople)
+        invitePeople = view.findViewById(R.id.linear_group_invite_family)
         invitePeople.setOnClickListener {
             Intent(view.context, MainActivity::class.java).let {
                 startActivity(it)
             }
         }
 
-        val mRecyclerView = view.findViewById<RecyclerView>(R.id.familyRecyclerView)
+        val mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_family)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         mRecyclerView.adapter = FamilyAdapter()
 

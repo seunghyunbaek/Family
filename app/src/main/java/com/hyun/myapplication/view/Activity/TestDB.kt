@@ -24,23 +24,23 @@ class TestDB : AppCompatActivity() {
                 .show()
         }
         btnShowDatafromDb.setOnClickListener {
-            tvDisplayName.text = ""
+            text_display_name.text = ""
             val dbHandler = MindOrksDBOpenHelper(this, null)
             val cursor = dbHandler.getAllName()
 //            cursor!!.moveToFirst()
             if (cursor!!.moveToFirst()) {
-                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
-                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_ID))))
+                text_display_name.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+                text_display_name.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_ID))))
 //                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_DATE))))
 //                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_CONTENT))))
-                tvDisplayName.append("\n")
+                text_display_name.append("\n")
             }
             while (cursor.moveToNext()) {
-                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
-                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_ID))))
+                text_display_name.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_NAME))))
+                text_display_name.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_ID))))
 //                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_DATE))))
 //                tvDisplayName.append((cursor.getString(cursor.getColumnIndex(MindOrksDBOpenHelper.COLUMN_CONTENT))))
-                tvDisplayName.append("\n")
+                text_display_name.append("\n")
             }
             cursor.close()
         }

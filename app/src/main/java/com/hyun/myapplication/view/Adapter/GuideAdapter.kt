@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.MainData
-import com.hyun.myapplication.model.User
 import kotlinx.android.synthetic.main.item_guide.view.*
 
 class GuideAdapter : RecyclerView.Adapter<GuideAdapter.GuideViewHolder>() {
@@ -36,7 +35,7 @@ class GuideAdapter : RecyclerView.Adapter<GuideAdapter.GuideViewHolder>() {
     inner class GuideViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_guide, parent, false)
     ) {
-        val tvTitle = itemView.tvTitleGuide
-        val tvContent = itemView.tvContentGuide
+        val tvTitle = itemView.item_text_title_guide
+        val tvContent = itemView.item_text_content_guide
     }
 }

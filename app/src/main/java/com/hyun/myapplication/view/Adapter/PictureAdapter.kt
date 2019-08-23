@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.MainData
-import com.hyun.myapplication.model.User
 import kotlinx.android.synthetic.main.item_picture.view.*
 
 class PictureAdapter : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() {
@@ -37,6 +36,6 @@ class PictureAdapter : RecyclerView.Adapter<PictureAdapter.PictureViewHolder>() 
 
     inner class PictureViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_picture, parent, false)) {
-        val imgPicture = itemView.img_picture
+        val imgPicture = itemView.item_image_picture
     }
 }

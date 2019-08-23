@@ -8,12 +8,12 @@
     tools:context=".view.Fragment.RecordFragment" >
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recordRecyclerView"
+        android:id="@+id/recyclerview_record"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/recordFab"
+        android:id="@+id/fab_record"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"

@@ -5,11 +5,11 @@ import android.content.Intent
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Record
 import com.hyun.myapplication.view.Activity.WriteRecordActivity
-import kotlinx.android.synthetic.main.item_main.view.*
+import kotlinx.android.synthetic.main.item_record.view.*
 
 class RecordAdapter(
     internal val context: Context?,
@@ -39,7 +39,7 @@ class RecordAdapter(
 //                record.date = lstRecord[position].date
 //                record.content = lstRecord[position].content
 //
-//                val db = TestDBHelper(context)
+//                val db = RecordDBHelper(context)
 //                db.deleteRecord(record)
 //
 //                lstRecord = db.allRecord
@@ -52,9 +52,9 @@ class RecordAdapter(
     }
 
     inner class RecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_main, parent, false)
+        LayoutInflater.from(parent.context).inflate(R.layout.item_record, parent, false)
     ), View.OnCreateContextMenuListener {
-        val tvTitle = itemView.tv_main_title
+        val tvTitle = itemView.item_text_title_record
         val tvContent = itemView.tv_main_content
 //        val itemposition = adapterPosition
 
@@ -83,7 +83,7 @@ class RecordAdapter(
 
                         val record = lstRecord[adapterPosition]
 
-                        val db = TestDBHelper(context)
+                        val db = DBHelper(context!!, "Record")
                         db.deleteRecord(record)
 
                         lstRecord = db.allRecord

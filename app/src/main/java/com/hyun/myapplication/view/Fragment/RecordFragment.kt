@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.TestDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Record
 import com.hyun.myapplication.view.Activity.WriteRecordActivity
@@ -26,10 +26,10 @@ private const val ARG_PARAM2 = "param2"
  */
 class RecordFragment : BaseFragment() {
 
-    lateinit var db:TestDBHelper
-    var lstRecrods:List<Record> = ArrayList<Record>()
+    lateinit var db: DBHelper
+    var lstRecrods: List<Record> = ArrayList<Record>()
 
-    lateinit var mRecyclerView : RecyclerView
+    lateinit var mRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,21 +39,20 @@ class RecordFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_record, container, false)
 
-        db = TestDBHelper(view.context)
+//        db = DBHelper(view.context, TABLE_NAME)
+        db = DBHelper(context!!, TABLE_NAME)
 
 
-        val fab: View = view.findViewById(R.id.recordFab)
+        val fab: View = view.findViewById(R.id.fab_record)
         fab.setOnClickListener {
-            Intent(view.context, WriteRecordActivity::class.java).let{
+            Intent(view.context, WriteRecordActivity::class.java).let {
                 startActivity(it)
             }
         }
 
-        mRecyclerView = view.findViewById<RecyclerView>(R.id.recordRecyclerView)
+        mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_record)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         refreshData()
-
-//        mRecyclerView.adapter = RecordAdapter(ArrayList<Record>())
 
         return view
     }
@@ -71,5 +70,9 @@ class RecordFragment : BaseFragment() {
     override fun onResume() {
         super.onResume()
         refreshData()
+    }
+
+    companion object {
+        private val TABLE_NAME = "Record"
     }
 }

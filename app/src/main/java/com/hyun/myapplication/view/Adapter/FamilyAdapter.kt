@@ -5,7 +5,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.MainData
-import com.hyun.myapplication.model.User
 import kotlinx.android.synthetic.main.item_family.view.*
 
 class FamilyAdapter : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
@@ -33,8 +32,8 @@ class FamilyAdapter : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
 
     inner class FamilyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_family, parent, false)){
-        val imgProfile = itemView.img_profile_family
-        val tvName = itemView.tv_name_family
-        val imgOut = itemView.img_out_profile
+        val imgProfile = itemView.item_image_profile_family
+        val tvName = itemView.item_text_name_family
+        val imgOut = itemView.item_image_exit_family
     }
 }

@@ -11,7 +11,7 @@
         style="@style/size_40dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile" />
+        app:srcCompat="@drawable/ic_profile" />
 
     <TextView
         android:id="@+id/tvTitleTodo"
