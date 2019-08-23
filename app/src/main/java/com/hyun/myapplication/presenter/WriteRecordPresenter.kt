@@ -1,7 +1,7 @@
 package com.hyun.myapplication.presenter
 
 import android.content.Context
-import com.hyun.myapplication.DBHelper.RecordDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.contract.WriteRecordContract
 import com.hyun.myapplication.model.Record
 
@@ -30,7 +30,7 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 
     override fun saveRecord(
         context: Context,
-        recordDBHelper: RecordDBHelper,
+        dbHelper: DBHelper,
         record: Record
     ) {
         // SQLite에 저장하기
@@ -39,10 +39,10 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 //        dbHandler.addRecord(record)
 //        wrView?.successRecord()
 
-        recordDBHelper.addRecord(record)
+        dbHelper.addRecord(record)
     }
 
-    override fun updateRecord(context: Context, recordDBHelper: RecordDBHelper, record: Record) {
-        recordDBHelper.updateRecord(record)
+    override fun updateRecord(context: Context, dbHelper: DBHelper, record: Record) {
+        dbHelper.updateRecord(record)
     }
 }

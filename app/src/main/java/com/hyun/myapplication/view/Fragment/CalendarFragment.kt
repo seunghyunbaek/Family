@@ -144,14 +144,13 @@ class CalendarFragment : Fragment() {
     private var selectedDate: LocalDate? = null
     private val today = LocalDate.now()
 
-//    private val titleSameYearFormatter = DateTimeFormatter.ofPattern("MMMM")
+    //    private val titleSameYearFormatter = DateTimeFormatter.ofPattern("MMMM")
     private val titleSameYearFormatter = DateTimeFormatter.ofPattern("yyyy.MM")
-//    private val titleFormatter = DateTimeFormatter.ofPattern("MMM yyyy")
+    //    private val titleFormatter = DateTimeFormatter.ofPattern("MMM yyyy")
     private val titleFormatter = DateTimeFormatter.ofPattern("yyyy.MM")
-//    private val selectionFormatter = DateTimeFormatter.ofPattern("d MMM yyyy")
+    //    private val selectionFormatter = DateTimeFormatter.ofPattern("d MMM yyyy")
     private val selectionFormatter = DateTimeFormatter.ofPattern("yyyy.MM.dd")
     private val events = mutableMapOf<LocalDate, List<Event>>()
-
 
 
     override fun onCreateView(
@@ -238,7 +237,7 @@ class CalendarFragment : Fragment() {
         }
 
         exThreeCalendar.monthScrollListener = {
-//            requireActivity().homeToolbar.title = if (it.year == today.year) {
+            //            requireActivity().homeToolbar.title = if (it.year == today.year) {
 //                titleSameYearFormatter.format(it.yearMonth)
 //            } else {
 //                titleFormatter.format(it.yearMonth)
@@ -265,7 +264,7 @@ class CalendarFragment : Fragment() {
                     container.legendLayout.tag = month.yearMonth
                     container.legendLayout.children.map { it as TextView }
                         .forEachIndexed { index, tv ->
-//                            tv.text = daysOfWeek[index].name.first().toString()
+                            //                            tv.text = daysOfWeek[index].name.first().toString()
                             tv.setTextColorRes(R.color.example_3_black)
                         }
                 }

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.TodoDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Todo
 import com.hyun.myapplication.view.Activity.WriteTodoActivity
@@ -54,7 +54,8 @@ class TodoAdapter(
                     R.id.delete_menu -> {
                         val todo = lstTodo[adapterPosition]
 
-                        val db = TodoDBHelper(context)
+                        val db = DBHelper(context!!, "Todo")
+//                        val db = TodoDBHelper(context)
                         db.deleteTodo(todo)
 
                         lstTodo = db.allTodo

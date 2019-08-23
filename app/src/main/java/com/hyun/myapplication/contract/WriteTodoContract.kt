@@ -1,6 +1,7 @@
 package com.hyun.myapplication.contract
 
 import android.content.Context
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.DBHelper.TodoDBHelper
 import com.hyun.myapplication.model.Todo
 import com.hyun.myapplication.presenter.BasePresenter
@@ -12,7 +13,7 @@ interface WriteTodoContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun saveTodo(context: Context, dbHelper: TodoDBHelper, todo: Todo)
-        fun updateTodo(context: Context, dbHelper:TodoDBHelper, todo: Todo)
+        fun saveTodo(context: Context, dbHelper: DBHelper, todo: Todo)
+        fun updateTodo(context: Context, dbHelper: DBHelper, todo: Todo)
     }
 }

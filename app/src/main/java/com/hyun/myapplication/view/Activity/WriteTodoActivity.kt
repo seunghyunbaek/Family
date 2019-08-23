@@ -3,6 +3,7 @@ package com.hyun.myapplication.view.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.DBHelper.TodoDBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.contract.WriteTodoContract
@@ -13,7 +14,7 @@ import kotlinx.android.synthetic.main.activity_write_todo.*
 class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
 
     private lateinit var mPresenter: WriteTodoPresenter
-    internal lateinit var db: TodoDBHelper
+    internal lateinit var db: DBHelper
     var todo: Todo? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,7 +22,7 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
         setContentView(R.layout.activity_write_todo)
 
         mPresenter.takeView(this)
-        db = TodoDBHelper(this)
+        db = DBHelper(this, TABLE_NAME)
 
         val intent: Intent = intent
         if (intent.extras != null) {
@@ -73,5 +74,9 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
     override fun onDestroy() {
         super.onDestroy()
         mPresenter.dropView()
+    }
+
+    companion object {
+        private val TABLE_NAME = "Todo"
     }
 }

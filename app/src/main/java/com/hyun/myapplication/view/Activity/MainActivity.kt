@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         })
 
         btnNews.setOnClickListener {
-            Intent(this, NewsActivity::class.java).let{
+            Intent(this, NewsActivity::class.java).let {
                 startActivity(it)
             }
         }
@@ -45,6 +45,9 @@ class MainActivity : AppCompatActivity() {
 
         btnMyLine.setOnClickListener {
             Toast.makeText(this@MainActivity, "hi", Toast.LENGTH_LONG).show()
+            Intent(this, WriteTodoActivity::class.java).let {
+                startActivity(it)
+            }
         }
     }
 

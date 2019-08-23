@@ -5,7 +5,7 @@ import android.content.Intent
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.hyun.myapplication.DBHelper.RecordDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.model.Record
 import com.hyun.myapplication.view.Activity.WriteRecordActivity
@@ -83,7 +83,7 @@ class RecordAdapter(
 
                         val record = lstRecord[adapterPosition]
 
-                        val db = RecordDBHelper(context)
+                        val db = DBHelper(context!!, "Record")
                         db.deleteRecord(record)
 
                         lstRecord = db.allRecord

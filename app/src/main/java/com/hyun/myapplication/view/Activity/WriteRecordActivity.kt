@@ -10,7 +10,7 @@ import android.text.Editable
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
-import com.hyun.myapplication.DBHelper.RecordDBHelper
+import com.hyun.myapplication.DBHelper.DBHelper
 import com.hyun.myapplication.R
 import com.hyun.myapplication.contract.WriteRecordContract
 import com.hyun.myapplication.model.Record
@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_write_record.*
 class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
 
     private lateinit var mPresenter: WriteRecordPresenter
-    internal lateinit var db: RecordDBHelper
+    internal lateinit var db: DBHelper
     var id: Int = -1
     var record: Record? = null
 
@@ -29,7 +29,7 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
         setContentView(R.layout.activity_write_record)
 
         mPresenter.takeView(this)
-        db = RecordDBHelper(this)
+        db = DBHelper(this, TABLE_NAME)
 
         setButton()
 
@@ -168,6 +168,8 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
         private val IMAGE_PICK_CODE = 1000
         // Permission code
         private val PERMISSION_CODE = 1001
+
+        private val TABLE_NAME = "Record"
     }
 
     override fun onDestroy() {
