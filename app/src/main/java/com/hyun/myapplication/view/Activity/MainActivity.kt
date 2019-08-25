@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.hyun.myapplication.R
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -19,6 +20,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun setButton() {
+        image_signout.setOnClickListener {
+            val mAuth = FirebaseAuth.getInstance()
+            mAuth.signOut()
+        }
+
         btnMyHome.setOnClickListener(View.OnClickListener {
             Intent(this, MyHomeActivity::class.java).let {
                 startActivity(it)
@@ -55,5 +61,10 @@ class MainActivity : AppCompatActivity() {
         fun getLaunchIntent(from: Context) = Intent(from, SignInActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
         }
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        finishAffinity()
     }
 }

@@ -13,9 +13,10 @@ interface RecordContract {
 
     // RecordPresent가 구현해야할 interface
     interface Presenter : BasePresenter<View> {
-        // 모델로부터 데이터를 받아와 정제할 함수
+        // 기록물 가져오기
         fun getRecord()
         // 새로운 Record 추가
         fun updateRecord()
+
     }
 }
