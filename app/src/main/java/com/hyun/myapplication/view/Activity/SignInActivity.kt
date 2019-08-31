@@ -46,7 +46,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         // [START config_signin]
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("533109401813-op8ntr8hvjtuhammq5267usbv4ttdtdi.apps.googleusercontent.com")
+            .requestIdToken("533109401813-5h2qjgig0q4d2pkn8g0c3af6l798imk7.apps.googleusercontent.com")
             .requestEmail()
             .build()
         // [END config_signin]
@@ -65,15 +65,6 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
     }
 
     fun setButton() {
-//        btnSignInWithGoogle.setOnClickListener {
-//            if (mPresenter.doLogin("a1@gmail.com", "123")) {
-//                Intent(this, MainActivity::class.java).let {
-//                    startActivity(it)
-//                }
-//            }
-//            mPresenter.doLogin("a1@gmail.com")
-//        }
-
     }
 
     override fun initPresenter() {
@@ -187,6 +178,9 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         if (user != null) {
 //            btnSignInWithFacebook.text = user.email
 //            btnSignInWithKakao.text = user.uid
+            
+
+
             Intent(this, MainActivity::class.java).let {
                 startActivity(it)
             }
