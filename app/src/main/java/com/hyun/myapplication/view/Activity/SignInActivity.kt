@@ -178,6 +178,9 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         if (user != null) {
 //            btnSignInWithFacebook.text = user.email
 //            btnSignInWithKakao.text = user.uid
+            
+
+
             Intent(this, MainActivity::class.java).let {
                 startActivity(it)
             }

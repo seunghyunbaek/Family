@@ -55,6 +55,13 @@ class MainActivity : AppCompatActivity() {
                 startActivity(it)
             }
         }
+
+        btnFeedBack.setOnClickListener {
+            Intent(this, ClientActivity::class.java).let {
+                startActivity(it)
+            }
+        }
+
     }
 
     companion object {
