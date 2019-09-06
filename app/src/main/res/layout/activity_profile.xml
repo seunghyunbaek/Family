@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".view.Activity.ProfileActivity">
+
+    <LinearLayout
+        style="@style/margin_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/image_profile_back"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:srcCompat="@drawable/ic_arrow_left_thin" />
+
+        <TextView
+            android:id="@+id/text_title_profile"
+            style="@style/margin_title"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/profile_title" />
+
+        <TextView
+            android:id="@+id/text_profile_save"
+            style="@style/margin_title"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="@string/profile_save" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        app:srcCompat="@drawable/ic_profile" />
+
+    <LinearLayout
+        style="@style/margin_profile_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/profile_content1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_name" />
+
+        <TextView
+            android:id="@+id/text_profile_name"
+            style="@style/profile_content2"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            tools:text="백승현" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/margin_profile_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/profile_content1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_hocing" />
+
+        <TextView
+            android:id="@+id/text_profile_hoching"
+            style="@style/profile_content2"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            tools:text="나" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/margin_profile_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/profile_content1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_phone" />
+
+        <TextView
+            android:id="@+id/text_profile_phone"
+            style="@style/profile_content2"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            tools:text="전화번호" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/margin_profile_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/profile_content1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_email" />
+
+        <TextView
+            android:id="@+id/text_profile_email"
+            style="@style/profile_content2"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            tools:text="back947@naver.com" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/margin_profile_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/profile_content1"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/profile_anniversary" />
+
+        <TextView
+            android:id="@+id/text_profile_anniversary"
+            style="@style/profile_content2"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            tools:text="백승현" />
+    </LinearLayout>
+</LinearLayout>

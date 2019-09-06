@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hyun.myapplication">
+    package="com.hyun.familyapplication">
     <!-- Camera permission -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- Internet permission -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,13 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.Activity.ClientActivity"></activity>
-        <activity android:name=".view.Activity.TestDB" />
-        <activity android:name=".view.Activity.WriteTodoActivity" />
-        <activity android:name=".view.Activity.GuideActivity" />
-        <activity android:name=".view.Activity.NewsActivity" />
-        <activity android:name=".view.Activity.WriteRecordActivity" />
-        <activity android:name=".view.Activity.SignInActivity">
+        <activity android:name="com.hyun.familyapplication.view.Activity.ProfileActivity"></activity>
+        <activity android:name="com.hyun.familyapplication.view.Activity.ClientActivity" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.TestDB" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.WriteTodoActivity" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.GuideActivity" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.NewsActivity" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.WriteRecordActivity" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.SignInActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,9 +27,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".view.Activity.MyHomeActivity"
+            android:name="com.hyun.familyapplication.view.Activity.MyHomeActivity"
             android:label="@string/title_activity_my_home" />
-        <activity android:name=".view.Activity.MainActivity" />
+        <activity android:name="com.hyun.familyapplication.view.Activity.MainActivity" />
     </application>
 
 </manifest>
