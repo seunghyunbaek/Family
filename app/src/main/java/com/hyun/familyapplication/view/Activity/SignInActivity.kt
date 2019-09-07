@@ -1,6 +1,7 @@
 package com.hyun.familyapplication.view.Activity
 
 import android.content.Intent
+import android.os.AsyncTask
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -20,6 +21,10 @@ import com.hyun.familyapplication.model.User
 import com.hyun.familyapplication.presenter.SignInPresenter
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import java.io.OutputStreamWriter
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
 
 
 class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener {
@@ -180,8 +185,20 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
 //        hideLoading()
 
         if (user != null) {
-//            btnSignInWithFacebook.text = user.email
-//            btnSignInWithKakao.text = user.uid
+            // 장고에 저장하기
+            val djangoUser = User()
+            djangoUser.email = user.email.toString()
+            djangoUser.name = user.displayName.toString()
+
+            sendAsyncTask().execute("http://192.168.200.125:8000/family/signin/",
+                djangoUser.email,
+                djangoUser.name,
+                djangoUser.hoching,
+                djangoUser.gender,
+                djangoUser.phone,
+                djangoUser.anniversary
+                )
+
             val newUser = user.email?.let { db.getUser(it) }
             if (newUser == null) {
                 val addUser = User()
@@ -224,5 +241,46 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         private const val TAG = "SignInActiity"
         private const val RC_SIGN_IN = 9001
         private const val TABLE_NAME = "User"
+
+        class sendAsyncTask : AsyncTask<String, Any, String?>() {
+            override fun doInBackground(vararg params: String?): String? {
+
+                val url = params[0]
+                val email = params[1]
+                val name = params[2]
+                val hoching = params[3]
+                val gender = params[4]
+                val phone = params[5]
+                val anniversary = params[6]
+
+                var reqParam = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
+                reqParam += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(name, "UTF-8")
+                reqParam += "&" + URLEncoder.encode("hoching", "UTF-8") + "=" + URLEncoder.encode(hoching, "UTF-8")
+                reqParam += "&" + URLEncoder.encode("gender", "UTF-8") + "=" + URLEncoder.encode(gender, "UTF-8")
+                reqParam += "&" + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(phone, "UTF-8")
+                reqParam += "&" + URLEncoder.encode("anniversary", "UTF-8") + "=" + URLEncoder.encode(anniversary, "UTF-8")
+
+                val mURL = URL(url)
+
+                with(mURL.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(reqParam)
+                    wr.flush()
+
+                    println("URL : $url")
+                    println("Response Code : $responseCode")
+                    println("d $responseMessage")
+
+                }
+                return null
+            }
+
+            override fun onPostExecute(result: String?) {
+                super.onPostExecute(result)
+                println(result)
+            }
+        }
     }
 }
