@@ -89,6 +89,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             tools:text="나" />
+
+        <ToggleButton
+            android:id="@+id/toggle_profile_gender"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textOff="남자"
+            android:textOn="여자" />
     </LinearLayout>
 
     <LinearLayout
@@ -143,11 +151,12 @@
             android:layout_weight="1"
             android:text="@string/profile_anniversary" />
 
-        <TextView
+        <EditText
             android:id="@+id/text_profile_anniversary"
             style="@style/profile_content2"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             tools:text="백승현" />
     </LinearLayout>
+
 </LinearLayout>
