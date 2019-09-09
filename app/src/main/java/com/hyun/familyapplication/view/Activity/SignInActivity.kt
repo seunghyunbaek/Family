@@ -41,6 +41,8 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
 
     lateinit var stringUrl :String
 
+    lateinit var stringFirebase: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
@@ -49,6 +51,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         db = DBHelper(this, TABLE_NAME)
 
         stringUrl = getString(R.string.url)
+        stringFirebase = getString(R.string.firebase_server_key)
 
         AndroidThreeTen.init(this)
 
@@ -59,7 +62,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         // [START config_signin]
         // Configure Google Sign In
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken("533109401813-5h2qjgig0q4d2pkn8g0c3af6l798imk7.apps.googleusercontent.com")
+            .requestIdToken(stringFirebase)
             .requestEmail()
             .build()
         // [END config_signin]
