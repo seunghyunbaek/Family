@@ -20,11 +20,14 @@ import java.net.URLEncoder
 
 class ProfileActivity : AppCompatActivity() {
 
+    lateinit var stringUrl :String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
+        stringUrl = getString(R.string.url)
 
-        getAsyncTask(this@ProfileActivity).execute("http://192.168.200.125:8000/family/signin/", null, null)
+        getAsyncTask(this@ProfileActivity).execute(stringUrl + "family/signin/", null, null)
 
         image_profile_back.setOnClickListener {
             // 뒤로가기
@@ -34,7 +37,7 @@ class ProfileActivity : AppCompatActivity() {
         text_profile_save.setOnClickListener {
             // 프로필 저장하기
             if(toggle_profile_gender.isChecked) {
-                sendAsyncTask().execute("http://192.168.200.125:8000/family/signin/1",
+                sendAsyncTask().execute(stringUrl + "family/signin/1",
                     text_profile_email.text.toString(),
                     text_profile_name.text.toString(),
                     text_profile_hoching.text.toString(),
@@ -42,7 +45,7 @@ class ProfileActivity : AppCompatActivity() {
                     text_profile_phone.text.toString(),
                     text_profile_anniversary.text.toString())
             } else {
-                sendAsyncTask().execute("http://192.168.200.125:8000/family/signin/1",
+                sendAsyncTask().execute(stringUrl + "family/signin/1",
                     text_profile_email.text.toString(),
                     text_profile_name.text.toString(),
                     text_profile_hoching.text.toString(),
@@ -50,7 +53,7 @@ class ProfileActivity : AppCompatActivity() {
                     text_profile_phone.text.toString(),
                     text_profile_anniversary.text.toString())
             }
-
+            Toast.makeText(this@ProfileActivity, "수정되었습니다.", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -39,12 +39,16 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
 
     private lateinit var db: DBHelper
 
+    lateinit var stringUrl :String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
         mPresenter.takeView(this)
         db = DBHelper(this, TABLE_NAME)
+
+        stringUrl = getString(R.string.url)
 
         AndroidThreeTen.init(this)
 
@@ -190,7 +194,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
             djangoUser.email = user.email.toString()
             djangoUser.name = user.displayName.toString()
 
-            sendAsyncTask().execute("http://192.168.200.125:8000/family/signin/",
+            sendAsyncTask().execute(stringUrl + "family/signin/",
                 djangoUser.email,
                 djangoUser.name,
                 djangoUser.hoching,
@@ -223,16 +227,18 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
             R.id.button_signin_with_google -> signIn()
             R.id.button_signin_with_kakao -> {
 //                mPresenter.doLogin("a1@gmail.com")
-
-                var tmpMail = "a01093705783@gmail.com"
-//                tmpMail = tmpMail.replace("@", "_")
-                val user = db.getUser(tmpMail)
-                if (user != null) {
-                    Log.d("jkljkljkl", "유저데이터 있음:" + user.email)
-                    Toast.makeText(this@SignInActivity, user.email, Toast.LENGTH_SHORT).show()
-                } else {
-                    Log.d("jkljkljkl", "유저데이터 없음")
+                Intent(this, MainActivity::class.java).let {
+                    startActivity(it)
                 }
+//                var tmpMail = "a01093705783@gmail.com"
+//                tmpMail = tmpMail.replace("@", "_")
+//                val user = db.getUser(tmpMail)
+//                if (user != null) {
+//                    Log.d("jkljkljkl", "유저데이터 있음:" + user.email)
+//                    Toast.makeText(this@SignInActivity, user.email, Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Log.d("jkljkljkl", "유저데이터 없음")
+//                }
             }
         }
     }

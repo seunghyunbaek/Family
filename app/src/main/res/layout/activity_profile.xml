@@ -149,7 +149,7 @@
             style="@style/profile_content1"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/profile_anniversary" />
+            android:text="메모" />
 
         <EditText
             android:id="@+id/text_profile_anniversary"
