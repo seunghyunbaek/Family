@@ -88,6 +88,37 @@
         <item name="android:layout_margin">50dp</item>
     </style>
 
+    <!-- Profile Activity -->
+    <style name="margin_header">
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+    </style>
+
+    <style name="margin_title">
+        <item name="android:textSize">20dp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+
+    <style name="margin_profile_content">
+        <item name="android:layout_marginLeft">30dp</item>
+        <item name="android:layout_marginRight">30dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+    </style>
+
+    <style name="profile_content1">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="profile_content2">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
 
     <!-- button style -->
     <style name="signing_with_google">
