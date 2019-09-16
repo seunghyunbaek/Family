@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--<string name="url">http://172.30.1.49:8000/</string>-->
-    <string name="url">http://192.168.200.151:8000/</string>
+    <string name="url">http://192.168.200.136:8000/</string>
     <string name="firebase_server_key">533109401813-5h2qjgig0q4d2pkn8g0c3af6l798imk7.apps.googleusercontent.com</string>
 </resources>
