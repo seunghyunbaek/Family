@@ -1,13 +1,18 @@
 package com.hyun.familyapplication.presenter
 
-import android.os.Handler
+import android.content.Context
+import android.content.Intent
 import com.hyun.familyapplication.contract.SignInContract
-import com.hyun.familyapplication.model.User
-import com.hyun.familyapplication.model.UserList.getUserListData
+import com.hyun.familyapplication.model.SignInModel
 
-class SignInPresenter : SignInContract.Presenter {
+class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListener {
 
     private var signinView: SignInContract.View? = null
+    private var signInModel: SignInModel
+
+    constructor() {
+        signInModel = SignInModel(this)
+    }
 
     override fun takeView(view: SignInContract.View) {
         // view와 presenter를 연결한다
@@ -19,47 +24,18 @@ class SignInPresenter : SignInContract.Presenter {
         signinView = null
     }
 
-//    override fun doLogin(email: String, passwd: String):Boolean {
-////        signinView?.showLoading()
-//
-//        var isSuccess:Boolean = false
-//        // 로그인 성공 실패 체크하기
-//        val userList:List<User> = getUserListData()
-//
-//        // 입력한 데이터의 유저가 있는지 확인하기
-//        for(item in userList) {
-//            if(item.checkUserValidity(email, passwd)) {
-//                isSuccess = true
-//                break
-//            }
-//        }
-//
-////        Handler().postDelayed({
-////            signinView?.hideLoading()
-////        }, 500)
-//
-//        return isSuccess
-//    }
-
-    override fun doLogin(email: String) {
+    override fun initGoogleSignIn(context: Context, key: String): Intent {
         signinView?.showLoading()
-
-        Handler().postDelayed({
-            var isSuccess: Boolean = false
-            // 로그인 성공 실패 체크하기
-            val userList: List<User> = getUserListData()
-
-            // 입력한 데이터의 유저가 있는지 확인하기
-            for (item in userList) {
-//                if (item.checkUserValidity(email)) {
-//                    isSuccess = true
-//                    break
-//                }
-            }
-
-            signinView?.hideLoading()
-            if(isSuccess)
-                signinView?.successSignIn()
-        }, 500)
+        return signInModel.initGoogleSignIn(context, key)
     }
+
+    override fun result(requestCode: Int, resultCode: Int, data: Intent?) {
+        signInModel.result(requestCode, resultCode, data)
+    }
+
+    override fun onSuccess() {
+        signinView?.hideLoading()
+        signinView?.successSignIn()
+    }
+
 }
