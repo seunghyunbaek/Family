@@ -34,7 +34,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
 
     public override fun onStart() {
         super.onStart()
-        if (mPresenter != null)
+        if (mPresenter == null)
             initPresenter()
     }
 
