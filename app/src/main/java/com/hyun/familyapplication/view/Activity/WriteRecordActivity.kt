@@ -10,12 +10,17 @@ import android.text.Editable
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.WriteRecordContract
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.presenter.WriteRecordPresenter
 import kotlinx.android.synthetic.main.activity_write_record.*
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
 
@@ -62,26 +67,59 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View {
         image_back_write_record.setOnClickListener {
             onBackPressed()
         }
-
         text_save_write_record.setOnClickListener {
-            if (record == null) {
-                val record = Record()
-                if (db.allRecord.size == 0)
-                    record.id = 0
-                else
-                    record.id = db.allRecord.last().id + 1
-                record.name = "백승현"
-                record.date = "2019년 8월 10일"
-                record.content = edit_write_record.text.toString()
+            val name: String // 작성자
+            val date: String // 작성일
+            val text: String // 작성내용
+            // 이미지
+            // 댓글
 
-                mPresenter.saveRecord(this, db, record)
-//            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+            // 작성자 (로그인 한 유저의 이름 or 장고 서버의 이름) : 장고 서버의 이름이 좋을 듯
+            val user = FirebaseAuth.getInstance().currentUser
+            name = user?.displayName.toString()
+            // 작성일
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                var current = LocalDate.now()
+                var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                var formatted = current.format(formatter)
+                date = formatted
+//                println("API Level 26 이상 : " + formatted)
             } else {
-                record!!.content = edit_write_record.text.toString()
-                mPresenter.updateRecord(this, db, record!!)
+                var simpleDateFormatter = SimpleDateFormat("yyyy-MM-dd")
+                var currentDate = simpleDateFormatter.format(Date())
+                date = currentDate
+//                println("API Level 1 이상 : " + currentDate)
             }
-            finish()
+            // 작성내용
+            text = edit_write_record.text.toString()
+
+            // 내용 확인
+            println("----------------------------------------")
+            println("Name 값 : " + name)
+            println("Date 값 : " + date)
+            println("Text 값 : " + text)
+            println("----------------------------------------")
+
         }
+//        text_save_write_record.setOnClickListener {
+//            if (record == null) {
+//                val record = Record()
+//                if (db.allRecord.size == 0)
+//                    record.id = 0
+//                else
+//                    record.id = db.allRecord.last().id + 1
+//                record.name = "백승현"
+//                record.date = "2019년 8월 10일"
+//                record.content = edit_write_record.text.toString()
+//
+//                mPresenter.saveRecord(this, db, record)
+////            Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+//            } else {
+//                record!!.content = edit_write_record.text.toString()
+//                mPresenter.updateRecord(this, db, record!!)
+//            }
+//            finish()
+//        }
 
         image_gallary_write_record.setOnClickListener {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
