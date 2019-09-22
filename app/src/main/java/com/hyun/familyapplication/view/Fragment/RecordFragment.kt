@@ -62,7 +62,7 @@ class RecordFragment : BaseFragment() {
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
         refreshData()
 
-        getRecordsAsyncTask(view.context).execute("http://172.30.1.4:10381/elections/getrecords")
+//        getRecordsAsyncTask(view.context).execute("http://172.30.1.4:10381/elections/getrecords")
 
         return view
     }
@@ -88,7 +88,6 @@ class RecordFragment : BaseFragment() {
 
     companion object {
         private val TABLE_NAME = "Record"
-
 
         class getRecordsAsyncTask internal constructor(context: Context) :
             AsyncTask<String, Any, String?>() {
