@@ -1,11 +1,13 @@
 package com.hyun.familyapplication.model
 
+import android.content.ContentValues
 import android.os.AsyncTask
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
 import java.net.URL
+import java.net.URLEncoder
 
 class APIUtils {
     companion object {
@@ -127,6 +129,34 @@ class APIUtils {
             override fun onPostExecute(result: String?) {
                 super.onPostExecute(result)
             }
+        }
+
+        fun makeJson(contentValues: ContentValues): String {
+
+            var isAnd = false
+            var sbParams = ""
+
+            for (parameter in contentValues.valueSet()) {
+                var key = parameter.key
+                var value = parameter.value.toString()
+
+                // 파라미터가 두개 이상일때, 파라미터 사이에 &를 붙인다.
+                if (isAnd)
+                    sbParams += "&"
+
+                sbParams =
+                    sbParams + URLEncoder.encode(key, "UTF-8") + "=" + URLEncoder.encode(
+                        value,
+                        "UTF-8"
+                    )
+
+                // 파라미터가 2개 이상이면 isAnd를 true로 바꾸고 다음 루프부터 &를 붙인다.
+                if (!isAnd)
+                    if (contentValues.size() >= 2)
+                        isAnd = true
+            }
+
+            return sbParams
         }
     }
 }

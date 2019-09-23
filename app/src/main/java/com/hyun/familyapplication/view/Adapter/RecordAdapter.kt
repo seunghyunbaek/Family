@@ -7,13 +7,16 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
+import com.hyun.familyapplication.model.DBUtils
 import com.hyun.familyapplication.model.Record
+import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import kotlinx.android.synthetic.main.item_record.view.*
 
 class RecordAdapter(
     internal val context: Context?,
-    internal var lstRecord: List<Record>
+    internal var lstRecord: List<Record>,
+    internal var lstImages: List<RecordImage>
 ) : RecyclerView.Adapter<RecordAdapter.RecordViewHolder>() {
 
 
@@ -22,11 +25,13 @@ class RecordAdapter(
     override fun getItemCount(): Int = lstRecord.size
 
     override fun onBindViewHolder(holder: RecordAdapter.RecordViewHolder, position: Int) {
-
         lstRecord[position].let { item ->
             with(holder) {
                 tvTitle.text = item.name
                 tvContent.text = item.content
+                val rslt = DBUtils.getImageList(item.id, lstImages)
+                val adapter = SliderAdapter(context!!, rslt)
+                viewPager.adapter = adapter
             }
 
 
@@ -56,7 +61,7 @@ class RecordAdapter(
     ), View.OnCreateContextMenuListener {
         val tvTitle = itemView.item_text_title_record
         val tvContent = itemView.tv_main_content
-//        val itemposition = adapterPosition
+        val viewPager = itemView.viewpager_item_record
 
         val menu = itemView.setOnCreateContextMenuListener(this)
 
@@ -83,7 +88,8 @@ class RecordAdapter(
 
                         val record = lstRecord[adapterPosition]
 
-                        val db = DBHelper(context!!, "Record")
+//                        val db = DBHelper(context!!, "Record")
+                        val db = DBHelper(context!!)
                         db.deleteRecord(record)
 
                         lstRecord = db.allRecord
@@ -94,7 +100,6 @@ class RecordAdapter(
                 }
                 return@OnMenuItemClickListener false
             }
-
 
         override fun onCreateContextMenu(
             menu: ContextMenu?,

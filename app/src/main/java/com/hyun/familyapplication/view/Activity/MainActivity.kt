@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnMyHome.setOnClickListener(View.OnClickListener {
-            Intent(this, MyHomeActivity::class.java).let {
+            Intent(this, MyHomeCheckActivity::class.java).let {
                 startActivity(it)
             }
         })

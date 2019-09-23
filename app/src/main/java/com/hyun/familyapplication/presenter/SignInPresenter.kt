@@ -2,8 +2,11 @@ package com.hyun.familyapplication.presenter
 
 import android.content.Context
 import android.content.Intent
+import com.google.firebase.auth.FirebaseAuth
+import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.contract.SignInContract
 import com.hyun.familyapplication.model.SignInModel
+import com.hyun.familyapplication.model.User
 
 class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListener {
 
@@ -33,9 +36,12 @@ class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListene
         signInModel.result(requestCode, resultCode, data)
     }
 
-    override fun onSuccess() {
-        signinView?.hideLoading()
-        signinView?.successSignIn()
+    override fun saveUser(context: Context, email:String, name:String) {
+        signInModel.saveUser(context, email, name)
     }
 
+    override fun onSuccess(email:String, name:String) {
+        signinView?.hideLoading()
+        signinView?.successSignIn(email, name)
+    }
 }

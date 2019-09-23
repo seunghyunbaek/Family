@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.Log
 import com.hyun.familyapplication.contract.SignInContract
 
@@ -59,9 +60,29 @@ class SignInModel : Log {
 
         mAuth.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
-                mAuth.currentUser
-                mOnListener.onSuccess()
+                // 비동기처리로인한 리턴 시점이 맞지않아 리스너 선택
+                mAuth.currentUser?.let {
+                    mOnListener.onSuccess(it.email.toString(), it.displayName.toString())
+                }
             }
         }
+    }
+
+    fun saveUser(context: Context, email: String, name: String) {
+        val dbHelper = DBHelper(context)
+//        dbHelper.deleteRoom()
+
+        val user = User()
+        user.email = email
+        user.name = name
+
+//        val user2 = dbHelper.getUser()
+
+//        if (dbHelper.getUser() != null)
+//            dbHelper.deleteUser()
+
+        if (dbHelper.getUser() == null)
+            dbHelper.addUser(user)
+
     }
 }

@@ -59,7 +59,8 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         progress_signin.visibility = View.GONE
     }
 
-    override fun successSignIn() {
+    override fun successSignIn(email:String, name:String) {
+        mPresenter.saveUser(this, email, name)
         Intent(this, MainActivity::class.java).let {
             startActivity(it)
         }
@@ -88,7 +89,6 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         mPresenter.result(requestCode, resultCode, data)
     }
 

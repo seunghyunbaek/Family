@@ -1,5 +1,6 @@
 package com.hyun.familyapplication.contract
 
+import android.content.ContentValues
 import android.content.Context
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.model.Record
@@ -12,7 +13,8 @@ interface WriteRecordContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun saveRecord(context: Context, dbHelper: DBHelper, record: Record)
+        fun saveRecord(context: Context, contentValues: ContentValues, uriList: MutableList<String>?)
         fun updateRecord(context: Context, dbHelper: DBHelper, record: Record)
+        fun getPermission(context: Context)
     }
 }

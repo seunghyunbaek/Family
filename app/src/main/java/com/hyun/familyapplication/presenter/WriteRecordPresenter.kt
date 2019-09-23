@@ -1,8 +1,11 @@
 package com.hyun.familyapplication.presenter
 
+import android.content.ContentValues
 import android.content.Context
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.contract.WriteRecordContract
+import com.hyun.familyapplication.model.DBUtils
+import com.hyun.familyapplication.model.PermissionUtils
 import com.hyun.familyapplication.model.Record
 
 class WriteRecordPresenter : WriteRecordContract.Presenter {
@@ -28,21 +31,22 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 //        wrView?.successRecord()
 //    }
 
-    override fun saveRecord(
-        context: Context,
-        dbHelper: DBHelper,
-        record: Record
-    ) {
+    override fun saveRecord(context: Context, contentValues: ContentValues, uriList: MutableList<String>?) {
         // SQLite에 저장하기
 //        val dbHandler = FamilyDBOpenHelper(context, null)
 //        val record = Record(name, date, content)
 //        dbHandler.addRecord(record)
 //        wrView?.successRecord()
-
-        dbHelper.addRecord(record)
+//        dbHelper.addRecord(record)
+        val result = DBUtils.saveRecord(context, contentValues)
+        DBUtils.saveRecordImages(context, result, uriList)
+        wrView?.successRecord()
     }
 
     override fun updateRecord(context: Context, dbHelper: DBHelper, record: Record) {
         dbHelper.updateRecord(record)
+    }
+
+    override fun getPermission(context: Context) {
     }
 }
