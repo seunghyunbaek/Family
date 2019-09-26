@@ -105,7 +105,7 @@ class DBHelper(
         if (cursor.moveToFirst()) {
             do {
 //                contentValues.put("email", cursor.getString(cursor.getColumnIndex(ROOM_COOL_EMAIL)))
-                contentValues.put("roomid", cursor.getInt(cursor.getColumnIndex(ROOM_COOL_ID)))
+                contentValues.put("room", cursor.getInt(cursor.getColumnIndex(ROOM_COOL_ID)))
             } while (cursor.moveToNext())
         } else {
             return null
@@ -139,7 +139,7 @@ class DBHelper(
                     record.name = cursor.getString(cursor.getColumnIndex(RECORD_COOL_NAME))
                     record.date = cursor.getString(cursor.getColumnIndex(RECORD_COOL_DATE))
                     record.content = cursor.getString(cursor.getColumnIndex(RECORD_COOL_CONTENT))
-                    record.roomid = cursor.getInt(cursor.getColumnIndex(RECORD_COOL_ROOMID))
+                    record.room = cursor.getInt(cursor.getColumnIndex(RECORD_COOL_ROOMID))
 
                     lstRecord.add(record)
                 } while (cursor.moveToNext())
@@ -263,7 +263,7 @@ class DBHelper(
                 user.gender = cursor.getString(cursor.getColumnIndex(PROFILE_COOL_GENDER))
                 user.phone = cursor.getString(cursor.getColumnIndex(PROFILE_COOL_PHONE))
                 user.anniversary = cursor.getString(cursor.getColumnIndex(PROFILE_COOL_ANNIVERSARY))
-                user.roomId = cursor.getInt(cursor.getColumnIndex(PROFILE_COOL_ROOMID))
+                user.room = cursor.getInt(cursor.getColumnIndex(PROFILE_COOL_ROOMID))
             } while (cursor.moveToNext())
         } else {
             return null
@@ -283,7 +283,7 @@ class DBHelper(
         values.put(PROFILE_COOL_GENDER, user.gender)
         values.put(PROFILE_COOL_PHONE, user.phone)
         values.put(PROFILE_COOL_ANNIVERSARY, user.anniversary)
-        values.put(PROFILE_COOL_ROOMID, user.roomId)
+        values.put(PROFILE_COOL_ROOMID, user.room)
         db.insert(PROFILE_TABLE_NAME, null, values)
         db.close()
     }
@@ -313,7 +313,7 @@ class DBHelper(
                 do {
                     val recordImage = RecordImage()
                     recordImage.id = cursor.getInt(cursor.getColumnIndex(IMAGE_COOL_ID))
-                    recordImage.recordid = cursor.getInt(cursor.getColumnIndex(IMAGE_COOL_RECORDID))
+                    recordImage.record = cursor.getInt(cursor.getColumnIndex(IMAGE_COOL_RECORDID))
                     recordImage.uri = cursor.getString(cursor.getColumnIndex(IMAGE_COOL_URL))
 
                     lstImages.add(recordImage)
@@ -338,7 +338,7 @@ class DBHelper(
 
     companion object {
         private val DATABASE_NAME = "KFAMILY.db"
-        private val DATABASE_VER = 4
+        private val DATABASE_VER = 6
 
         private val RECORD_TABLE_NAME = "Record"
         private val RECORD_COOL_ID = "id"

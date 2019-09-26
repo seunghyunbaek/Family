@@ -7,7 +7,7 @@ class User {
     var gender: String = ""
     var phone: String = ""
     var anniversary: String = ""
-    var roomId: Int? = null
+    var room: Int? = null
 
     init {
         hoching = "나"

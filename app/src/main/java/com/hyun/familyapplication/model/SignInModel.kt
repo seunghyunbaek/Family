@@ -70,19 +70,20 @@ class SignInModel : Log {
 
     fun saveUser(context: Context, email: String, name: String) {
         val dbHelper = DBHelper(context)
-//        dbHelper.deleteRoom()
+        dbHelper.deleteRoom()
 
-        val user = User()
-        user.email = email
-        user.name = name
+//        val user = User()
+//        user.email = email
+//        user.name = name
 
 //        val user2 = dbHelper.getUser()
 
 //        if (dbHelper.getUser() != null)
 //            dbHelper.deleteUser()
 
-        if (dbHelper.getUser() == null)
-            dbHelper.addUser(user)
+//        if (dbHelper.getUser() == null)
+//            dbHelper.addUser(user)
+
 
     }
 }

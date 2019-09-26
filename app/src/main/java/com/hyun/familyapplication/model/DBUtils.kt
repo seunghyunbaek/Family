@@ -16,12 +16,12 @@ class DBUtils {
             val dbHelper = DBHelper(context)
             val user = dbHelper.getUser()
 
-            if (user?.roomId == 0) {
+            if (user?.room == 0) {
                 val contentValues = ContentValues()
                 contentValues.put("email", user?.email)
                 dbHelper.addRoom(contentValues)
                 val contentValues2 = dbHelper.getRoom(user?.email)
-                user.roomId = contentValues2?.getAsInteger("roomid")
+                user.room = contentValues2?.getAsInteger("room")
 
                 val userValues = ContentValues()
                 userValues.put(PROFILE_COOL_EMAIL, user.email)
@@ -30,7 +30,7 @@ class DBUtils {
                 userValues.put(PROFILE_COOL_GENDER, user.gender)
                 userValues.put(PROFILE_COOL_PHONE, user.phone)
                 userValues.put(PROFILE_COOL_ANNIVERSARY, user.anniversary)
-                userValues.put(PROFILE_COOL_ROOMID, user.roomId)
+                userValues.put(PROFILE_COOL_ROOMID, user.room)
 
                 val result = dbHelper.updateUserRoom(userValues)
                 return result
@@ -43,7 +43,7 @@ class DBUtils {
             val dbHelper = DBHelper(context)
             val user = dbHelper.getUser()
 
-            if (user?.roomId == 0)
+            if (user?.room == 0 || user == null)
                 return false
             else
                 return true
@@ -70,8 +70,8 @@ class DBUtils {
                 var date = simpleDateFormatter.format(Date())
                 values.put("$RECORD_COOL_DATE", date)
             }
-            // roomid
-            values.put("$RECORD_COOL_ROOMID", user?.roomId)
+            // room
+            values.put("$RECORD_COOL_ROOMID", user?.room)
             val result = dbHelper.addRecord(values)
 
             return result
@@ -93,41 +93,41 @@ class DBUtils {
         fun getImageList(key:Int, lst:List<RecordImage>):List<String> {
             val rslt = ArrayList<String>()
             for(str in lst) {
-                if(key == str.recordid)
+                if(key == str.record)
                     rslt.add(str.uri)
             }
             return rslt
         }
 
         private val RECORD_TABLE_NAME = "Record"
-        private val RECORD_COOL_ID = "Id"
-        private val RECORD_COOL_EMAIL = "Email"
-        private val RECORD_COOL_NAME = "Name"
-        private val RECORD_COOL_DATE = "Date"
-        private val RECORD_COOL_CONTENT = "Content"
-        private val RECORD_COOL_ROOMID = "RoomId"
+        private val RECORD_COOL_ID = "id"
+        private val RECORD_COOL_EMAIL = "email"
+        private val RECORD_COOL_NAME = "name"
+        private val RECORD_COOL_DATE = "date"
+        private val RECORD_COOL_CONTENT = "content"
+        private val RECORD_COOL_ROOMID = "room"
 
         private val TODO_TABLE_NAME = "Todo"
-        private val TODO_COOL_ID = "Id"
-        private val TODO_COOL_TITLE = "Title"
-        private val TODO_COOL_DATE = "Date"
+        private val TODO_COOL_ID = "id"
+        private val TODO_COOL_TITLE = "title"
+        private val TODO_COOL_DATE = "date"
 
         private val PROFILE_TABLE_NAME = "User"
-        private val PROFILE_COOL_EMAIL = "Email"
-        private val PROFILE_COOL_NAME = "Name"
-        private val PROFILE_COOL_HOCHING = "Hoching"
-        private val PROFILE_COOL_GENDER = "Gender"
-        private val PROFILE_COOL_PHONE = "Phone"
-        private val PROFILE_COOL_ANNIVERSARY = "Anniversary"
-        private val PROFILE_COOL_ROOMID = "RoomId"
+        private val PROFILE_COOL_EMAIL = "email"
+        private val PROFILE_COOL_NAME = "name"
+        private val PROFILE_COOL_HOCHING = "hoching"
+        private val PROFILE_COOL_GENDER = "gender"
+        private val PROFILE_COOL_PHONE = "phone"
+        private val PROFILE_COOL_ANNIVERSARY = "anniversary"
+        private val PROFILE_COOL_ROOMID = "room"
 
         private val ROOM_TABLE_NAME = "Room"
-        private val ROOM_COOL_ID = "Id"
-        private val ROOM_COOL_EMAIL = "Email"
+        private val ROOM_COOL_ID = "id"
+        private val ROOM_COOL_EMAIL = "email"
 
         private val IMAGE_TABLE_NAME = "RecordImage"
-        private val IMAGE_COOL_ID = "ID"
-        private val IMAGE_COOL_RECORDID = "RecordId"
-        private val IMAGE_COOL_URL = "Url"
+        private val IMAGE_COOL_ID = "id"
+        private val IMAGE_COOL_RECORDID = "record"
+        private val IMAGE_COOL_URL = "uri"
     }
 }

@@ -6,5 +6,5 @@ class Record {
     var name : String = ""
     var date: String = ""
     var content:String = ""
-    var roomid:Int = 0
+    var room:Int = 0
 }
