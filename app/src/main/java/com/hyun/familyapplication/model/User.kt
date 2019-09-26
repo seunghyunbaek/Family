@@ -11,5 +11,6 @@ class User {
 
     init {
         hoching = "나"
+        gender = "남자"
     }
 }

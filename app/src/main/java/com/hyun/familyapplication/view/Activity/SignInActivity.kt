@@ -36,6 +36,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         super.onStart()
         if (mPresenter == null)
             initPresenter()
+        mPresenter.checkUser(this)
     }
 
     override fun onDestroy() {
@@ -59,8 +60,12 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         progress_signin.visibility = View.GONE
     }
 
-    override fun successSignIn(email:String, name:String) {
+
+    override fun successSignIn(email: String, name: String) {
         mPresenter.saveUser(this, email, name)
+    }
+
+    override fun moveMainActivity() {
         Intent(this, MainActivity::class.java).let {
             startActivity(it)
         }

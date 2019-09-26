@@ -1,6 +1,7 @@
 package com.hyun.familyapplication.model
 
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -12,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.Log
+import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.SignInContract
 
 class SignInModel : Log {
@@ -68,22 +70,58 @@ class SignInModel : Log {
         }
     }
 
-    fun saveUser(context: Context, email: String, name: String) {
+    fun getUser(context: Context):User? {
         val dbHelper = DBHelper(context)
-        dbHelper.deleteRoom()
+        return dbHelper.getUser()
+    }
 
-//        val user = User()
-//        user.email = email
-//        user.name = name
+    fun saveUser(context: Context, email: String, name: String) {
+
+        // 서버에 저장하기
+        val cv = ContentValues()
+//        cv.put("email", email.replace(".", "_"))
+//        cv.put("name", name)
+        cv.put("email", "asd@gmail_com")
+        cv.put("name", "asd")
+        val data = APIUtils.makeJson(cv)
+
+        val url = context.getString(R.string.url) + "user/"
+        println("--------------------------------------------------------")
+        println(url)
+        println(data)
+        println("--------------------------------------------------------")
+//        APIUtils.getAsyncTask().execute(url)
+        APIUtils.postAsyncTask(mOnListener, context, email, name).execute(url, data)
+
+//        APIUtils.getAsyncTask(mOnListener).execute(url)
+    }
+
+
+
+    fun saveUserSQLite(context: Context, email: String, name: String) {
+        // 내부 저장하기
+        val dbHelper = DBHelper(context)
+//        dbHelper.deleteRoom()
+
+        val user = User()
+        user.email = email
+        user.name = name
 
 //        val user2 = dbHelper.getUser()
 
 //        if (dbHelper.getUser() != null)
 //            dbHelper.deleteUser()
 
-//        if (dbHelper.getUser() == null)
-//            dbHelper.addUser(user)
-
-
+        if (dbHelper.getUser() == null) {
+            dbHelper.addUser(user)
+            println("-------------------------------------------------------------------------")
+            println("-----------------         saveUserSQLite(성공)        -------------------")
+            println("-------------------------------------------------------------------------")
+        } else {
+            println("-------------------------------------------------------------------------")
+            println("-----------------         saveUserSQLite(실패)        -------------------")
+            println("-------------------------------------------------------------------------")
+        }
     }
+
 }

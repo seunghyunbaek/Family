@@ -13,6 +13,7 @@ interface SignInContract {
         fun showLoading() // ProgressBar 보이기
         fun hideLoading() // ProgressBar 숨기기
         fun successSignIn(email:String, name:String) // 로그인 성공
+        fun moveMainActivity()
     }
 
     // Signin Presenter가 구현해야할 interface
@@ -20,10 +21,13 @@ interface SignInContract {
         fun initGoogleSignIn(context: Context, key: String): Intent
         fun result(requestCode: Int, resulstCode: Int, data: Intent?)
         fun saveUser(context: Context, email:String, name:String)
+        fun checkUser(context: Context)
     }
 
     // Signin Presenter Listener
     interface onSignInListener {
         fun onSuccess(email:String, name:String)
+        fun onFailure()
+        fun onEnd(context:Context, email:String, name:String)
     }
 }

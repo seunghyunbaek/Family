@@ -18,6 +18,7 @@ class MyHomeCheckPresenter : MyHomeCheckContract.Presenter {
     }
 
     override fun createRoom(context:Context) {
+
         val result = DBUtils.CreateRoom(context)
         if(result == 1)
             myHomeCheckView?.createdRoom()

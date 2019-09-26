@@ -40,8 +40,27 @@ class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListene
         signInModel.saveUser(context, email, name)
     }
 
+    override fun checkUser(context: Context) {
+        val user = signInModel.getUser(context)
+        if(user != null)
+            signinView?.moveMainActivity()
+    }
+
+    // listener
     override fun onSuccess(email:String, name:String) {
-        signinView?.hideLoading()
         signinView?.successSignIn(email, name)
+    }
+
+    override fun onFailure() {
+        signinView?.hideLoading()
+    }
+
+    override fun onEnd(context: Context, email:String, name:String) {
+        println("---------------------------------------------------------------")
+        println("통신 성공하고 리스너 실행하기")
+        println("---------------------------------------------------------------")
+        signInModel.saveUserSQLite(context, email, name)
+        signinView?.hideLoading()
+        signinView?.moveMainActivity()
     }
 }

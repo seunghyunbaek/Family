@@ -1,7 +1,9 @@
 package com.hyun.familyapplication.model
 
 import android.content.ContentValues
+import android.content.Context
 import android.os.AsyncTask
+import com.hyun.familyapplication.contract.SignInContract
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
@@ -10,127 +12,8 @@ import java.net.URL
 import java.net.URLEncoder
 
 class APIUtils {
+
     companion object {
-        // GET
-        class getAsyncTask :
-            AsyncTask<String, Any, String?>() {
-
-            override fun doInBackground(vararg params: String?): String? {
-                val urlString: String? = params[0]
-                val url = URL(urlString)
-
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "GET"
-
-                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
-                        BufferedReader(InputStreamReader(inputStream)).use {
-                            val response = it.readText()
-                            println("----------------------------------------------------------")
-                            println("연결주소 : $urlString")
-                            println("응답코드 : $responseCode")
-                            println("응답메세지 : $responseMessage")
-                            println("받은 데이터 : $response")
-                            println("----------------------------------------------------------")
-                            return response
-                        }
-                    }
-                }
-                return null
-            }
-
-            override fun onPostExecute(result: String?) {
-                super.onPostExecute(result)
-                println("$result")
-            }
-        }
-
-        // POST
-        class postAsyncTask : AsyncTask<String, Any, String?>() {
-            override fun doInBackground(vararg params: String?): String? {
-
-                val urlString = params[0]
-                val data = params[1]
-
-                val url = URL(urlString)
-
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "POST"
-
-                    val wr = OutputStreamWriter(outputStream)
-                    wr.write(data)
-                    wr.flush()
-                    wr.close()
-
-                    println("---------------------------------------")
-                    println("연결주소 : $urlString")
-                    println("응답코드 : $responseCode")
-                    println("응답메세지 : $responseMessage")
-                    println("보낸 데이터 : $data")
-                    println("---------------------------------------")
-                }
-
-                return null
-            }
-
-            override fun onPostExecute(result: String?) {
-                super.onPostExecute(result)
-            }
-        }
-
-        // PUT
-        class putAsyncTask : AsyncTask<String, Any, String?>() {
-            override fun doInBackground(vararg params: String?): String? {
-                val urlString = params[0]
-                val data = params[1]
-
-                val url = URL(urlString)
-
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "PUT"
-
-                    val wr = OutputStreamWriter(outputStream)
-                    wr.write(data)
-                    wr.flush()
-                    wr.close()
-
-                    println("---------------------------------------")
-                    println("연결주소 : $urlString")
-                    println("응답코드 : $responseCode")
-                    println("응답메세지 : $responseMessage")
-                    println("보낸 데이터 : $data")
-                    println("---------------------------------------")
-                }
-
-                return null
-            }
-
-            override fun onPostExecute(result: String?) {
-                super.onPostExecute(result)
-            }
-        }
-
-        // DELETE
-        class delAsyncTask : AsyncTask<String, Any, String?>() {
-            override fun doInBackground(vararg params: String?): String? {
-                val urlString: String? = params[0]
-                val url = URL(urlString)
-
-                with(url.openConnection() as HttpURLConnection) {
-                    requestMethod = "DELETE"
-                    println("----------------------------------------------------------")
-                    println("연결주소 : $urlString")
-                    println("응답코드 : $responseCode")
-                    println("응답메세지 : $responseMessage")
-                    println("----------------------------------------------------------")
-                }
-                return null
-            }
-
-            override fun onPostExecute(result: String?) {
-                super.onPostExecute(result)
-            }
-        }
-
         fun makeJson(contentValues: ContentValues): String {
 
             var isAnd = false
@@ -159,4 +42,153 @@ class APIUtils {
             return sbParams
         }
     }
+
+    // GET
+    class getAsyncTask() :
+        AsyncTask<String, Any, String?>() {
+
+
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            println("$result")
+        }
+    }
+
+    // POST
+    class postAsyncTask(mOnListener: SignInContract.onSignInListener, context: Context, email:String, name:String) : AsyncTask<String, Any, String?>() {
+
+        val mOnListener:SignInContract.onSignInListener
+        val context:Context
+        val email:String
+        val name:String
+
+        init {
+            this.mOnListener = mOnListener
+            this.context = context
+            this.email = email
+            this.name = name
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "POST"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("---------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode") // 200 201 등등
+                println("응답메세지 : $responseMessage") // Created
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+                return responseCode.toString()
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if(result?.toInt() == 201) {
+                mOnListener.onEnd(context, email, name)
+                println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostExecute(성공)      -------------------")
+                println("-------------------------------------------------------------------------")
+            } else {
+                println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostExecute(실패)      -------------------")
+                println("-------------------------------------------------------------------------")
+                mOnListener.onFailure()
+            }
+        }
+    }
+
+    // PUT
+    class putAsyncTask : AsyncTask<String, Any, String?>() {
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "PUT"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("---------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
+    }
+
+    // DELETE
+    class delAsyncTask : AsyncTask<String, Any, String?>() {
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "DELETE"
+                println("----------------------------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("----------------------------------------------------------")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
+    }
+
+
 }
