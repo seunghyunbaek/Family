@@ -31,13 +31,18 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 //        wrView?.successRecord()
 //    }
 
-    override fun saveRecord(context: Context, contentValues: ContentValues, uriList: MutableList<String>?) {
+    override fun saveRecordInServer(context: Context, contentValues: ContentValues, uriList: MutableList<String>?) {
         // SQLite에 저장하기
 //        val dbHandler = FamilyDBOpenHelper(context, null)
 //        val record = Record(name, date, content)
 //        dbHandler.addRecord(record)
 //        wrView?.successRecord()
 //        dbHelper.addRecord(record)
+
+
+
+
+        ////////////////////////////////////////////
         val result = DBUtils.saveRecord(context, contentValues)
         DBUtils.saveRecordImages(context, result, uriList)
         wrView?.successRecord()

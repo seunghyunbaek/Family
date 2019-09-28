@@ -15,4 +15,10 @@ interface MyHomeCheckContract {
         fun createRoom(context:Context)
         fun checkRoom(context:Context)
     }
+
+    interface onMyHomeCheckListener {
+        fun onSuccess(email:String)
+        fun onFailure()
+        fun onEnd(context:Context, result:String)
+    }
 }

@@ -23,7 +23,7 @@ class DBHelper(
         Log.d("jkljkljkl", "디비 onCreate() 실행")
         val CREATE_TABLE_ROOM =
             ("CREATE TABLE $ROOM_TABLE_NAME (" +
-                    "$ROOM_COOL_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "$ROOM_COOL_ID INTEGER PRIMARY KEY, " +
                     "$ROOM_COOL_EMAIL TEXT" +
                     ")")
         val CREATE_TABLE_RECORD =
@@ -338,7 +338,7 @@ class DBHelper(
 
     companion object {
         private val DATABASE_NAME = "KFAMILY.db"
-        private val DATABASE_VER = 6
+        private val DATABASE_VER = 3
 
         private val RECORD_TABLE_NAME = "Record"
         private val RECORD_COOL_ID = "id"

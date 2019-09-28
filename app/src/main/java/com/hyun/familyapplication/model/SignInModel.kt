@@ -79,10 +79,10 @@ class SignInModel : Log {
 
         // 서버에 저장하기
         val cv = ContentValues()
-//        cv.put("email", email.replace(".", "_"))
-//        cv.put("name", name)
-        cv.put("email", "asd@gmail_com")
-        cv.put("name", "asd")
+        cv.put("email", email.replace(".", "_"))
+        cv.put("name", name)
+//        cv.put("email", "asd@gmail_com")
+//        cv.put("name", "asd")
         val data = APIUtils.makeJson(cv)
 
         val url = context.getString(R.string.url) + "user/"
@@ -91,7 +91,7 @@ class SignInModel : Log {
         println(data)
         println("--------------------------------------------------------")
 //        APIUtils.getAsyncTask().execute(url)
-        APIUtils.postAsyncTask(mOnListener, context, email, name).execute(url, data)
+        APIUtils.postSignInAsyncTask(mOnListener, context, email, name).execute(url, data)
 
 //        APIUtils.getAsyncTask(mOnListener).execute(url)
     }
@@ -115,11 +115,19 @@ class SignInModel : Log {
         if (dbHelper.getUser() == null) {
             dbHelper.addUser(user)
             println("-------------------------------------------------------------------------")
-            println("-----------------         saveUserSQLite(성공)        -------------------")
+            println("-----------------         saveUserSQLite(유저 없음)        -------------------")
             println("-------------------------------------------------------------------------")
         } else {
+            val user = dbHelper.getUser()
+            if(user?.email != email) {
+                dbHelper.deleteUser()
+                val newUser = User()
+                newUser.email = email
+                newUser.name = name
+                dbHelper.addUser(newUser)
+            }
             println("-------------------------------------------------------------------------")
-            println("-----------------         saveUserSQLite(실패)        -------------------")
+            println("-----------------         saveUserSQLite(유저 존재)        -------------------")
             println("-------------------------------------------------------------------------")
         }
     }

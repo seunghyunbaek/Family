@@ -13,7 +13,7 @@ interface WriteRecordContract {
     }
 
     interface Presenter : BasePresenter<View> {
-        fun saveRecord(context: Context, contentValues: ContentValues, uriList: MutableList<String>?)
+        fun saveRecordInServer(context: Context, contentValues: ContentValues, uriList: MutableList<String>?)
         fun updateRecord(context: Context, dbHelper: DBHelper, record: Record)
         fun getPermission(context: Context)
     }

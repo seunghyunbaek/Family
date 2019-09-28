@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.os.Build
 import com.hyun.familyapplication.DBHelper.DBHelper
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -12,16 +13,22 @@ import java.util.*
 class DBUtils {
     companion object {
         // Room 생성하기
-        fun CreateRoom(context: Context): Int { // 유저가 새로운 기록 Room을 만든다
+        fun CreateRoom(context: Context, result:String): Int { // 유저가 새로운 기록 Room을 만든다
             val dbHelper = DBHelper(context)
             val user = dbHelper.getUser()
+            val jsonObject = JSONObject(result)
+            val email:String = jsonObject.getString("email")
+            val id:Int = jsonObject.getInt("id")
+
 
             if (user?.room == 0) {
                 val contentValues = ContentValues()
-                contentValues.put("email", user?.email)
+                contentValues.put("id", id)
+                contentValues.put("email", email)
                 dbHelper.addRoom(contentValues)
-                val contentValues2 = dbHelper.getRoom(user?.email)
-                user.room = contentValues2?.getAsInteger("room")
+
+//                val contentValues2 = dbHelper.getRoom(user?.email)
+//                user.room = contentValues2?.getAsInteger("room")
 
                 val userValues = ContentValues()
                 userValues.put(PROFILE_COOL_EMAIL, user.email)
@@ -30,7 +37,7 @@ class DBUtils {
                 userValues.put(PROFILE_COOL_GENDER, user.gender)
                 userValues.put(PROFILE_COOL_PHONE, user.phone)
                 userValues.put(PROFILE_COOL_ANNIVERSARY, user.anniversary)
-                userValues.put(PROFILE_COOL_ROOMID, user.room)
+                userValues.put(PROFILE_COOL_ROOMID, id)
 
                 val result = dbHelper.updateUserRoom(userValues)
                 return result

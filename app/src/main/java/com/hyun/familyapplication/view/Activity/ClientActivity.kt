@@ -403,8 +403,10 @@ class ClientActivity : AppCompatActivity() {
 
                 var entity = builder.build()
                 postRequest.setEntity(entity)
-
                 val response: HttpResponse = httpClient.execute(postRequest)
+//                postRequest.setEntity(entity)
+//                httpClient.execute(postRequest)
+
                 val reader: BufferedReader = BufferedReader(
                     InputStreamReader(
                         response.entity.content, "UTF-8"
