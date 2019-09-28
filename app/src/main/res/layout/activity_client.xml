@@ -54,4 +54,29 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="load_google_data" />
+
+    <Button
+        android:id="@+id/btn_client_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Gallery" />
+
+    <Button
+        android:id="@+id/btn_client_getimage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="GET IMAGE" />
+
+    <Button
+        android:id="@+id/btn_client_setimage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SET IMAGE" />
+
+    <ImageView
+        android:id="@+id/image_client"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars" />
+
 </LinearLayout>

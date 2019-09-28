@@ -1,1 +1,1 @@
-include ':app'
+include ':app', ':httpclient-4.5.10', ':httpmime-4.5.10', ':httpcore-4.4.12'
