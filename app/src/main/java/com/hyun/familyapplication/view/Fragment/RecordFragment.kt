@@ -14,10 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
+import com.hyun.familyapplication.contract.RecordContract
+import com.hyun.familyapplication.model.APIUtils
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import com.hyun.familyapplication.view.Adapter.RecordAdapter
+import org.json.JSONArray
+import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.lang.ref.WeakReference
@@ -33,7 +37,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class RecordFragment : BaseFragment() {
+class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
 
     lateinit var db: DBHelper
     var lstRecrods: List<Record> = ArrayList<Record>()
@@ -61,10 +65,17 @@ class RecordFragment : BaseFragment() {
 
         mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_record)
         mRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        refreshData()
+//        refreshData()
+        getDatas()
 
 //        getRecordsAsyncTask(view.context).execute("http://172.30.1.4:10381/elections/getrecords")
         return view
+    }
+
+    fun getDatas() {
+        val url = getString(R.string.url) + "record/"
+
+        APIUtils.getRecordAsyncTask(this@RecordFragment).execute(url)
     }
 
     fun refreshData() {
@@ -80,7 +91,58 @@ class RecordFragment : BaseFragment() {
 
     override fun onResume() {
         super.onResume()
-        refreshData()
+//        refreshData()
+        getDatas()
+    }
+
+    override fun onSuccess(result:String) {
+        val jsonArray:JSONArray = JSONArray(result)
+        val len = jsonArray.length()
+        var count = 0
+        val lst:MutableList<Record> = ArrayList<Record>()
+        while(count < len) {
+            val jsonObject = jsonArray.getJSONObject(count)
+            val record = Record()
+            record.id = jsonObject.getInt("id")
+            record.email = jsonObject.getString("email")
+            record.name = jsonObject.getString("name")
+            record.date = jsonObject.getString("date")
+            record.content = jsonObject.getString("content")
+            record.room = jsonObject.getInt("room")
+            lst.add(record)
+            count++
+        }
+        lstRecrods = lst
+
+        val url = getString(R.string.url) + "image/"
+        APIUtils.getImageAsyncTask(this).execute(url)
+    }
+
+    override fun onEnd(result: String) {
+        val jsonArray:JSONArray = JSONArray(result)
+        val len = jsonArray.length()
+        var count = 0
+        val lst:MutableList<RecordImage> = ArrayList<RecordImage>()
+        while(count < len) {
+            val jsonObject = jsonArray.getJSONObject(count)
+            val recordImage = RecordImage()
+            recordImage.id = jsonObject.getInt("id")
+            recordImage.record = jsonObject.getInt("record")
+            recordImage.uri = jsonObject.getString("uri")
+            lst.add(recordImage)
+            count++
+        }
+        lstImages = lst
+
+        val adapter = RecordAdapter(context, lstRecrods, lstImages)
+        mRecyclerView.adapter = adapter
+        println("-------------------------------------------")
+        adapter.notifyDataSetChanged()
+        println("adapter.notifyDataSetChanged()")
+        println("-------------------------------------------")
+    }
+
+    override fun onFailed() {
     }
 
     companion object {
