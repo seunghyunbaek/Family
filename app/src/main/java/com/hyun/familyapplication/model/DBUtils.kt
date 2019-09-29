@@ -18,7 +18,7 @@ class DBUtils {
             val user = dbHelper.getUser()
             val jsonObject = JSONObject(result)
             val email:String = jsonObject.getString("email")
-            val id:Int = jsonObject.getInt("id")
+            val id:Int = jsonObject.getInt("room")
 
 
             if (user?.room == 0) {

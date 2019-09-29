@@ -17,7 +17,7 @@ interface MyHomeCheckContract {
     }
 
     interface onMyHomeCheckListener {
-        fun onSuccess(email:String)
+        fun onSuccess(context: Context, str:String)
         fun onFailure()
         fun onEnd(context:Context, result:String)
     }

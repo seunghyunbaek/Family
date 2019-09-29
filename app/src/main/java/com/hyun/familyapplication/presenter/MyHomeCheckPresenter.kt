@@ -3,6 +3,7 @@ package com.hyun.familyapplication.presenter
 import android.content.Context
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.contract.MyHomeCheckContract
+import com.hyun.familyapplication.model.APIUtils
 import com.hyun.familyapplication.model.DBUtils
 import com.hyun.familyapplication.model.MyHomeCheckModel
 
@@ -36,7 +37,8 @@ class MyHomeCheckPresenter : MyHomeCheckContract.Presenter,MyHomeCheckContract.o
 
     ////////////////////////
 
-    override fun onSuccess(email: String) {
+    override fun onSuccess(context:Context, str: String) {
+        myHomeCheckModel.updateUser(context, str)
     }
 
     override fun onFailure() {

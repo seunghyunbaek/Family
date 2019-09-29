@@ -134,7 +134,7 @@ class APIUtils {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
             if (result != null) {
-                mOnListener.onEnd(context, result)
+                mOnListener.onSuccess(context, result)
                 println("-------------------------------------------------------------------------")
                 println("-----------------       post onPostExecute(성공)      -------------------")
                 println("-------------------------------------------------------------------------")
@@ -248,6 +248,68 @@ class APIUtils {
                 println("-----------------       post onPostExecute(실패)      -------------------")
                 println("-------------------------------------------------------------------------")
                 mOnListener.onFailure()
+            }
+        }
+    }
+
+    // PUT
+    class putRoomAsyncTask(
+        mOnListener: MyHomeCheckContract.onMyHomeCheckListener,
+        context: Context
+    ) : AsyncTask<String, Any, String?>() {
+
+        val mOnListener: MyHomeCheckContract.onMyHomeCheckListener
+        val context: Context
+
+        init {
+            this.mOnListener = mOnListener
+            this.context = context
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "PUT"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+
+
+                println("---------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if(result != null) {
+                mOnListener.onEnd(context, result)
             }
         }
     }

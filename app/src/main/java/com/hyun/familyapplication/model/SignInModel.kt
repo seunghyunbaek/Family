@@ -104,7 +104,7 @@ class SignInModel : Log {
 //        dbHelper.deleteRoom()
 
         val user = User()
-        user.email = email
+        user.email = email.replace(".", "_")
         user.name = name
 
 //        val user2 = dbHelper.getUser()
