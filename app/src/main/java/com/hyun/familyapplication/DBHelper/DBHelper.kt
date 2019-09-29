@@ -6,12 +6,12 @@ import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import android.util.Log
 import com.hyun.familyapplication.model.Record
+import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.model.Todo
 import com.hyun.familyapplication.model.User
 
 class DBHelper(
-    context: Context,
-    tableName: String
+    context: Context
 ) :
     SQLiteOpenHelper(
         context,
@@ -19,65 +19,127 @@ class DBHelper(
         DATABASE_VER
     ) {
 
-    var tableName = tableName
-//    var CREATE_TABLE_QUERY:String? = when(tableName) {
-//        "Record" ->  "Record"
-//        else -> null
-//    }
-
     override fun onCreate(db: SQLiteDatabase?) {
         Log.d("jkljkljkl", "디비 onCreate() 실행")
+        val CREATE_TABLE_ROOM =
+            ("CREATE TABLE $ROOM_TABLE_NAME (" +
+                    "$ROOM_COOL_ID INTEGER PRIMARY KEY, " +
+                    "$ROOM_COOL_EMAIL TEXT" +
+                    ")")
         val CREATE_TABLE_RECORD =
-            ("CREATE TABLE $RECORD_TABLE_NAME ($RECORD_COOL_ID INTEGER PRIMARY KEY, $RECORD_COOL_NAME TEXT, $RECORD_COOL_DATE TEXT, $RECORD_COOL_CONTENT TEXT)")
+            ("CREATE TABLE $RECORD_TABLE_NAME (" +
+                    "$RECORD_COOL_ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                    "$RECORD_COOL_EMAIL TEXT, " +
+                    "$RECORD_COOL_NAME TEXT, " +
+                    "$RECORD_COOL_DATE TEXT, " +
+                    "$RECORD_COOL_CONTENT TEXT, " +
+                    "$RECORD_COOL_ROOMID INTEGER, " +
+                    "FOREIGN KEY($RECORD_COOL_ROOMID) REFERENCES $ROOM_TABLE_NAME($ROOM_COOL_ID) ON DELETE CASCADE ON UPDATE NO ACTION" +
+                    ")")
         val CREATE_TABLE_TODO =
-            ("CREATE TABLE $TODO_TABLE_NAME ($TODO_COOL_ID INTEGER PRIMARY KEY, $TODO_COOL_TITLE TEXT, $TODO_COOL_DATE TEXT)")
+            ("CREATE TABLE $TODO_TABLE_NAME (" +
+                    "$TODO_COOL_ID INTEGER PRIMARY KEY, " +
+                    "$TODO_COOL_TITLE TEXT, " +
+                    "$TODO_COOL_DATE TEXT" +
+                    ")")
         val CREATE_TABLE_USER =
-            ("CREATE TABLE $PROFILE_TABLE_NAME ($PROFILE_COOL_EMAIL TEXT PRIMARY KEY, $PROFILE_COOL_NAME TEXT, $PROFILE_COOL_HOCHING TEXT, $PROFILE_COOL_GENDER TEXT, $PROFILE_COOL_PHONE TEXT, $PROFILE_COOL_ANNIVERSARY TEXT)")
+            ("CREATE TABLE $PROFILE_TABLE_NAME (" +
+                    "$PROFILE_COOL_EMAIL TEXT PRIMARY KEY, " +
+                    "$PROFILE_COOL_NAME TEXT, " +
+                    "$PROFILE_COOL_HOCHING TEXT, " +
+                    "$PROFILE_COOL_GENDER TEXT, " +
+                    "$PROFILE_COOL_PHONE TEXT, " +
+                    "$PROFILE_COOL_ANNIVERSARY TEXT," +
+                    "$PROFILE_COOL_ROOMID INTEGER," +
+                    "FOREIGN KEY($PROFILE_COOL_ROOMID) REFERENCES $ROOM_TABLE_NAME($ROOM_COOL_ID) ON UPDATE NO ACTION" +
+                    ")")
+        val CREATE_TABLE_IMAGETABLE =
+            ("CREATE TABLE $IMAGE_TABLE_NAME (" +
+                    "$IMAGE_COOL_ID INTEGER PRIMARY KEY, " +
+                    "$IMAGE_COOL_RECORDID INTEGER, " +
+                    "$IMAGE_COOL_URL TEXT, " +
+                    "FOREIGN KEY($IMAGE_COOL_RECORDID) REFERENCES $RECORD_TABLE_NAME($RECORD_COOL_ID) ON DELETE CASCADE ON UPDATE NO ACTION" +
+                    ")")
 
-
-
+        db!!.execSQL(CREATE_TABLE_ROOM)
         db!!.execSQL(CREATE_TABLE_RECORD)
         db!!.execSQL(CREATE_TABLE_TODO)
         db!!.execSQL(CREATE_TABLE_USER)
+        db!!.execSQL(CREATE_TABLE_IMAGETABLE)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
-//        if (db != null) {
-
-        Log.d("jkljkljkl", "디비 onUpgrade() 실행")
-
+        db!!.execSQL("DROP TABLE IF EXISTS $ROOM_TABLE_NAME")
         db!!.execSQL("DROP TABLE IF EXISTS $RECORD_TABLE_NAME")
         db!!.execSQL("DROP TABLE IF EXISTS $TODO_TABLE_NAME")
         db!!.execSQL("DROP TABLE IF EXISTS $PROFILE_TABLE_NAME")
+        db!!.execSQL("DROP TABLE IF EXISTS $IMAGE_TABLE_NAME")
         onCreate(db)
-//        }
     }
 
     override fun onDowngrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
 //        super.onDowngrade(db, oldVersion, newVersion)
 
         Log.d("jkljkljkl", "디비 onDowngrade() 실행")
-
+        db!!.execSQL("DROP TABLE IF EXISTS $ROOM_TABLE_NAME")
         db!!.execSQL("DROP TABLE IF EXISTS $RECORD_TABLE_NAME")
         db!!.execSQL("DROP TABLE IF EXISTS $TODO_TABLE_NAME")
         db!!.execSQL("DROP TABLE IF EXISTS $PROFILE_TABLE_NAME")
+        db!!.execSQL("DROP TABLE IF EXISTS $IMAGE_TABLE_NAME")
         onCreate(db)
     }
+
+    // [START Room TABLE]
+    fun addRoom(contentValues: ContentValues) {
+        val values = contentValues
+        val db = this.writableDatabase
+        db.insert(ROOM_TABLE_NAME, null, values)
+        db.close()
+    }
+
+    fun getRoom(email: String): ContentValues? {
+        val db = writableDatabase
+        val selectQueryHandler = "SELECT * FROM $ROOM_TABLE_NAME WHERE email='$email'"
+        val cursor = db.rawQuery(selectQueryHandler, null)
+        val contentValues = ContentValues()
+        if (cursor.moveToFirst()) {
+            do {
+//                contentValues.put("email", cursor.getString(cursor.getColumnIndex(ROOM_COOL_EMAIL)))
+                contentValues.put("room", cursor.getInt(cursor.getColumnIndex(ROOM_COOL_ID)))
+            } while (cursor.moveToNext())
+        } else {
+            return null
+        }
+
+        return contentValues
+    }
+
+    fun deleteRoom() {
+        val db = this.writableDatabase
+        db.delete(ROOM_TABLE_NAME, null, null)
+        db.delete(PROFILE_TABLE_NAME, null, null)
+        db.delete(RECORD_TABLE_NAME, null, null)
+    }
+
+    // [END Room TABLE]
 
     // [START Record TABLE]
     val allRecord: List<Record>
         get() {
             val lstRecord = ArrayList<Record>()
             val selectQueryHandler = "SELECT * FROM $RECORD_TABLE_NAME"
+//            val selectQueryHandler = "SELECT * FROM $PROFILE_TABLE_NAME"
             val db = this.writableDatabase
             val cursor = db.rawQuery(selectQueryHandler, null)
             if (cursor.moveToFirst()) {
                 do {
                     val record = Record()
                     record.id = cursor.getInt(cursor.getColumnIndex(RECORD_COOL_ID))
+                    record.email = cursor.getString(cursor.getColumnIndex(RECORD_COOL_EMAIL))
                     record.name = cursor.getString(cursor.getColumnIndex(RECORD_COOL_NAME))
                     record.date = cursor.getString(cursor.getColumnIndex(RECORD_COOL_DATE))
                     record.content = cursor.getString(cursor.getColumnIndex(RECORD_COOL_CONTENT))
+                    record.room = cursor.getInt(cursor.getColumnIndex(RECORD_COOL_ROOMID))
 
                     lstRecord.add(record)
                 } while (cursor.moveToNext())
@@ -86,38 +148,50 @@ class DBHelper(
             return lstRecord
         }
 
-    fun addRecord(record: Record) {
-        val db = this.writableDatabase
-        val values = ContentValues()
-        values.put(RECORD_COOL_ID, record.id)
-        values.put(RECORD_COOL_NAME, record.name)
-        values.put(RECORD_COOL_DATE, record.date)
-        values.put(RECORD_COOL_CONTENT, record.content)
+//    fun addRecord(record: Record) {
+//        val db = this.writableDatabase
+//        val values = ContentValues()
+//        values.put(RECORD_COOL_ID, record.id)
+//        values.put(RECORD_COOL_NAME, record.name)
+//        values.put(RECORD_COOL_DATE, record.date)
+//        values.put(RECORD_COOL_CONTENT, record.content)
 
-        db.insert(RECORD_TABLE_NAME, null, values)
+    //        db.insert(RECORD_TABLE_NAME, null, values)
+//        db.close()
+//    }
+    fun addRecord(contentValues: ContentValues):Long {
+        val db = this.writableDatabase
+        val values = contentValues
+        val result = db.insert(RECORD_TABLE_NAME, null, values)
+        println("----------------기록 저장하기 결과------------------------")
+        println(result)
+        println("---------------------------------------------------------")
+
         db.close()
+        return result
     }
 
     fun updateRecord(record: Record): Int {
         val db = this.writableDatabase
         val values = ContentValues()
-        values.put(RECORD_COOL_ID, record.id)
+//        values.put(RECORD_COOL_ID, record.id)
         values.put(RECORD_COOL_NAME, record.name)
         values.put(RECORD_COOL_DATE, record.date)
         values.put(RECORD_COOL_CONTENT, record.content)
 
-        return db.update(
-            RECORD_TABLE_NAME,
-            values,
-            "$RECORD_COOL_ID=?",
-            arrayOf(record.id.toString())
-        )
+//        return db.update(
+//            RECORD_TABLE_NAME,
+//            values,
+//            "$RECORD_COOL_ID=?",
+//            arrayOf(record.id.toString())
+//        )
+        return -1
     }
 
     fun deleteRecord(record: Record) {
         val db = this.writableDatabase
 
-        db.delete(RECORD_TABLE_NAME, "$RECORD_COOL_ID=?", arrayOf(record.id.toString()))
+//        db.delete(RECORD_TABLE_NAME, "$RECORD_COOL_ID=?", arrayOf(record.id.toString()))
         db.close()
     }
     // [END Record TABLE]
@@ -174,13 +248,12 @@ class DBHelper(
     // [END Todo TABLE]
 
     // [START User TABLE]
-
-    fun getUser(email: String): User? {
+    fun getUser(): User? {
         val selectQueryHandler =
-            "SELECT * FROM $PROFILE_TABLE_NAME WHERE $PROFILE_COOL_EMAIL='$email'"
+            "SELECT * FROM $PROFILE_TABLE_NAME"
         val db = this.writableDatabase
         val cursor = db.rawQuery(selectQueryHandler, null)
-        val user = User();
+        val user: User = User();
 
         if (cursor.moveToFirst()) {
             do {
@@ -190,13 +263,12 @@ class DBHelper(
                 user.gender = cursor.getString(cursor.getColumnIndex(PROFILE_COOL_GENDER))
                 user.phone = cursor.getString(cursor.getColumnIndex(PROFILE_COOL_PHONE))
                 user.anniversary = cursor.getString(cursor.getColumnIndex(PROFILE_COOL_ANNIVERSARY))
+                user.room = cursor.getInt(cursor.getColumnIndex(PROFILE_COOL_ROOMID))
             } while (cursor.moveToNext())
-        }
-        db.close()
-
-        if (user.email.equals("")) {
+        } else {
             return null
         }
+        db.close()
 
         return user
     }
@@ -211,49 +283,93 @@ class DBHelper(
         values.put(PROFILE_COOL_GENDER, user.gender)
         values.put(PROFILE_COOL_PHONE, user.phone)
         values.put(PROFILE_COOL_ANNIVERSARY, user.anniversary)
+        values.put(PROFILE_COOL_ROOMID, user.room)
         db.insert(PROFILE_TABLE_NAME, null, values)
-//        val newUser: User? = user.email?.let { getUser(it) }
-
-//        if (newUser != null) {
-//            if (newUser.email == "") return
-//
-//            val values = ContentValues()
-//            values.put(PROFILE_COOL_EMAIL, newUser.email)
-//            values.put(PROFILE_COOL_NAME, newUser.name)
-//            values.put(PROFILE_COOL_HOCHING, newUser.hoching)
-//            values.put(PROFILE_COOL_GENDER, newUser.gender)
-//            values.put(PROFILE_COOL_PHONE, newUser.phone)
-//            values.put(PROFILE_COOL_ANNIVERSARY, newUser.anniversary)
-//            db.insert(PROFILE_TABLE_NAME, null, values)
-//        }
         db.close()
     }
 
+    fun updateUserRoom(contentValue: ContentValues): Int {
+        val db = this.writableDatabase
+        val values = contentValue
+        val email = values.getAsString(PROFILE_COOL_EMAIL)
+        val result = db.update(PROFILE_TABLE_NAME, values, "$PROFILE_COOL_EMAIL=?", arrayOf(email))
+        return result
+    }
 
+    fun deleteUser() {
+        val db = this.writableDatabase
+        db.delete(PROFILE_TABLE_NAME, null, null)
+    }
     // [END User TABLE]
+
+    // [Start RecordImage TABLE]
+    val allImages: List<RecordImage>
+        get() {
+            val lstImages = ArrayList<RecordImage>()
+            val selectQueryHandler = "SELECT * FROM $IMAGE_TABLE_NAME"
+            val db = this.writableDatabase
+            val cursor = db.rawQuery(selectQueryHandler, null)
+            if (cursor.moveToFirst()) {
+                do {
+                    val recordImage = RecordImage()
+                    recordImage.id = cursor.getInt(cursor.getColumnIndex(IMAGE_COOL_ID))
+                    recordImage.record = cursor.getInt(cursor.getColumnIndex(IMAGE_COOL_RECORDID))
+                    recordImage.uri = cursor.getString(cursor.getColumnIndex(IMAGE_COOL_URL))
+
+                    lstImages.add(recordImage)
+                } while (cursor.moveToNext())
+            }
+
+            db.close()
+            return lstImages
+        }
+
+    fun addRecordImage(contentValues: ContentValues) {
+        val db = this.writableDatabase
+        val values = contentValues
+        val result = db.insert(IMAGE_TABLE_NAME, null, values)
+        println("--------------------------------------------------")
+        println(result)
+        println("--------------------------------------------------")
+        db.close()
+    }
+    // [END RecordImage TABLE]
+
 
     companion object {
         private val DATABASE_NAME = "KFAMILY.db"
-        private val DATABASE_VER = 1
+        private val DATABASE_VER = 3
 
         private val RECORD_TABLE_NAME = "Record"
-        private val RECORD_COOL_ID = "Id"
-        private val RECORD_COOL_NAME = "Name"
-        private val RECORD_COOL_DATE = "Date"
-        private val RECORD_COOL_CONTENT = "Content"
+        private val RECORD_COOL_ID = "id"
+        private val RECORD_COOL_EMAIL = "email"
+        private val RECORD_COOL_NAME = "name"
+        private val RECORD_COOL_DATE = "date"
+        private val RECORD_COOL_CONTENT = "content"
+        private val RECORD_COOL_ROOMID = "room"
 
         private val TODO_TABLE_NAME = "Todo"
-        private val TODO_COOL_ID = "Id"
-        private val TODO_COOL_TITLE = "Title"
-        private val TODO_COOL_DATE = "Date"
+        private val TODO_COOL_ID = "id"
+        private val TODO_COOL_TITLE = "title"
+        private val TODO_COOL_DATE = "date"
 
         private val PROFILE_TABLE_NAME = "User"
-        private val PROFILE_COOL_EMAIL = "Email"
-        private val PROFILE_COOL_NAME = "Id"
-        private val PROFILE_COOL_HOCHING = "Hoching"
-        private val PROFILE_COOL_GENDER = "Gender"
-        private val PROFILE_COOL_PHONE = "Phone"
-        private val PROFILE_COOL_ANNIVERSARY = "Anniversary"
+        private val PROFILE_COOL_EMAIL = "email"
+        private val PROFILE_COOL_NAME = "name"
+        private val PROFILE_COOL_HOCHING = "hoching"
+        private val PROFILE_COOL_GENDER = "gender"
+        private val PROFILE_COOL_PHONE = "phone"
+        private val PROFILE_COOL_ANNIVERSARY = "anniversary"
+        private val PROFILE_COOL_ROOMID = "room"
+
+        private val ROOM_TABLE_NAME = "Room"
+        private val ROOM_COOL_ID = "id"
+        private val ROOM_COOL_EMAIL = "email"
+
+        private val IMAGE_TABLE_NAME = "RecordImage"
+        private val IMAGE_COOL_ID = "id"
+        private val IMAGE_COOL_RECORDID = "record"
+        private val IMAGE_COOL_URL = "uri"
     }
 
 }

@@ -1,26 +1,48 @@
 package com.hyun.familyapplication.view.Activity
 
+import android.Manifest
+import android.app.Activity
 import android.content.ContentValues
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.hyun.familyapplication.R
+import cz.msebera.android.httpclient.HttpResponse
+import cz.msebera.android.httpclient.client.HttpClient
+import cz.msebera.android.httpclient.client.methods.HttpPost
+import cz.msebera.android.httpclient.entity.ContentType
+import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode
+import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder
+import cz.msebera.android.httpclient.entity.mime.content.ByteArrayBody
+import cz.msebera.android.httpclient.entity.mime.content.FileBody
+import cz.msebera.android.httpclient.entity.mime.content.StringBody
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient
 import kotlinx.android.synthetic.main.activity_client.*
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
+import org.json.JSONObject
+import java.io.*
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 
-
 class ClientActivity : AppCompatActivity() {
 
     private lateinit var activityReference: WeakReference<ClientActivity>
     private lateinit var url: String
+    private lateinit var uristring: Uri
+    private lateinit var tempFile: File
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +60,8 @@ class ClientActivity : AppCompatActivity() {
             edit_client_id.setText(email)
             edit_client_pw.setText(name)
         }
+
+        tedPermission();
 
         btn_client_get.setOnClickListener {
             //            var json: JSONObject = JSONObject()
@@ -166,6 +190,95 @@ class ClientActivity : AppCompatActivity() {
                 edit_client_pw.setText(name)
             }
         }
+
+        btn_client_gallery.setOnClickListener {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                    PackageManager.PERMISSION_DENIED
+                ) {
+                    // permission denied
+                    val permissions = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    // show popup to request runtime permission
+                    requestPermissions(permissions, PERMISSION_CODE)
+                } else {
+                    // permission already granted
+                    pickImageFromGallery()
+                }
+            } else {
+                // System OS is < Marshmallow
+                pickImageFromGallery()
+            }
+        }
+
+        btn_client_getimage.setOnClickListener {
+            var getUrl = "http://172.30.1.13:8000/post/5/" // 유저 데이터 조회 url
+
+            getImageAsyncTask(this@ClientActivity).execute(getUrl)
+        }
+
+        btn_client_setimage.setOnClickListener {
+            var getUrl = "http://172.30.1.13:8000/post/" // 유저 데이터 조회 url
+
+            setImageAsyncTask().execute(getUrl, tempFile.path)
+        }
+    }
+
+    private fun tedPermission() {
+
+    }
+
+    private fun pickImageFromGallery() {
+        // intent to pick image
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.type = "image/*"
+        startActivityForResult(intent, IMAGE_PICK_CODE)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK && requestCode == IMAGE_PICK_CODE) {
+
+            //Add Imageview
+            val imageView = image_client
+            uristring = data!!.data
+            var photoUri = data.data
+            var cursor: Cursor? = null
+
+            try {
+                /*
+                 *  Uri 스키마를
+                 *  content:/// 에서 file:/// 로  변경한다.
+                 */
+
+                val proj: Array<String> = arrayOf(MediaStore.Images.Media.DATA)
+
+
+                if (photoUri != null) {
+                    cursor = getContentResolver().query(photoUri, proj, null, null, null);
+                }
+                if (cursor != null) {
+                    val column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+
+                    cursor.moveToFirst();
+
+                    tempFile = File(cursor.getString(column_index));
+                    val f:File = File(tempFile.path)
+
+                    val options: BitmapFactory.Options = BitmapFactory.Options();
+                    val originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
+                }
+
+            } finally {
+                if (cursor != null) {
+                    cursor.close();
+                }
+            }
+
+
+//            bm = BitmapFactory.decodeFile(data?.data.toString())
+            imageView.setImageURI(data?.data)
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER)
+        }
     }
 
     private fun makeJson(contentValues: ContentValues): String {
@@ -194,6 +307,156 @@ class ClientActivity : AppCompatActivity() {
     }
 
     companion object {
+        // image pick code
+        private val IMAGE_PICK_CODE = 1000
+        // Permission code
+        private val PERMISSION_CODE = 1001
+
+        // 이미지 테스트하기
+        class getImageAsyncTask internal constructor(context: ClientActivity) :
+            AsyncTask<String, Any, String?>() {
+
+            private val activityReference: WeakReference<ClientActivity> = WeakReference(context)
+
+            override fun doInBackground(vararg params: String?): String? {
+                val url = params[0]
+                println("--------------------------------------------------")
+                println("$url")
+                println("--------------------------------------------------")
+                val obj = URL(url)
+                with(obj.openConnection() as HttpURLConnection) {
+                    // optional dfault is GET
+                    requestMethod = "GET"
+                    println("\nSending 'GET' request to URL : $url")
+                    println("Response Code : $responseCode")
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            var response = it.readText()
+//                        Log.d("HttpClientActivity", response)
+                            println(response)
+                            return response
+                        }
+                    }
+                }
+                return null
+            }
+
+            override fun onPostExecute(result: String?) {
+                super.onPostExecute(result)
+                val json = result
+                val obj = JSONObject(result)
+                println("---------------------------------------------")
+                println(obj.get("cover"))
+                println("---------------------------------------------")
+
+
+                val activity = activityReference.get()
+                Glide.with(activity!!).load(obj.get("cover"))
+                    .into(activity.findViewById(R.id.image_client))
+                Toast.makeText(activity, result, Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        class setImageAsyncTask : AsyncTask<String, Any, String?>() {
+            override fun doInBackground(vararg params: String?): String? {
+
+//                val url = params[0]
+//                val url = "http://172.30.1.13:8000/users/"
+                val url = "http://172.30.1.13:8000/post/"
+                val jsonString = params[1]
+                val uri = Uri.parse(jsonString)
+
+                ////////////////////////////////////////////////////////
+
+                val bitmap = BitmapFactory.decodeFile(uri.path)
+
+                val bos: ByteArrayOutputStream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, bos)
+                val data: ByteArray = bos.toByteArray()
+
+                val httpClient = DefaultHttpClient()
+                val postRequest = HttpPost(url)
+
+                val f:File = File(jsonString)
+
+                val bab: ByteArrayBody = ByteArrayBody(data, jsonString)
+                val fileBody:FileBody = FileBody(f, ContentType.DEFAULT_BINARY)
+                val stringbody1: StringBody =
+                    StringBody("strbody@gmail_com", ContentType.MULTIPART_FORM_DATA)
+                val stringbody2: StringBody = StringBody("strbody", ContentType.MULTIPART_FORM_DATA)
+
+
+                val builder:MultipartEntityBuilder = MultipartEntityBuilder.create()
+                builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
+//                builder.addPart("cover", bab)
+//                builder.addPart("title", StringBody("title_6", ContentType.MULTIPART_FORM_DATA))
+//                builder.addPart("email", stringbody1)
+//                builder.addPart("name", stringbody1)
+                builder.addPart("title", stringbody1)
+                builder.addPart("cover", fileBody)
+
+//                val reqEntity: MultipartEntity =
+//                    MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
+//                reqEntity.addPart("cover", bab)
+//                reqEntity.addPart("title", StringBody("title_5"))
+
+                var entity = builder.build()
+                postRequest.setEntity(entity)
+                val response: HttpResponse = httpClient.execute(postRequest)
+//                postRequest.setEntity(entity)
+//                httpClient.execute(postRequest)
+
+                val reader: BufferedReader = BufferedReader(
+                    InputStreamReader(
+                        response.entity.content, "UTF-8"
+                    )
+                )
+
+                var sResponse: String?
+                var s: StringBuilder = StringBuilder()
+
+                sResponse = reader.readLine()
+                while (sResponse != null) {
+                    s = s.append(sResponse)
+                    sResponse = reader.readLine()
+                }
+
+                println("------------------------------------------")
+                println("Response:  " + s)
+                println("------------------------------------------")
+
+                ////////////////////////////////////////////////////////
+
+                /*
+                val mURL = URL(url)
+
+                with(mURL.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
+                    setRequestProperty("Accept-Charset", "UTF-8")
+                    setRequestProperty("Context_Type", "application/json")
+
+                    val wr = OutputStreamWriter(outputStream)
+//                    wr.write(reqParam)
+//                    wr.write(jsonString)
+                    wr.flush()
+
+
+                    println("URL : $url")
+                    println("Response Code : $responseCode")
+                    println("d $responseMessage")
+
+                }
+                */
+                return null
+            }
+
+            override fun onPostExecute(result: String?) {
+                super.onPostExecute(result)
+                println(result)
+            }
+        }
+
         class getAsyncTask internal constructor(context: ClientActivity) :
             AsyncTask<String, String, String?>() {
 

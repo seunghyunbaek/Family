@@ -21,7 +21,8 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
         setContentView(R.layout.activity_write_todo)
 
         mPresenter.takeView(this)
-        db = DBHelper(this, TABLE_NAME)
+//        db = DBHelper(this, TABLE_NAME)
+        db = DBHelper(this)
 
         val intent: Intent = intent
         if (intent.extras != null) {

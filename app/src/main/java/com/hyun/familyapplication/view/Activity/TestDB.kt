@@ -17,9 +17,9 @@ class TestDB : AppCompatActivity() {
         btnAddToDb.setOnClickListener {
             val dbHandler = MindOrksDBOpenHelper(this, null)
 //            val user = Name(etName.text.toString())
-            val record = Record(etName.text.toString(), "today", "content")
+//            val record = Record(etName.text.toString(), "today", "content")
 //            dbHandler.addName(name)
-            dbHandler.addRecord(record)
+//            dbHandler.addRecord(record)
             Toast.makeText(this, etName.text.toString() + "Added to database", Toast.LENGTH_LONG)
                 .show()
         }

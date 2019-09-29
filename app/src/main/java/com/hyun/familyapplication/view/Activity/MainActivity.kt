@@ -33,7 +33,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnMyHome.setOnClickListener(View.OnClickListener {
-            Intent(this, MyHomeActivity::class.java).let {
+            Intent(this, MyHomeCheckActivity::class.java).let {
                 startActivity(it)
             }
         })
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-//        super.onBackPressed()
-        finishAffinity()
+        super.onBackPressed()
+//        finishAffinity()
     }
 }

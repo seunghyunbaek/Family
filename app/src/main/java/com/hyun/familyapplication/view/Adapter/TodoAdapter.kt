@@ -54,8 +54,8 @@ class TodoAdapter(
                     R.id.delete_menu -> {
                         val todo = lstTodo[adapterPosition]
 
-                        val db = DBHelper(context!!, "Todo")
-//                        val db = TodoDBHelper(context)
+//                        val db = DBHelper(context!!, "Todo")
+                        val db = DBHelper(context!!)
                         db.deleteTodo(todo)
 
                         lstTodo = db.allTodo

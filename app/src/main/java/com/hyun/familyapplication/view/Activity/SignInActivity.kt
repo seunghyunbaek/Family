@@ -36,6 +36,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         super.onStart()
         if (mPresenter == null)
             initPresenter()
+        mPresenter.checkUser(this)
     }
 
     override fun onDestroy() {
@@ -59,7 +60,12 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         progress_signin.visibility = View.GONE
     }
 
-    override fun successSignIn() {
+
+    override fun successSignIn(email: String, name: String) {
+        mPresenter.saveUser(this, email, name)
+    }
+
+    override fun moveMainActivity() {
         Intent(this, MainActivity::class.java).let {
             startActivity(it)
         }
@@ -88,7 +94,6 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
 
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         mPresenter.result(requestCode, resultCode, data)
     }
 
@@ -96,62 +101,5 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         private const val TAG = "SignInActiity"
         private const val RC_SIGN_IN = 9001
         private const val TABLE_NAME = "User"
-
-        class sendAsyncTask : AsyncTask<String, Any, String?>() {
-            override fun doInBackground(vararg params: String?): String? {
-
-                val url = params[0]
-                val email = params[1]
-                val name = params[2]
-                val hoching = params[3]
-                val gender = params[4]
-                val phone = params[5]
-                val anniversary = params[6]
-
-                var reqParam =
-                    URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8")
-                reqParam += "&" + URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(
-                    name,
-                    "UTF-8"
-                )
-                reqParam += "&" + URLEncoder.encode("hoching", "UTF-8") + "=" + URLEncoder.encode(
-                    hoching,
-                    "UTF-8"
-                )
-                reqParam += "&" + URLEncoder.encode("gender", "UTF-8") + "=" + URLEncoder.encode(
-                    gender,
-                    "UTF-8"
-                )
-                reqParam += "&" + URLEncoder.encode("phone", "UTF-8") + "=" + URLEncoder.encode(
-                    phone,
-                    "UTF-8"
-                )
-                reqParam += "&" + URLEncoder.encode(
-                    "anniversary",
-                    "UTF-8"
-                ) + "=" + URLEncoder.encode(anniversary, "UTF-8")
-
-                val mURL = URL(url)
-
-                with(mURL.openConnection() as HttpURLConnection) {
-                    requestMethod = "POST"
-
-                    val wr = OutputStreamWriter(outputStream)
-                    wr.write(reqParam)
-                    wr.flush()
-
-                    println("URL : $url")
-                    println("Response Code : $responseCode")
-                    println("d $responseMessage")
-
-                }
-                return null
-            }
-
-            override fun onPostExecute(result: String?) {
-                super.onPostExecute(result)
-                println(result)
-            }
-        }
     }
 }

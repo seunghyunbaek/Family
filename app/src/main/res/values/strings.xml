@@ -21,6 +21,8 @@
     <!-- write record activity -->
     <string name="writerecord_write">공유할 내용을 입력하세요</string>
 
+    <!-- 나의홈 -->
+    <string name="title_myhome">나의 홈</string>
 
     <!-- calendar -->
     <!--<string name="example_3_dialog_delete_confirmation">Delete this event?</string>-->

@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.Record
+import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import com.hyun.familyapplication.view.Adapter.RecordAdapter
 import java.io.BufferedReader
@@ -36,6 +37,7 @@ class RecordFragment : BaseFragment() {
 
     lateinit var db: DBHelper
     var lstRecrods: List<Record> = ArrayList<Record>()
+    var lstImages: List<RecordImage> = ArrayList<RecordImage>()
 
     lateinit var mRecyclerView: RecyclerView
 
@@ -47,9 +49,8 @@ class RecordFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_record, container, false)
 
-//        db = DBHelper(view.context, TABLE_NAME)
-        db = DBHelper(context!!, TABLE_NAME)
-
+        db = DBHelper(context!!)
+//        db = DBHelper()
 
         val fab: View = view.findViewById(R.id.fab_record)
         fab.setOnClickListener {
@@ -63,17 +64,13 @@ class RecordFragment : BaseFragment() {
         refreshData()
 
 //        getRecordsAsyncTask(view.context).execute("http://172.30.1.4:10381/elections/getrecords")
-
         return view
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
     }
 
     fun refreshData() {
         lstRecrods = db.allRecord
-        val adapter = RecordAdapter(context, lstRecrods)
+        lstImages = db.allImages
+        val adapter = RecordAdapter(context, lstRecrods, lstImages)
         mRecyclerView.adapter = adapter
     }
 

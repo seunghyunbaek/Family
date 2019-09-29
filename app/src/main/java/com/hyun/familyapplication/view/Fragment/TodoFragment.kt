@@ -43,7 +43,8 @@ class TodoFragment : BaseFragment() {
         // Inflate the layout for this fragment
         val view: View = inflater.inflate(R.layout.fragment_todo, container, false)
 
-        db = DBHelper(view.context, TABLE_NAME)
+//        db = DBHelper(view.context, TABLE_NAME)
+        db = DBHelper(view.context)
 //        db = TodoDBHelper(context!!)
 
         val fab = view.findViewById<View>(R.id.fab_todo)
