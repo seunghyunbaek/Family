@@ -17,4 +17,10 @@ interface WriteRecordContract {
         fun updateRecord(context: Context, dbHelper: DBHelper, record: Record)
         fun getPermission(context: Context)
     }
+
+    interface onRecordListener {
+        fun onSuccess(context: Context, str:String, uriList: MutableList<String>?)
+        fun onFailure()
+        fun onEnd(context:Context, result:String?)
+    }
 }

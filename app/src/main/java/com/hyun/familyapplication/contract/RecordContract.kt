@@ -17,6 +17,11 @@ interface RecordContract {
         fun getRecord()
         // 새로운 Record 추가
         fun updateRecord()
+    }
 
+    interface onRecordListener {
+        fun onSuccess(result:String)
+        fun onFailed()
+        fun onEnd(result:String)
     }
 }

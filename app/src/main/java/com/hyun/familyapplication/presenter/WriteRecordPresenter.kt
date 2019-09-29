@@ -4,13 +4,17 @@ import android.content.ContentValues
 import android.content.Context
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.contract.WriteRecordContract
-import com.hyun.familyapplication.model.DBUtils
-import com.hyun.familyapplication.model.PermissionUtils
 import com.hyun.familyapplication.model.Record
+import com.hyun.familyapplication.model.WriteRecordModel
 
-class WriteRecordPresenter : WriteRecordContract.Presenter {
+class WriteRecordPresenter : WriteRecordContract.Presenter, WriteRecordContract.onRecordListener {
 
     private var wrView: WriteRecordContract.View? = null
+    private var writeRecordModel: WriteRecordModel
+
+    constructor() {
+        writeRecordModel = WriteRecordModel(this)
+    }
 
     //  View와 Presenter를 연결
     override fun takeView(view: WriteRecordContract.View) {
@@ -31,7 +35,11 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 //        wrView?.successRecord()
 //    }
 
-    override fun saveRecordInServer(context: Context, contentValues: ContentValues, uriList: MutableList<String>?) {
+    override fun saveRecordInServer(
+        context: Context,
+        contentValues: ContentValues,
+        uriList: MutableList<String>?
+    ) {
         // SQLite에 저장하기
 //        val dbHandler = FamilyDBOpenHelper(context, null)
 //        val record = Record(name, date, content)
@@ -39,13 +47,12 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
 //        wrView?.successRecord()
 //        dbHelper.addRecord(record)
 
+        writeRecordModel.saveRecordInServer(context, contentValues, uriList)
 
-
-
-        ////////////////////////////////////////////
-        val result = DBUtils.saveRecord(context, contentValues)
-        DBUtils.saveRecordImages(context, result, uriList)
-        wrView?.successRecord()
+        /////////////////////////SQLite///////////////////
+//        val result = DBUtils.saveRecord(context, contentValues)
+//        DBUtils.saveRecordImages(context, result, uriList)
+//        wrView?.successRecord()
     }
 
     override fun updateRecord(context: Context, dbHelper: DBHelper, record: Record) {
@@ -53,5 +60,20 @@ class WriteRecordPresenter : WriteRecordContract.Presenter {
     }
 
     override fun getPermission(context: Context) {
+    }
+
+
+    override fun onSuccess(context: Context, str: String, uriList: MutableList<String>?) {
+        if (uriList?.size == 0) wrView?.successRecord()
+        else {
+            writeRecordModel.saveImageInServer(context, str, uriList)
+        }
+    }
+
+    override fun onFailure() {
+    }
+
+    override fun onEnd(context: Context, result: String?) {
+        wrView?.successRecord()
     }
 }

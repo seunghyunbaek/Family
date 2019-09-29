@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/margin_10dp_20dp"
     android:layout_width="match_parent"
@@ -26,12 +27,21 @@
             android:autoLink="web"
             tools:text="Content" />
 
-        <androidx.viewpager.widget.ViewPager
+        <ImageView
             android:id="@+id/viewpager_item_record"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@id/tv_main_content"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:visibility="gone"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <!--<androidx.viewpager.widget.ViewPager-->
+            <!--android:id="@+id/viewpager_item_record"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_below="@id/tv_main_content"-->
+            <!--android:layout_marginTop="10dp" />-->
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

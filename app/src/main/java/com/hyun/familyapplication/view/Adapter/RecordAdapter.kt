@@ -5,9 +5,9 @@ import android.content.Intent
 import android.view.*
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
-import com.hyun.familyapplication.model.DBUtils
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
@@ -29,9 +29,20 @@ class RecordAdapter(
             with(holder) {
                 tvTitle.text = item.name
                 tvContent.text = item.content
-                val rslt = DBUtils.getImageList(item.id, lstImages)
-                val adapter = SliderAdapter(context!!, rslt)
-                viewPager.adapter = adapter
+//                val rslt = DBUtils.getImageList(item.id, lstImages)
+//                val adapter = SliderAdapter(context!!, rslt)
+//                viewPager.adapter = adapter
+                for (ri in lstImages) {
+                    if (ri.record == item.id) {
+                        viewPager.visibility = View.VISIBLE
+                        Glide.with(context!!).load(ri.uri)
+                            .into(viewPager)
+//                        notifyDataSetChanged()
+                        break
+                    } else {
+                        viewPager.visibility = View.GONE
+                    }
+                }
             }
 
 
@@ -55,6 +66,7 @@ class RecordAdapter(
 
         }
     }
+
 
     inner class RecordViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
         LayoutInflater.from(parent.context).inflate(R.layout.item_record, parent, false)
