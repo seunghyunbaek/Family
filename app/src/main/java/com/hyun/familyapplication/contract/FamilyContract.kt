@@ -1,6 +1,8 @@
 package com.hyun.familyapplication.contract
 
+import android.content.Context
 import com.hyun.familyapplication.presenter.BasePresenter
+import com.hyun.familyapplication.view.Adapter.FamilyAdapter
 import com.hyun.familyapplication.view.BaseView
 
 interface FamilyContract {
@@ -13,14 +15,12 @@ interface FamilyContract {
 
     // Family Presenter가 구현해야할 인터페이스
     interface Presenter: BasePresenter<View> {
-        fun getFamily()
+        fun getFamily(context: Context)
         fun findFamily()
-
+        fun takeAdapter(adapter:FamilyAdapter)
     }
 
-    interface FamilyListener {
-        fun onSuccess()
-        fun onEnd()
-        fun onFailure()
+    interface Listener {
+        fun onSuccess(result:String)
     }
 }

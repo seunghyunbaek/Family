@@ -89,6 +89,52 @@ class APIUtils {
         }
     }
 
+    // GET
+    class getFamilyUserAsyncTask(listener: FamilyContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private val listener : FamilyContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result)
+            } else {
+                println("--------------------------------------------")
+                println("룸 유저 : 통신 실패")
+                println("--------------------------------------------")
+            }
+        }
+    }
+
     // GET Image
     class getPictureAsyncTask(mListener: PictureContract.Listener) :
         AsyncTask<String, Any, String?>() {

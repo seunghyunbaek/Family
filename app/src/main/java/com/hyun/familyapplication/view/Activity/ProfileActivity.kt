@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -27,7 +28,10 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         stringUrl = getString(R.string.url)
 
-        getAsyncTask(this@ProfileActivity).execute(stringUrl + "family/signin/", null, null)
+        val dbHelper = DBHelper(this)
+        val user = dbHelper.getUser()
+
+        getAsyncTask(this@ProfileActivity).execute(stringUrl + "user/" + user?.email, null, null)
 
         image_profile_back.setOnClickListener {
             // 뒤로가기

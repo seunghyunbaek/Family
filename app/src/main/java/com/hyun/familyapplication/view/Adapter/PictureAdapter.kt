@@ -1,6 +1,7 @@
 package com.hyun.familyapplication.view.Adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.RecordImage
+import com.hyun.familyapplication.view.Activity.ImageActivity
 import kotlinx.android.synthetic.main.item_picture.view.*
 
 class PictureAdapter(internal val context: Context) :
@@ -25,6 +27,9 @@ class PictureAdapter(internal val context: Context) :
 
             this.itemView.setOnClickListener {
                 Toast.makeText(context, lstImages?.get(position)?.uri, Toast.LENGTH_SHORT).show()
+                val intent = Intent(context, ImageActivity::class.java)
+                intent.putExtra("uri", lstImages?.get(position)?.uri)
+                context.startActivity(intent)
             }
         }
     }
