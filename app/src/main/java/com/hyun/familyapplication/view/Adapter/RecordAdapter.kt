@@ -37,32 +37,12 @@ class RecordAdapter(
                         viewPager.visibility = View.VISIBLE
                         Glide.with(context!!).load(ri.uri)
                             .into(viewPager)
-//                        notifyDataSetChanged()
                         break
                     } else {
                         viewPager.visibility = View.GONE
                     }
                 }
             }
-
-
-//            holder.itemView.setOnClickListener {
-//                //                    tvTitle.text = "hi"
-//
-//                val record = Record()
-//                record.id = lstRecord[position].id
-//                record.name = lstRecord[position].name
-//                record.date = lstRecord[position].date
-//                record.content = lstRecord[position].content
-//
-//                val db = RecordDBHelper(context)
-//                db.deleteRecord(record)
-//
-//                lstRecord = db.allRecord
-//
-//                this.notifyDataSetChanged()
-//            }
-
 
         }
     }

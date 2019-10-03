@@ -3,10 +3,7 @@ package com.hyun.familyapplication.model
 import android.content.ContentValues
 import android.content.Context
 import android.os.AsyncTask
-import com.hyun.familyapplication.contract.MyHomeCheckContract
-import com.hyun.familyapplication.contract.RecordContract
-import com.hyun.familyapplication.contract.SignInContract
-import com.hyun.familyapplication.contract.WriteRecordContract
+import com.hyun.familyapplication.contract.*
 import cz.msebera.android.httpclient.client.methods.HttpPost
 import cz.msebera.android.httpclient.entity.ContentType
 import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode
@@ -86,19 +83,68 @@ class APIUtils {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            if(result != null) {
+            if (result != null) {
                 println("$result")
             }
         }
     }
 
     // GET Image
-    class getImageAsyncTask(mOnListener:RecordContract.onRecordListener) :
+    class getPictureAsyncTask(mListener: PictureContract.Listener) :
         AsyncTask<String, Any, String?>() {
 
-        val mOnListener:RecordContract.onRecordListener
+        private val mListener: PictureContract.Listener
 
-        init{
+        init {
+            this.mListener = mListener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                } else {
+                    println("--------------------------------------------------------------")
+                    println("실패 코드 : $responseCode")
+                    println("실패 메세지 : $responseMessage")
+                    println("--------------------------------------------------------------")
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                mListener.onSeccess(result)
+            } else {
+                println("Picture 통신 실패")
+            }
+        }
+    }
+
+    // GET Image
+    class getImageAsyncTask(mOnListener: RecordContract.onRecordListener) :
+        AsyncTask<String, Any, String?>() {
+
+        val mOnListener: RecordContract.onRecordListener
+
+        init {
             this.mOnListener = mOnListener
         }
 
@@ -127,7 +173,7 @@ class APIUtils {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            if(result != null) {
+            if (result != null) {
                 println("$result")
                 mOnListener.onEnd(result)
             }
@@ -135,12 +181,12 @@ class APIUtils {
     }
 
     // GET Record
-    class getRecordAsyncTask(mOnListener:RecordContract.onRecordListener) :
+    class getRecordAsyncTask(mOnListener: RecordContract.onRecordListener) :
         AsyncTask<String, Any, String?>() {
 
-        val mOnListener:RecordContract.onRecordListener
+        val mOnListener: RecordContract.onRecordListener
 
-        init{
+        init {
             this.mOnListener = mOnListener
         }
 
@@ -169,7 +215,7 @@ class APIUtils {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            if(result != null) {
+            if (result != null) {
                 println("$result")
                 mOnListener.onSuccess(result)
             }

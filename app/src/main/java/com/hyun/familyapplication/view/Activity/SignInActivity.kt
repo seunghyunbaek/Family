@@ -40,8 +40,8 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
     }
 
     override fun onDestroy() {
-        super.onDestroy()
         mPresenter.dropView()
+        super.onDestroy()
     }
 
     override fun initPresenter() {
