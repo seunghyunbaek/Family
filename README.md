@@ -5,4 +5,4 @@
 * Kotlin
 * MVP Pattern
 * Django
-* restframework
+* rest framework
