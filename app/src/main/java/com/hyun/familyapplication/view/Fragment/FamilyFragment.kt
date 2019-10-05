@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.presenter.FamilyPresenter
+import com.hyun.familyapplication.view.Activity.FindActivity
 import com.hyun.familyapplication.view.Activity.MainActivity
 import com.hyun.familyapplication.view.Adapter.FamilyAdapter
 
@@ -41,7 +42,7 @@ class FamilyFragment : BaseFragment() {
 
         val imgRight = view.findViewById<ImageView>(R.id.imgRightFamily)
         imgRight.setOnClickListener {
-            Intent(context, MainActivity::class.java).let {
+            Intent(context, FindActivity::class.java).let {
                 startActivity(it)
             }
         }
