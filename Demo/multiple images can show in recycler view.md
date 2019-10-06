@@ -1,5 +1,5 @@
 
-![2](../video/show_multiple_images.gif)
+![2](./../video/show_multiple_images.gif)
 
 this demo video is multiple images can show in recycler view.
 
