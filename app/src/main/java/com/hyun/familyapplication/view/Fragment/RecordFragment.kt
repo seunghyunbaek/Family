@@ -109,7 +109,14 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
             record.date = jsonObject.getString("date")
             record.content = jsonObject.getString("content")
             record.room = jsonObject.getInt("room")
+            record.record_images = JSONArray(jsonObject.getString("record_images"))
             lst.add(record)
+
+//            val imgJsonArray = JSONArray(jsonObject.getString("record_images"))
+//            println("**********************************************************************************")
+//            println(imgJsonArray)
+//            println("**********************************************************************************")
+
             count++
         }
         lstRecrods = lst

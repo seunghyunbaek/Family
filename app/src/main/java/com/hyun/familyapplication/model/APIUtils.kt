@@ -90,10 +90,10 @@ class APIUtils {
     }
 
     // GET Find
-    class getFindAsyncTask(listener:FindContract.Listener) :
+    class getFindAsyncTask(listener: FindContract.Listener) :
         AsyncTask<String, Any, String?>() {
 
-        private val listener:FindContract.Listener
+        private val listener: FindContract.Listener
 
         init {
             this.listener = listener
@@ -137,7 +137,7 @@ class APIUtils {
     class getFamilyUserAsyncTask(listener: FamilyContract.Listener) :
         AsyncTask<String, Any, String?>() {
 
-        private val listener : FamilyContract.Listener
+        private val listener: FamilyContract.Listener
 
         init {
             this.listener = listener
@@ -290,7 +290,7 @@ class APIUtils {
                 if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
                     BufferedReader(InputStreamReader(inputStream)).use {
                         val response = it.readText()
-                        println("----------------------------------------------------------")
+                        println("---------------------GET RECORD-------------------------------------")
                         println("연결주소 : $urlString")
                         println("응답코드 : $responseCode")
                         println("응답메세지 : $responseMessage")
@@ -359,16 +359,19 @@ class APIUtils {
     class postImageAsyncTask(
         mOnListener: WriteRecordContract.onRecordListener,
         context: Context,
+        recordResult:String,
         uriList: MutableList<String>?
     ) : AsyncTask<String, Any, String?>() {
 
         val mOnListener: WriteRecordContract.onRecordListener
         val context: Context
+        val recordResult:String
         val uriList: MutableList<String>?
 
         init {
             this.mOnListener = mOnListener
             this.context = context
+            this.recordResult = recordResult
             this.uriList = uriList
         }
 
@@ -376,19 +379,22 @@ class APIUtils {
         override fun doInBackground(vararg params: String?): String? {
 
             val urlString = params[0]
-            val data = params[1]
+//            val data = params[1]
 
-            val json = JSONObject(data)
+//            val json = JSONObject(data)
+//            val record = json.getInt("id")
+//            val room = json.getInt("room")
+
+            val json = JSONObject(recordResult)
             val record = json.getInt("id")
             val room = json.getInt("room")
 
-//            var bitmap: Bitmap? = null
-            var file: File? = null
+//            var file: File? = null
+//            for (filePath in uriList!!) {
+//                file = File(filePath)
+//            }
 
-            for (filePath in uriList!!) {
-//                bitmap = BitmapFactory.decodeFile(filePath)
-                file = File(filePath)
-            }
+            var file: File = File(uriList!!.get(0))
 
             val fileBody: FileBody = FileBody(file, ContentType.DEFAULT_BINARY)
             val recordBody = StringBody(record.toString(), ContentType.MULTIPART_FORM_DATA)
@@ -427,8 +433,10 @@ class APIUtils {
             println("Response:  " + s)
             println("------------------------------------------")
 
-            if (!s.toString().equals(""))
+            if (!s.toString().equals("")) {
+                uriList.removeAt(0)
                 return s.toString()
+            }
 
             return null
         }
@@ -436,8 +444,10 @@ class APIUtils {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
-            if (!result.equals(""))
-                mOnListener.onEnd(context, result)
+            if (!result.equals("")) {
+                mOnListener.onSuccess(context, recordResult, uriList)
+//                mOnListener.onEnd(context, result)
+            }
 //            if (result?.toInt() == 201) {
 //                println("-------------------------------------------------------------------------")
 //                println("-----------------       post onPostExecute(성공)      -------------------")
@@ -482,13 +492,6 @@ class APIUtils {
                 wr.flush()
                 wr.close()
 
-//                println("---------------------------------------")
-//                println("연결주소 : $urlString")
-//                println("응답코드 : $responseCode") // 200 201 등등
-//                println("응답메세지 : $responseMessage") // Created
-//                println("보낸 데이터 : $data")
-//                println("---------------------------------------")
-
                 if (responseCode == 201) { // 성공 했을 때에만 데이터 읽어오기
                     BufferedReader(InputStreamReader(inputStream)).use {
                         val response = it.readText()
@@ -512,7 +515,7 @@ class APIUtils {
                 println("-------------------------------------------------------------------------")
                 println("-----------------       post onPostExecute(성공)      -------------------")
                 println("-------------------------------------------------------------------------")
-                mOnListener.onSuccess(context, result, uriList)
+                mOnListener.onSuccess(context, result, uriList) // {id:01, name:hyun .... }
             } else {
                 println("-------------------------------------------------------------------------")
                 println("-----------------       post onPostExecute(실패)      -------------------")
