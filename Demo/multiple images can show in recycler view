@@ -1,3 +1,6 @@
-[![예제](http://img.youtube.com/vi/RlQEoJaLQRA/0.jpg)](https://youtu.be/RlQEoJaLQRA?t=0s) 
+![multiple images can show in recycler view](https://github.com/seunghyunbaek/Family/blob/master/Demo/video/show_multiple_images.gif)
 
 this demo video is multiple images can show in recycler view.
+
+### 19.10.06 
+* This is the part of fetching and showing data from the server.
