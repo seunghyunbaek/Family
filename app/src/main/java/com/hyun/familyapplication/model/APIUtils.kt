@@ -389,7 +389,7 @@ class APIUtils {
 //                bitmap = BitmapFactory.decodeFile(filePath)
                 file = File(filePath)
             }
-            
+
             val fileBody: FileBody = FileBody(file, ContentType.DEFAULT_BINARY)
             val recordBody = StringBody(record.toString(), ContentType.MULTIPART_FORM_DATA)
             val roomBody = StringBody(room.toString(), ContentType.MULTIPART_FORM_DATA)
