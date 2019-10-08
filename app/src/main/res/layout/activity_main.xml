@@ -56,13 +56,14 @@
             android:textSize="24dp" />
 
         <TextView
+            android:id="@+id/text_day_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
             android:layout_weight="1"
             android:gravity="top"
-            android:text="오늘은 음력 6월 18일 입니다"
-            android:textSize="14dp" />
+            android:textSize="14dp"
+            tools:text="오늘은 음력 6월 18일 입니다" />
     </LinearLayout>
 
     <LinearLayout

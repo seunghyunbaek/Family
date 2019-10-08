@@ -2,6 +2,7 @@ package com.hyun.familyapplication.view.Activity
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -9,6 +10,10 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.hyun.familyapplication.R
 import kotlinx.android.synthetic.main.activity_main.*
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,13 +21,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val date: String // 작성일
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            var current = LocalDate.now()
+            var formatter = DateTimeFormatter.ofPattern("MM월dd일")
+            var formatted = current.format(formatter)
+            date = formatted
+        } else {
+            var simpleDateFormatter = SimpleDateFormat("MM월dd일")
+            var currentDate = simpleDateFormatter.format(Date())
+            date = currentDate
+        }
+
+        text_day_main.setText("오늘은 " + date + " 입니다.")
+
         setButton()
     }
 
     fun setButton() {
 
         image_profile_btn.setOnClickListener {
-            Intent(this@MainActivity, ProfileActivity::class.java).let{
+            Intent(this@MainActivity, ProfileActivity::class.java).let {
                 startActivity(it)
             }
         }
