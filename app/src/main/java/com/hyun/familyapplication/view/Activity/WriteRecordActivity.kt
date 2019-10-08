@@ -80,6 +80,13 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View, View.OnCli
     override fun showError(error: String) {
     }
 
+    override fun showLoading() {
+        progress_write_record.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        progress_write_record.visibility = View.GONE
+    }
 
     private fun pickImageFromGallery() {
         // intent to pick image
@@ -261,6 +268,7 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View, View.OnCli
                 val contentValues = ContentValues()
                 contentValues.put("date", date)
                 contentValues.put("content", content)
+                showLoading()
                 mPresenter.saveRecordInServer(this, contentValues, uriList)
             }
             R.id.image_gallary_write_record -> {

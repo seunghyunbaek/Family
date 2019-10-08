@@ -78,6 +78,7 @@ class WriteRecordPresenter : WriteRecordContract.Presenter, WriteRecordContract.
     }
 
     override fun onEnd(context: Context, result: String?) {
+        wrView?.hideLoading()
         wrView?.successRecord()
     }
 }

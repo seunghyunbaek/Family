@@ -9,6 +9,8 @@ import com.hyun.familyapplication.view.BaseView
 
 interface WriteRecordContract {
     interface View : BaseView {
+        fun showLoading()
+        fun hideLoading()
         fun successRecord()
     }
 
