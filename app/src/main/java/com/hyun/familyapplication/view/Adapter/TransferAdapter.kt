@@ -5,33 +5,33 @@ import android.content.DialogInterface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog.Builder
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.R
-import com.hyun.familyapplication.contract.FamilyContract
+import com.hyun.familyapplication.contract.TransferContract
 import com.hyun.familyapplication.model.User
-import kotlinx.android.synthetic.main.item_family.view.*
+import kotlinx.android.synthetic.main.item_transfer.view.*
+import androidx.appcompat.app.AlertDialog.Builder
 
-class FamilyAdapter : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
+class TransferAdapter : RecyclerView.Adapter<TransferAdapter.TransferViewHolder>() {
 
     private var items: MutableList<User>? = null
     private var email: String? = ""
     private var dialog: androidx.appcompat.app.AlertDialog.Builder? = null
-    private var listener: FamilyContract.Listener? = null
+    private var listener: TransferContract.Listener? = null
     private var dialogListener = object : DialogInterface.OnClickListener {
         override fun onClick(dialog: DialogInterface?, which: Int) {
             when (which) {
-                DialogInterface.BUTTON_POSITIVE -> listener?.onExit()
+                DialogInterface.BUTTON_POSITIVE -> listener?.onSelected()
             }
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FamilyViewHolder =
-        FamilyViewHolder(parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransferViewHolder =
+        TransferViewHolder(parent)
 
     override fun getItemCount(): Int = if (items == null) 0 else items!!.size
 
-    override fun onBindViewHolder(holder: FamilyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TransferViewHolder, position: Int) {
         items?.get(position).let { item ->
             with(holder) {
                 tvName.setText(item?.name)
@@ -44,11 +44,15 @@ class FamilyAdapter : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
                 } else {
                     imgOut.visibility = View.INVISIBLE
                 }
+
+                this.itemView.setOnClickListener {
+                    println("아이템 클릭했음 : $position")
+                }
             }
         }
     }
 
-    fun setListener(listener: FamilyContract.Listener) {
+    fun setListener(listener: TransferContract.Listener) {
         this.listener = listener
     }
 
@@ -70,11 +74,11 @@ class FamilyAdapter : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
         }
     }
 
-    inner class FamilyViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
-        LayoutInflater.from(parent.context).inflate(R.layout.item_family, parent, false)
+    inner class TransferViewHolder(parent: ViewGroup) : RecyclerView.ViewHolder(
+        LayoutInflater.from(parent.context).inflate(R.layout.item_transfer, parent, false)
     ) {
-        val imgProfile = itemView.item_image_profile_family
-        val tvName = itemView.item_text_name_family
-        val imgOut = itemView.item_image_exit_family
+        val imgProfile = itemView.item_image_profile_transfer
+        val tvName = itemView.item_text_name_transfer
+        val imgOut = itemView.item_image_exit_transfer
     }
 }

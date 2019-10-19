@@ -25,11 +25,11 @@ class MainActivity : AppCompatActivity() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             var current = LocalDate.now()
-            var formatter = DateTimeFormatter.ofPattern("MM월dd일")
+            var formatter = DateTimeFormatter.ofPattern("MM월 dd일")
             var formatted = current.format(formatter)
             date = formatted
         } else {
-            var simpleDateFormatter = SimpleDateFormat("MM월dd일")
+            var simpleDateFormatter = SimpleDateFormat("MM월 dd일")
             var currentDate = simpleDateFormatter.format(Date())
             date = currentDate
         }

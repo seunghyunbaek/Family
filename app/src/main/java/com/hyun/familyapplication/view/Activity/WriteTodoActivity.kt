@@ -1,14 +1,19 @@
 package com.hyun.familyapplication.view.Activity
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.widget.DatePicker
+import android.widget.TimePicker
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.WriteTodoContract
 import com.hyun.familyapplication.model.Todo
 import com.hyun.familyapplication.presenter.WriteTodoPresenter
 import kotlinx.android.synthetic.main.activity_write_todo.*
+import java.util.*
 
 class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
 
@@ -36,9 +41,41 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
             todo!!.date = date
 
             edit_write_todo.text = Editable.Factory.getInstance().newEditable(title)
+            text_date_write_todo.text = todo!!.date
         }
 
         image_back_write_todo.setOnClickListener { onBackPressed() }
+
+        image_calendar_write_todo.setOnClickListener {
+            var calendar = Calendar.getInstance()
+            var year = calendar.get(Calendar.YEAR)
+            var month = calendar.get(Calendar.MONTH)
+            var day = calendar.get(Calendar.DAY_OF_MONTH)
+
+            var date_listener = object : DatePickerDialog.OnDateSetListener {
+                override fun onDateSet(view: DatePicker?, year: Int, month: Int, dayOfMonth: Int) {
+                    text_date_write_todo.text = "${year}년 ${month + 1}월 ${dayOfMonth}일"
+                }
+            }
+
+            var builder = DatePickerDialog(this, date_listener, year, month, day)
+            builder.show()
+        }
+
+        text_time_write_todo.setOnClickListener {
+            var time = Calendar.getInstance()
+            var hour = time.get(Calendar.HOUR)
+            var minute = time.get(Calendar.MINUTE)
+
+            var timeListener = object : TimePickerDialog.OnTimeSetListener {
+                override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
+                    text_time_write_todo.text = "${hourOfDay}시 ${minute}분"
+                }
+            }
+
+            var builder = TimePickerDialog(this, timeListener, hour, minute, false)
+            builder.show()
+        }
 
         text_save_write_todo.setOnClickListener {
             if (todo == null) {
@@ -48,11 +85,13 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
                 else
                     todo.id = db.allTodo.last().id + 1
                 todo.title = edit_write_todo.text.toString()
-                todo.date = "2019년 8월 10일"
+                todo.date = text_date_write_todo.text.toString()
+//                todo.date = "2019년 8월 10일"
 
                 mPresenter.saveTodo(this, db, todo)
             } else {
                 todo!!.title = edit_write_todo.text.toString()
+                todo!!.date = text_date_write_todo.text.toString()
                 mPresenter.updateTodo(this, db, todo!!)
             }
             finish()
@@ -64,11 +103,9 @@ class WriteTodoActivity : BaseActivity(), WriteTodoContract.View {
     }
 
     override fun successTodo() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun showError(error: String) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun onDestroy() {

@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.R
+import com.hyun.familyapplication.contract.FamilyContract
 import com.hyun.familyapplication.presenter.FamilyPresenter
 import com.hyun.familyapplication.view.Activity.FindActivity
-import com.hyun.familyapplication.view.Activity.MainActivity
+import com.hyun.familyapplication.view.Activity.TransferActivity
 import com.hyun.familyapplication.view.Adapter.FamilyAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -25,7 +26,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class FamilyFragment : BaseFragment() {
+class FamilyFragment : BaseFragment(), FamilyContract.View {
 
     private lateinit var mPresenter: FamilyPresenter
     private lateinit var recyclerView: RecyclerView
@@ -46,17 +47,17 @@ class FamilyFragment : BaseFragment() {
                 startActivity(it)
             }
         }
-
+        mPresenter.takeView(this)
 
         recyclerView = view.findViewById(R.id.recyclerview_family)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
         adapter = FamilyAdapter()
         mPresenter.takeAdapter(adapter!!)
+        adapter!!.setDialog(context!!)
         recyclerView.adapter = adapter
 
         return view
     }
-
 
     override fun initPresenter() {
         mPresenter = FamilyPresenter()
@@ -68,8 +69,9 @@ class FamilyFragment : BaseFragment() {
 
     override fun onStart() {
         super.onStart()
-        if (mPresenter == null)
+        if (mPresenter == null) {
             initPresenter()
+        }
         refreshData()
     }
 
@@ -78,4 +80,19 @@ class FamilyFragment : BaseFragment() {
         super.onDestroy()
     }
 
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+    }
+
+    override fun transferActivity() {
+        Intent(context, TransferActivity::class.java).let {
+            startActivity(it)
+        }
+    }
+
+    override fun showError(error: String) {
+    }
 }

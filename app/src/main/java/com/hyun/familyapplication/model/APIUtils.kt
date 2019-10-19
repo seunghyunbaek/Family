@@ -57,7 +57,6 @@ class APIUtils {
     class getAsyncTask() :
         AsyncTask<String, Any, String?>() {
 
-
         override fun doInBackground(vararg params: String?): String? {
             val urlString: String? = params[0]
             val url = URL(urlString)
@@ -133,14 +132,16 @@ class APIUtils {
         }
     }
 
-    // GET Family
-    class getFamilyUserAsyncTask(listener: FamilyContract.Listener) :
+    // GET Transfer
+    class getTransferUserAsyncTask(listener: TransferContract.Listener, email:String?) :
         AsyncTask<String, Any, String?>() {
 
-        private val listener: FamilyContract.Listener
+        private val listener: TransferContract.Listener
+        private val email:String
 
         init {
             this.listener = listener
+            this.email = email!!
         }
 
         override fun doInBackground(vararg params: String?): String? {
@@ -170,7 +171,55 @@ class APIUtils {
             super.onPostExecute(result)
             if (result != null) {
                 println("$result")
-                listener.onSuccess(result)
+                listener.onSuccess(result, email)
+            } else {
+                println("--------------------------------------------")
+                println("룸 유저 : 통신 실패")
+                println("--------------------------------------------")
+            }
+        }
+    }
+
+    // GET Family
+    class getFamilyUserAsyncTask(listener: FamilyContract.Listener, email:String?) :
+        AsyncTask<String, Any, String?>() {
+
+        private val listener: FamilyContract.Listener
+        private val email:String
+
+        init {
+            this.listener = listener
+            this.email = email!!
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result, email)
             } else {
                 println("--------------------------------------------")
                 println("룸 유저 : 통신 실패")

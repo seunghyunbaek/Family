@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.Activity.FindActivity"></activity>
+        <activity android:name=".view.Activity.TransferActivity"></activity>
+        <activity android:name=".view.Activity.FindActivity" />
         <activity android:name=".view.Activity.ImageActivity" />
         <activity android:name=".view.Activity.MyHomeCheckActivity" />
         <activity android:name=".view.Activity.ProfileActivity" />
