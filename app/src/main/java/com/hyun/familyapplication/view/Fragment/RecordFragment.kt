@@ -73,9 +73,10 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
     }
 
     fun getDatas() {
-        val url = getString(R.string.url) + "record/"
-
-        APIUtils.getRecordAsyncTask(this@RecordFragment).execute(url)
+        if(db.getUser()?.room != null) {
+            val url = getString(R.string.url) + "record/?room=" + db.getUser()?.room
+            APIUtils.getRecordAsyncTask(this@RecordFragment).execute(url)
+        }
     }
 
     fun refreshData() {

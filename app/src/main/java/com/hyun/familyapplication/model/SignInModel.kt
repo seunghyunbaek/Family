@@ -75,6 +75,11 @@ class SignInModel : Log {
         return dbHelper.getUser()
     }
 
+    fun getUserfromServer(context: Context, email:String, name:String) {
+        val url = context.getString(R.string.url) + "user/$email/"
+        APIUtils.getSignInAsyncTask(mOnListener, context, email, name).execute(url)
+    }
+
     fun saveUser(context: Context, email: String, name: String) {
 
         // 서버에 저장하기

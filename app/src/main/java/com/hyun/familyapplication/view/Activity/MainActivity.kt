@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
@@ -34,6 +35,8 @@ class MainActivity : AppCompatActivity() {
             date = currentDate
         }
 
+        val db = DBHelper(this)
+        text_name_main.setText(db.getUser()?.name + "님 환영합니다!")
         text_day_main.setText("오늘은 " + date + " 입니다.")
 
         setButton()

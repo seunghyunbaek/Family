@@ -14,6 +14,7 @@ import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.FamilyContract
 import com.hyun.familyapplication.presenter.FamilyPresenter
 import com.hyun.familyapplication.view.Activity.FindActivity
+import com.hyun.familyapplication.view.Activity.MainActivity
 import com.hyun.familyapplication.view.Activity.TransferActivity
 import com.hyun.familyapplication.view.Adapter.FamilyAdapter
 
@@ -51,7 +52,7 @@ class FamilyFragment : BaseFragment(), FamilyContract.View {
 
         recyclerView = view.findViewById(R.id.recyclerview_family)
         recyclerView.layoutManager = LinearLayoutManager(view.context)
-        adapter = FamilyAdapter()
+        adapter = FamilyAdapter(view.context)
         mPresenter.takeAdapter(adapter!!)
         adapter!!.setDialog(context!!)
         recyclerView.adapter = adapter
@@ -85,12 +86,21 @@ class FamilyFragment : BaseFragment(), FamilyContract.View {
     }
 
     override fun hideLoading() {
+
     }
 
     override fun transferActivity() {
         Intent(context, TransferActivity::class.java).let {
             startActivity(it)
         }
+    }
+
+    override fun mainActivity() {
+        Intent(context, MainActivity()::class.java).let {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(it)
+        }
+
     }
 
     override fun showError(error: String) {

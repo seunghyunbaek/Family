@@ -15,6 +15,7 @@ class TransferPresenter : TransferContract.Presenter, TransferContract.Listener 
 
     override fun takeAdapter(adapter: TransferAdapter) {
         this.adapter = adapter
+        adapter.setListener(this)
     }
 
     override fun takeView(view: TransferContract.View) {
@@ -25,6 +26,7 @@ class TransferPresenter : TransferContract.Presenter, TransferContract.Listener 
         this.view = null
     }
 
+    // Listener
     override fun onSuccess(result: String, email: String) {
         adapter?.setEmail(email)
         adapter?.setData(FamilyModel.parseArray(result, email))
@@ -32,6 +34,6 @@ class TransferPresenter : TransferContract.Presenter, TransferContract.Listener 
     }
 
     override fun onSelected() {
-        println("유저 선택")
+        
     }
 }

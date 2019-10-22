@@ -35,18 +35,21 @@ class TransferAdapter : RecyclerView.Adapter<TransferAdapter.TransferViewHolder>
         items?.get(position).let { item ->
             with(holder) {
                 tvName.setText(item?.name)
-                if (email?.equals(item?.email)!!) {
-                    imgOut.visibility = View.VISIBLE
-                    imgOut.setOnClickListener {
-                        if (dialog != null)
-                            dialog!!.show()
-                    }
-                } else {
-                    imgOut.visibility = View.INVISIBLE
-                }
+//                if (email?.equals(item?.email)!!) {
+//                    imgOut.visibility = View.VISIBLE
+//                    imgOut.setOnClickListener {
+//                        if (dialog != null)
+//                            dialog!!.show()
+//                    }
+//                } else {
+//                    imgOut.visibility = View.INVISIBLE
+//                }
 
                 this.itemView.setOnClickListener {
                     println("아이템 클릭했음 : $position")
+                    dialog?.setMessage(item?.name + "님 에게 양도하시겠습니까?")
+                    val dialogResult = dialog?.show()
+                    println("----------------------------------")
                 }
             }
         }
@@ -67,7 +70,7 @@ class TransferAdapter : RecyclerView.Adapter<TransferAdapter.TransferViewHolder>
     fun setDialog(context: Context) {
         dialog = Builder(context)
         if (dialog != null) {
-            dialog!!.setMessage("방을 나가시겠습니까?")
+            dialog!!.setMessage("방을 양도하시겠습니까?")
             dialog!!.setIcon(R.mipmap.ic_launcher)
             dialog!!.setPositiveButton("예", dialogListener)
             dialog!!.setNegativeButton("아니오", dialogListener)

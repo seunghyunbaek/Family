@@ -1,5 +1,6 @@
 package com.hyun.familyapplication.model
 
+import android.content.ContentValues
 import android.content.Context
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
@@ -75,6 +76,29 @@ class FamilyModel {
             }
 
             return list
+        }
+
+        fun deleteRoom(context: Context, listener: FamilyContract.Listener) {
+            val db = DBHelper(context)
+            val user = db.getUser()
+            val url = context.getString(R.string.url) + "room/" + user?.room + "/"
+
+            APIUtils.delRoomAsyncTask(context, listener).execute(url)
+        }
+
+        fun delSuccess(context: Context) {
+            val db = DBHelper(context)
+            val user = db.getUser()!!
+            val cv = ContentValues()
+            cv.put("email", user.email)
+            cv.put("name", user.name)
+            cv.put("hoching", user.hoching)
+            cv.put("gender", user.gender)
+            cv.put("phone", user.phone)
+            cv.put("anniversary", user.anniversary)
+            cv.put("room", 0)
+
+            db.updateUserRoom(cv)
         }
     }
 }

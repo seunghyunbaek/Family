@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
+import com.hyun.familyapplication.view.Activity.RecordActivity
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import kotlinx.android.synthetic.main.item_record.view.*
 
@@ -58,6 +60,25 @@ class RecordAdapter(
 //                        viewPager.visibility = View.GONE
 //                    }
 //                }
+                this.itemView.setOnClickListener {
+                    Intent(context, RecordActivity::class.java).let{
+                        if(viewPager.visibility == View.VISIBLE) {
+                            var imglist = ArrayList<String>()
+                            for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
+                                imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                            }
+                            it.putExtra("name", item.name)
+                            it.putExtra("content", item.content)
+                            it.putExtra("date", item.date)
+                            it.putStringArrayListExtra("imglist", imglist)
+                        } else {
+                            it.putExtra("name", item.name)
+                            it.putExtra("content", item.content)
+                            it.putExtra("date", item.date)
+                        }
+                        context!!.startActivity(it)
+                    }
+                }
             }
 
         }

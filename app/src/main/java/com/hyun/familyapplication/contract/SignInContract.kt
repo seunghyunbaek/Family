@@ -29,5 +29,6 @@ interface SignInContract {
         fun onSuccess(email:String, name:String)
         fun onFailure()
         fun onEnd(context:Context, email:String, name:String)
+        fun onGetUser(result:String?, context: Context, email:String, name:String)
     }
 }

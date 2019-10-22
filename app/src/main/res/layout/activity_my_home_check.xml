@@ -57,7 +57,7 @@
         android:id="@+id/text_host_my_home_check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="구성원으로 가입하기"
+        android:text="나의 홈 직접 만들기"
         android:textSize="24dp"
         app:layout_constraintBottom_toTopOf="@id/button_next_my_home_check"
         app:layout_constraintStart_toStartOf="@+id/image_back_my_home_check"

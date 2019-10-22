@@ -88,6 +88,59 @@ class APIUtils {
         }
     }
 
+    // GET SignIn
+    class getSignInAsyncTask(
+        mOnListener: SignInContract.onSignInListener,
+        context: Context,
+        email: String,
+        name: String
+    ) :
+        AsyncTask<String, Any, String?>() {
+
+        val mOnListener: SignInContract.onSignInListener
+        val context: Context
+        val email: String
+        val name: String
+
+        init {
+            this.mOnListener = mOnListener
+            this.context = context
+            this.email = email
+            this.name = name
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            mOnListener.onGetUser(result, context, email, name)
+//            if (result != null) {
+//                println("$result")
+//            }
+        }
+    }
+
     // GET Find
     class getFindAsyncTask(listener: FindContract.Listener) :
         AsyncTask<String, Any, String?>() {
@@ -127,17 +180,18 @@ class APIUtils {
                 println("$result")
                 listener.onSuccess(result)
             } else {
+
                 println("유저 못찾음")
             }
         }
     }
 
     // GET Transfer
-    class getTransferUserAsyncTask(listener: TransferContract.Listener, email:String?) :
+    class getTransferUserAsyncTask(listener: TransferContract.Listener, email: String?) :
         AsyncTask<String, Any, String?>() {
 
         private val listener: TransferContract.Listener
-        private val email:String
+        private val email: String
 
         init {
             this.listener = listener
@@ -181,11 +235,11 @@ class APIUtils {
     }
 
     // GET Family
-    class getFamilyUserAsyncTask(listener: FamilyContract.Listener, email:String?) :
+    class getFamilyUserAsyncTask(listener: FamilyContract.Listener, email: String?) :
         AsyncTask<String, Any, String?>() {
 
         private val listener: FamilyContract.Listener
-        private val email:String
+        private val email: String
 
         init {
             this.listener = listener
@@ -408,13 +462,13 @@ class APIUtils {
     class postImageAsyncTask(
         mOnListener: WriteRecordContract.onRecordListener,
         context: Context,
-        recordResult:String,
+        recordResult: String,
         uriList: MutableList<String>?
     ) : AsyncTask<String, Any, String?>() {
 
         val mOnListener: WriteRecordContract.onRecordListener
         val context: Context
-        val recordResult:String
+        val recordResult: String
         val uriList: MutableList<String>?
 
         init {
@@ -737,8 +791,6 @@ class APIUtils {
                 wr.flush()
                 wr.close()
 
-
-
                 println("---------------------------------------")
                 println("연결주소 : $urlString")
                 println("응답코드 : $responseCode")
@@ -822,6 +874,52 @@ class APIUtils {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+        }
+    }
+
+    // DELETE Room
+    class delRoomAsyncTask(context: Context, listener: FamilyContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        val context: Context
+        val listener: FamilyContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "DELETE"
+                println("----------------------------------------------------------")
+                println("연결주소 : $urlString")
+                println("삭제응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("----------------------------------------------------------")
+                if (responseCode == 204) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return responseCode.toString()
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result.equals("204"))
+                listener.onDelSuccess(context)
         }
     }
 

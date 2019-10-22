@@ -12,16 +12,23 @@ import com.hyun.familyapplication.contract.FamilyContract
 import com.hyun.familyapplication.model.User
 import kotlinx.android.synthetic.main.item_family.view.*
 
-class FamilyAdapter : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
+class FamilyAdapter(context: Context) : RecyclerView.Adapter<FamilyAdapter.FamilyViewHolder>() {
 
     private var items: MutableList<User>? = null
     private var email: String? = ""
     private var dialog: androidx.appcompat.app.AlertDialog.Builder? = null
     private var listener: FamilyContract.Listener? = null
+    private var ctx:Context = context
     private var dialogListener = object : DialogInterface.OnClickListener {
         override fun onClick(dialog: DialogInterface?, which: Int) {
             when (which) {
-                DialogInterface.BUTTON_POSITIVE -> listener?.onExit()
+                DialogInterface.BUTTON_POSITIVE -> {
+                    if(items!!.size == 1) {
+                        listener?.onDeleteRoom(ctx)
+                    } else {
+                        listener?.onExit()
+                    }
+                }
             }
         }
     }

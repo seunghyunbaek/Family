@@ -2,6 +2,7 @@ package com.hyun.familyapplication.presenter
 
 import android.content.Context
 import com.hyun.familyapplication.contract.FamilyContract
+import com.hyun.familyapplication.model.APIUtils
 import com.hyun.familyapplication.model.FamilyModel
 import com.hyun.familyapplication.view.Adapter.FamilyAdapter
 
@@ -36,6 +37,15 @@ class FamilyPresenter : FamilyContract.Presenter, FamilyContract.Listener {
         adapter?.setData(FamilyModel.parseArray(result))
         adapter?.setEmail(email)
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun onDeleteRoom(context: Context) {
+        FamilyModel.deleteRoom(context, this)
+    }
+
+    override fun onDelSuccess(context: Context) {
+        FamilyModel.delSuccess(context)
+        view?.mainActivity()
     }
 
     override fun onExit() {

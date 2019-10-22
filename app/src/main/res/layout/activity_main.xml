@@ -49,11 +49,12 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/text_name_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="백승현님 안녕하세요!"
-            android:textSize="24dp" />
+            android:textSize="24dp"
+            tools:text="백승현님 안녕하세요!" />
 
         <TextView
             android:id="@+id/text_day_main"
