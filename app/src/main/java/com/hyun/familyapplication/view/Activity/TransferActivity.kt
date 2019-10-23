@@ -1,5 +1,6 @@
 package com.hyun.familyapplication.view.Activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +28,7 @@ class TransferActivity : BaseActivity(), TransferContract.View {
 
         mPresenter?.takeAdapter(adapter!!)
         adapter?.setDialog(this)
+        adapter?.setContext(this)
         recyclerview_transfer.adapter = adapter
     }
 
@@ -52,8 +54,11 @@ class TransferActivity : BaseActivity(), TransferContract.View {
     override fun hideLoading() {
     }
 
-    override fun transferActivity() {
-
+    override fun mainActivity() {
+        Intent(this, MainActivity::class.java).let {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(it)
+        }
     }
 
     override fun showError(error: String) {

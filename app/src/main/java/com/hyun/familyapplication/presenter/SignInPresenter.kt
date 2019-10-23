@@ -5,6 +5,7 @@ import android.content.Intent
 import com.hyun.familyapplication.contract.SignInContract
 import com.hyun.familyapplication.model.SignInModel
 import org.json.JSONObject
+import java.lang.NullPointerException
 
 class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListener {
 
@@ -57,8 +58,14 @@ class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListene
             val json = JSONObject(result)
             if (user == null) { // 유저가 SQLite에 저장되어 있지 않을 때
 //                signInModel.saveUser(context, json.getString("email"), json.getString("name"))
-                signInModel.saveUserSQLite(context, json.getString("email"), json.getString("name"))
-                signinView?.moveMainActivity()
+                try {
+                    val room = json.getInt("room")
+                    signInModel.saveUserSQLite(context, json.getString("email"), json.getString("name"), room)
+                    signinView?.moveMainActivity()
+                } catch (e:NullPointerException) {
+                    signInModel.saveUserSQLite(context, json.getString("email"), json.getString("name"))
+                    signinView?.moveMainActivity()
+                }
             } else { // 유저가 SQLite에 저장되어 있을 때
                 signinView?.moveMainActivity()
             }

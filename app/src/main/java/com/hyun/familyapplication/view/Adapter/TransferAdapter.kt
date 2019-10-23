@@ -18,13 +18,16 @@ class TransferAdapter : RecyclerView.Adapter<TransferAdapter.TransferViewHolder>
     private var email: String? = ""
     private var dialog: androidx.appcompat.app.AlertDialog.Builder? = null
     private var listener: TransferContract.Listener? = null
+    private var context:Context? = null
     private var dialogListener = object : DialogInterface.OnClickListener {
         override fun onClick(dialog: DialogInterface?, which: Int) {
             when (which) {
-                DialogInterface.BUTTON_POSITIVE -> listener?.onSelected()
+                DialogInterface.BUTTON_POSITIVE -> listener?.onSelected(context!!, transItem!!)
+                else -> transItem = null
             }
         }
     }
+    private var transItem:User ?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransferViewHolder =
         TransferViewHolder(parent)
@@ -49,6 +52,8 @@ class TransferAdapter : RecyclerView.Adapter<TransferAdapter.TransferViewHolder>
                     println("아이템 클릭했음 : $position")
                     dialog?.setMessage(item?.name + "님 에게 양도하시겠습니까?")
                     val dialogResult = dialog?.show()
+                    transItem = item
+                    println("----------------------------------")
                     println("----------------------------------")
                 }
             }
@@ -65,6 +70,10 @@ class TransferAdapter : RecyclerView.Adapter<TransferAdapter.TransferViewHolder>
 
     fun setEmail(e: String) {
         this.email = e
+    }
+
+    fun setContext(context: Context) {
+        this.context = context
     }
 
     fun setDialog(context: Context) {

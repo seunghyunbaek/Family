@@ -338,7 +338,7 @@ class DBHelper(
 
     companion object {
         private val DATABASE_NAME = "KFAMILY.db"
-        private val DATABASE_VER = 5
+        private val DATABASE_VER = 7
 
         private val RECORD_TABLE_NAME = "Record"
         private val RECORD_COOL_ID = "id"

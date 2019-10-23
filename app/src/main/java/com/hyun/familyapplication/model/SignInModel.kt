@@ -137,4 +137,39 @@ class SignInModel : Log {
         }
     }
 
+    fun saveUserSQLite(context: Context, email: String, name: String, room:Int) {
+        // 내부 저장하기
+        val dbHelper = DBHelper(context)
+//        dbHelper.deleteRoom()
+
+        val user = User()
+        user.email = email.replace(".", "_")
+        user.name = name
+        user.room = room
+
+//        val user2 = dbHelper.getUser()
+
+//        if (dbHelper.getUser() != null)
+//            dbHelper.deleteUser()
+
+        if (dbHelper.getUser() == null) {
+            dbHelper.addUser(user)
+            println("-------------------------------------------------------------------------")
+            println("-----------------         saveUserSQLite(유저 없음)        -------------------")
+            println("-------------------------------------------------------------------------")
+        } else {
+            val user = dbHelper.getUser()
+            if(user?.email != email) {
+                dbHelper.deleteUser()
+                val newUser = User()
+                newUser.email = email
+                newUser.name = name
+                dbHelper.addUser(newUser)
+            }
+            println("-------------------------------------------------------------------------")
+            println("-----------------         saveUserSQLite(유저 존재)        -------------------")
+            println("-------------------------------------------------------------------------")
+        }
+    }
+
 }

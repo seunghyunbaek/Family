@@ -82,7 +82,7 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         when (i) {
             R.id.button_signin_with_google -> signIn()
             R.id.button_signin_with_kakao -> {
-                successSignIn("a", "a")
+                successSignIn("b", "b")
             }
             R.id.button_signin_with_facebook -> {
 //                Intent(this, MainActivity::class.java).let {

@@ -762,8 +762,96 @@ class APIUtils {
         }
     }
 
-
     // PUT
+    class putAsyncTask : AsyncTask<String, Any, String?>() {
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "PUT"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("---------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
+    }
+
+    // PUT User
+    class putUserAsyncTask(context:Context, listener: TransferContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+        val context:Context
+        val listener: TransferContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "PUT"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("------------PUT User -----------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+                if (responseCode == 200) {
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("----------------------PUT USER RESULT----------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+//                listener.onSuccess()
+                listener.onUserChangeSQLite(context, result)
+            }
+        }
+    }
+
+    // PUT Room
     class putRoomAsyncTask(
         mOnListener: MyHomeCheckContract.onMyHomeCheckListener,
         context: Context
@@ -823,8 +911,18 @@ class APIUtils {
         }
     }
 
-    // PUT
-    class putAsyncTask : AsyncTask<String, Any, String?>() {
+    // PUT Transfer
+    class putTransferAsyncTask(context:Context, listener: TransferContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var context:Context
+        private var listener: TransferContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
         override fun doInBackground(vararg params: String?): String? {
             val urlString = params[0]
             val data = params[1]
@@ -839,12 +937,25 @@ class APIUtils {
                 wr.flush()
                 wr.close()
 
-                println("---------------------------------------")
+                println("--------------PUT Transfer-------------")
                 println("연결주소 : $urlString")
                 println("응답코드 : $responseCode")
                 println("응답메세지 : $responseMessage")
-                println("보낸 데이터 : $data")
+                println("보낸데이터 : $data")
                 println("---------------------------------------")
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+//                    BufferedReader(InputStreamReader(inputStream)).use {
+//                        val response = it.readText()
+//                        println("----------------------------------------------------------")
+//                        println("연결주소 : $urlString")
+//                        println("응답코드 : $responseCode")
+//                        println("응답메세지 : $responseMessage")
+//                        println("받은 데이터 : $response")
+//                        println("----------------------------------------------------------")
+//                        return response
+//                    }
+                    return responseCode.toString()
+                }
             }
 
             return null
@@ -852,8 +963,11 @@ class APIUtils {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+            if (result.equals("200"))
+                listener.onUserChange(context)
         }
     }
+
 
     // DELETE
     class delAsyncTask : AsyncTask<String, Any, String?>() {
