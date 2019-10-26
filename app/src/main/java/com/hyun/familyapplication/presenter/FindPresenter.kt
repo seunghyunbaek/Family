@@ -26,6 +26,10 @@ class FindPresenter : FindContract.Presenter, FindContract.Listener {
         FindModel.findUser(context, email, this)
     }
 
+    override fun inviteUser(url:String, room: Int, inviter: String, guest: String) {
+        FindModel.inviteUser(url, this, room, inviter, guest)
+    }
+
     // Listener
     override fun onSuccess(result: String) {
         var list = ArrayList<User>()

@@ -7,7 +7,7 @@
     android:layout_height="wrap_content">
 
     <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/item_image_profile_family"
+        android:id="@+id/item_image_profile_find"
         style="@style/margin_0dp_10dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -16,15 +16,16 @@
         app:civ_border_width="2dp" />
 
     <TextView
-        android:id="@+id/item_text_name_family"
-        android:layout_width="0dp"
+        android:id="@+id/item_text_name_find"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        tools:text="이름" />
+        tools:text="이름"
+        />
 
     <ImageView
-        android:id="@+id/item_image_exit_family"
+        android:id="@+id/item_image_exit_find"
         style="@style/margin_0dp_10dp"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -32,6 +33,10 @@
         android:visibility="gone"
         app:srcCompat="@drawable/ic_exit" />
 
-
+    <Button
+        android:id="@+id/item_btn_invite_find"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="초대하기" />
 
 </LinearLayout>

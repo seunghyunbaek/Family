@@ -7,6 +7,7 @@ import android.widget.Toast
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.SignInContract
+import com.hyun.familyapplication.model.APIUtils
 import com.hyun.familyapplication.presenter.SignInPresenter
 import com.jakewharton.threetenabp.AndroidThreeTen
 import kotlinx.android.synthetic.main.activity_sign_in.*
@@ -82,7 +83,9 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
         when (i) {
             R.id.button_signin_with_google -> signIn()
             R.id.button_signin_with_kakao -> {
-                successSignIn("b", "b")
+//                successSignIn("b", "b")
+//                successSignIn("a", "a")
+                successSignIn("r", "r")
             }
             R.id.button_signin_with_facebook -> {
 //                Intent(this, MainActivity::class.java).let {
@@ -99,6 +102,8 @@ class SignInActivity : BaseActivity(), SignInContract.View, View.OnClickListener
                     println("==========================================================")
                     println("                       널     값")
                     println("==========================================================")
+                    val url = getString(R.string.url) + "user/"
+                    APIUtils.getAsyncTask().execute(url)
                 }
             }
         }

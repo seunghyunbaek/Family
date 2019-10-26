@@ -13,6 +13,7 @@ class FindContract {
     interface Presenter:BasePresenter<View> {
         fun setAdapter(adapte:FindAdapter)
         fun findUser(context: Context, email:String)
+        fun inviteUser(url:String, room:Int, inviter:String, guest:String)
     }
 
     interface Listener {

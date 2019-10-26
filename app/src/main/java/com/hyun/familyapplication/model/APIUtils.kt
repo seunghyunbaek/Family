@@ -88,6 +88,48 @@ class APIUtils {
         }
     }
 
+    // GET Invited
+    class getInvitedAsyncTask(listener:InvitedContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        val listener:InvitedContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("-------------GET Invited----------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result)
+            }
+        }
+    }
+
     // GET SignIn
     class getSignInAsyncTask(
         mOnListener: SignInContract.onSignInListener,
@@ -453,6 +495,55 @@ class APIUtils {
             } else {
                 println("-------------------------------------------------------------------------")
                 println("-----------------       post onPostExecute(실패)      -------------------")
+                println("-------------------------------------------------------------------------")
+            }
+        }
+    }
+
+    // POST Invite
+    class postInviteAsyncTask(listener: FindContract.Listener) : AsyncTask<String, Any, String?>() {
+
+        val listener:FindContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "POST"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("---------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode") // 200 201 등등
+                println("응답메세지 : $responseMessage") // Created
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+                return responseCode.toString()
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result?.toInt() == 201) {
+                println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostInviteExecute(성공)      -------------------")
+                println("-------------------------------------------------------------------------")
+            } else {
+                println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostInviteExecute(실패)      -------------------")
                 println("-------------------------------------------------------------------------")
             }
         }
@@ -850,6 +941,67 @@ class APIUtils {
             }
         }
     }
+
+    // PUT Invited
+    class putInvitedAsyncTask(
+        mOnListener: InvitedContract.Listener,
+        context: Context
+    ) : AsyncTask<String, Any, String?>() {
+
+        val mOnListener: InvitedContract.Listener
+        val context: Context
+
+        init {
+            this.mOnListener = mOnListener
+            this.context = context
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "PUT"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("---------------------------------------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode")
+                println("응답메세지 : $responseMessage")
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("---------------PUT Invited-------------------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                mOnListener.onPutEnd(context, result)
+            }
+        }
+    }
+
 
     // PUT Room
     class putRoomAsyncTask(

@@ -1,5 +1,6 @@
 package com.hyun.familyapplication.view.Activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
@@ -84,5 +85,13 @@ class MyHomeActivity : AppCompatActivity() {
 
         button_back_myhome.setOnClickListener { onBackPressed() }
 
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        Intent(this, MainActivity::class.java).let {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(it)
+        }
     }
 }

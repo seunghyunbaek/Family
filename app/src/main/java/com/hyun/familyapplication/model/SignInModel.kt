@@ -76,7 +76,7 @@ class SignInModel : Log {
     }
 
     fun getUserfromServer(context: Context, email:String, name:String) {
-        val url = context.getString(R.string.url) + "user/$email/"
+        val url = context.getString(R.string.url) + "user/${email.replace(".", "_")}/"
         APIUtils.getSignInAsyncTask(mOnListener, context, email, name).execute(url)
     }
 

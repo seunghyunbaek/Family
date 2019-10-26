@@ -13,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.Activity.RecordActivity"></activity>
+        <activity android:name=".view.Activity.MessageActivity"></activity>
+        <activity android:name=".view.Activity.InvitedActivity" />
+        <activity android:name=".view.Activity.RecordActivity" />
         <activity android:name=".view.Activity.TransferActivity" />
         <activity android:name=".view.Activity.FindActivity" />
         <activity android:name=".view.Activity.ImageActivity" />

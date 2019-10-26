@@ -5,6 +5,7 @@ import android.content.Intent
 import com.hyun.familyapplication.contract.SignInContract
 import com.hyun.familyapplication.model.SignInModel
 import org.json.JSONObject
+import java.lang.Exception
 import java.lang.NullPointerException
 
 class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListener {
@@ -62,7 +63,8 @@ class SignInPresenter : SignInContract.Presenter, SignInContract.onSignInListene
                     val room = json.getInt("room")
                     signInModel.saveUserSQLite(context, json.getString("email"), json.getString("name"), room)
                     signinView?.moveMainActivity()
-                } catch (e:NullPointerException) {
+//                } catch (e:NullPointerException) {
+                } catch (e:Exception) {
                     signInModel.saveUserSQLite(context, json.getString("email"), json.getString("name"))
                     signinView?.moveMainActivity()
                 }

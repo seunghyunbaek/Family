@@ -51,8 +51,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         image_signout.setOnClickListener {
-            val mAuth = FirebaseAuth.getInstance()
-            mAuth.signOut()
+//            val mAuth = FirebaseAuth.getInstance()
+//            mAuth.signOut()
+            val db = DBHelper(this)
+            db.deleteUser()
         }
 
         btnMyHome.setOnClickListener(View.OnClickListener {
