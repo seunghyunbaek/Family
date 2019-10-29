@@ -23,7 +23,7 @@
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:gravity="center_vertical"
-        android:text="초대하기"
+        android:text="유저찾기"
         android:textSize="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/button_back_find"
         app:layout_constraintStart_toEndOf="@+id/button_back_find"

@@ -13,19 +13,27 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/item_text_title_record"
+            android:id="@+id/item_text_send_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="TITLE" />
+            tools:text="발신인" />
 
         <TextView
-            android:id="@+id/tv_main_content"
+            android:id="@+id/item_text_receive_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/item_text_send_message"
+            tools:text="수신인" />
+
+        <TextView
+            android:id="@+id/tv_main_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_text_title_record"
+            android:layout_below="@+id/item_text_receive_message"
             android:layout_marginTop="10dp"
             android:autoLink="web"
-            tools:text="Content" />
+            tools:text="내용" />
 
         <!--<ImageView-->
             <!--android:id="@+id/viewpager_item_record"-->
@@ -37,10 +45,10 @@
             <!--tools:srcCompat="@tools:sample/avatars" />-->
 
         <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager_item_record"
+            android:id="@+id/viewpager_item_message"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_below="@id/tv_main_content"
+            android:layout_below="@id/tv_main_message"
             android:layout_marginTop="10dp" />
     </RelativeLayout>
 

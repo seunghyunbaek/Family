@@ -76,7 +76,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnMessage.setOnClickListener {
-            Intent(this, TestDB::class.java).let {
+//            Intent(this, TestDB::class.java).let {
+//                startActivity(it)
+//            }
+            Intent(this, MessageActivity::class.java).let{
                 startActivity(it)
             }
         }
