@@ -5,18 +5,15 @@ import com.hyun.familyapplication.presenter.BasePresenter
 import com.hyun.familyapplication.view.Adapter.FindAdapter
 import com.hyun.familyapplication.view.BaseView
 
-interface FindContract {
+interface Find2Contract {
     interface View : BaseView {
 
     }
 
-    interface Presenter:BasePresenter<View> {
-        fun setAdapter(adapte:FindAdapter)
-        fun findUser(context: Context, email:String)
-        fun inviteUser(url:String, room:Int, inviter:String, guest:String)
+    interface Presenter: BasePresenter<View> {
+        fun find(url:String)
     }
 
     interface Listener {
-        fun onSuccess(result:String)
     }
 }

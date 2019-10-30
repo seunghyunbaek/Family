@@ -13,10 +13,13 @@ class WriteMessageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_write_message)
 
         linear_group_find_user.setOnClickListener {
-            Intent(this, FindActivity::class.java).let {
-                startActivity(it)
+            Intent(this, Find2Activity::class.java).let {
+                startActivityForResult(it, 1)
             }
         }
+    }
 
+    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+        super.startActivityForResult(intent, requestCode)
     }
 }
