@@ -88,6 +88,48 @@ class APIUtils {
         }
     }
 
+    // GET Message
+    class getMessageAsyncTask(listener:MessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener:MessageContract.Listener? = null
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("-----------------GET Message-----------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener?.onSuccess(result)
+//                println("$result")
+            }
+        }
+    }
+
     // GET Invited
     class getInvitedAsyncTask(listener:InvitedContract.Listener) :
         AsyncTask<String, Any, String?>() {
@@ -494,6 +536,56 @@ class APIUtils {
                 println("-------------------------------------------------------------------------")
             } else {
                 println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostExecute(실패)      -------------------")
+                println("-------------------------------------------------------------------------")
+            }
+        }
+    }
+
+    // POST
+    class postMessageAsyncTask(listener:WriteMessageContract.Listener) : AsyncTask<String, Any, String?>() {
+
+        private var listener:WriteMessageContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "POST"
+
+                val wr = OutputStreamWriter(outputStream)
+                wr.write(data)
+                wr.flush()
+                wr.close()
+
+                println("------------POST WR Message-----------")
+                println("연결주소 : $urlString")
+                println("응답코드 : $responseCode") // 200 201 등등
+                println("응답메세지 : $responseMessage") // Created
+                println("보낸 데이터 : $data")
+                println("---------------------------------------")
+                return responseCode.toString()
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result?.toInt() == 201) {
+                println("----------------------------POST WR Messaeg------------------------------")
+                println("-----------------       post onPostExecute(성공)      -------------------")
+                println("-------------------------------------------------------------------------")
+                listener.onSuccess()
+            } else {
+                println("----------------------------POST WR Messaeg------------------------------")
                 println("-----------------       post onPostExecute(실패)      -------------------")
                 println("-------------------------------------------------------------------------")
             }

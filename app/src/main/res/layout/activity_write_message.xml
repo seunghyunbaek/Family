@@ -7,7 +7,7 @@
     tools:context="com.hyun.familyapplication.view.Activity.WriteMessageActivity">
 
     <ImageView
-        android:id="@+id/button_back_wr_message"
+        android:id="@+id/btn_back_wrmessage"
         style="@style/size_40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -22,17 +22,28 @@
         app:srcCompat="@drawable/ic_arrow_left_thin" />
 
     <TextView
-        android:id="@+id/text_wr_message"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:text="글 쓰기"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/button_back_wr_message"
-        app:layout_constraintTop_toTopOf="@+id/button_back_wr_message" />
+        app:layout_constraintStart_toEndOf="@+id/btn_back_wrmessage"
+        app:layout_constraintTop_toTopOf="@+id/btn_back_wrmessage" />
+
+    <TextView
+        android:id="@+id/btn_send_wrmessage"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:text="보내기"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_back_wrmessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_back_wrmessage" />
 
     <LinearLayout
         android:id="@+id/linear_group_find_user"
@@ -43,28 +54,44 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_back_wr_message">
-
-        <ImageView
-            style="@style/size_40dp"
-            android:src="@drawable/ic_people" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_back_wrmessage">
 
         <TextView
             style="@style/margin_0dp_10dp"
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="수신인 찾기" />
+            android:text="수신인"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/edit_email_wrmessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="이메일을 입력해주세요"
+            android:inputType="textPersonName" />
 
         <ImageView
-            style="@style/size_40dp"
-            android:padding="5dp"
-            android:src="@drawable/ic_right_thin_arrow" />
+            android:id="@+id/clear_wrmessage"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginRight="10dp"
+            android:visibility="invisible"
+            app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+
+        <Button
+            android:id="@+id/btn_check_wrmessage"
+            style="@style/Widget.AppCompat.Button.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="확인" />
+
     </LinearLayout>
 
     <EditText
-        android:id="@+id/edit_message"
+        android:id="@+id/edit_content_wrmessage"
         style="@style/margin_10dp_20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

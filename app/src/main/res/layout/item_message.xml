@@ -6,50 +6,68 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_message_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:orientation="vertical">
+        android:layout_margin="20dp">
 
         <TextView
-            android:id="@+id/item_text_send_message"
+            android:id="@+id/item_text_sender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="발신인" />
+            android:text="보낸 사람"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="보낸 사람" />
 
         <TextView
-            android:id="@+id/item_text_receive_message"
+            android:id="@+id/item_text_sender2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/item_text_sender"
+            app:layout_constraintTop_toTopOf="@id/item_text_sender"
+            tools:text="qwer@naver.com" />
+
+        <TextView
+            android:id="@+id/item_text_receiver"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/item_text_send_message"
-            tools:text="수신인" />
+            android:text="받는 사람"
+            app:layout_constraintStart_toStartOf="@id/item_text_sender"
+            app:layout_constraintTop_toBottomOf="@id/item_text_sender"
+            tools:text="받는 사람" />
+
+        <TextView
+            android:id="@+id/item_text_receiver2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            app:layout_constraintStart_toEndOf="@id/item_text_receiver"
+            app:layout_constraintTop_toTopOf="@id/item_text_receiver"
+            tools:text="asdf@gmail.com" />
 
         <TextView
             android:id="@+id/tv_main_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/item_text_receive_message"
             android:layout_marginTop="10dp"
             android:autoLink="web"
-            tools:text="내용" />
+            app:layout_constraintStart_toStartOf="@id/item_text_sender"
+            app:layout_constraintTop_toBottomOf="@id/item_text_receiver"
+            tools:text="메세지 내용" />
 
         <!--<ImageView-->
-            <!--android:id="@+id/viewpager_item_record"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="200dp"-->
-            <!--android:layout_below="@id/tv_main_content"-->
-            <!--android:layout_marginTop="10dp"-->
-            <!--android:visibility="gone"-->
-            <!--tools:srcCompat="@tools:sample/avatars" />-->
+        <!--android:id="@+id/viewpager_item_record"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="200dp"-->
+        <!--android:layout_below="@id/tv_main_content"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:visibility="gone"-->
+        <!--tools:srcCompat="@tools:sample/avatars" />-->
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager_item_message"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_below="@id/tv_main_message"
-            android:layout_marginTop="10dp" />
-    </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

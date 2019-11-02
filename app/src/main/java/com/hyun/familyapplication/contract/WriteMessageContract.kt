@@ -1,20 +1,19 @@
 package com.hyun.familyapplication.contract
 
 import android.content.Context
-import com.hyun.familyapplication.model.Message
 import com.hyun.familyapplication.presenter.BasePresenter
 import com.hyun.familyapplication.view.BaseView
 
-class MessageContract {
+interface WriteMessageContract {
     interface View:BaseView {
-        fun setData(list:ArrayList<Message>)
+        fun success()
     }
 
     interface Presenter:BasePresenter<View> {
-        fun getData(context: Context)
+        fun sendMessage(context:Context, receiver:String, content:String)
     }
 
     interface Listener {
-        fun onSuccess(result:String)
+        fun onSuccess()
     }
 }

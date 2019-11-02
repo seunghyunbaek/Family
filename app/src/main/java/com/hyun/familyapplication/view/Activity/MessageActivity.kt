@@ -1,17 +1,20 @@
 package com.hyun.familyapplication.view.Activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.MessageContract
+import com.hyun.familyapplication.model.Message
 import com.hyun.familyapplication.presenter.MessagePresenter
+import com.hyun.familyapplication.view.Adapter.MessageAdapter
 import kotlinx.android.synthetic.main.activity_message.*
 
 class MessageActivity : BaseActivity(), MessageContract.View {
 
-    private var presenter:MessageContract.Presenter? = null
+    private var presenter: MessagePresenter? = null
+    private var adapter: MessageAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,9 +22,12 @@ class MessageActivity : BaseActivity(), MessageContract.View {
 
         presenter?.takeView(this)
 
+        recyclerview_message.layoutManager = LinearLayoutManager(this)
+        adapter = MessageAdapter()
+        recyclerview_message.adapter = adapter
 
-        message_fab.setOnClickListener{
-            Intent(this, WriteMessageActivity::class.java).let{
+        message_fab.setOnClickListener {
+            Intent(this, WriteMessageActivity::class.java).let {
                 startActivity(it)
             }
         }
@@ -37,12 +43,19 @@ class MessageActivity : BaseActivity(), MessageContract.View {
 
     override fun onStart() {
         super.onStart()
-        if(presenter==null)
+        if (presenter == null) {
             initPresenter()
+        } else {
+            presenter?.getData(this)
+        }
     }
 
     override fun onDestroy() {
         presenter?.dropView()
         super.onDestroy()
+    }
+
+    override fun setData(list: ArrayList<Message>) {
+        adapter?.setData(list)
     }
 }
