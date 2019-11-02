@@ -26,7 +26,7 @@ class FamilyAdapter(context: Context) : RecyclerView.Adapter<FamilyAdapter.Famil
                     if(items!!.size == 1) {
                         listener?.onDeleteRoom(ctx)
                     } else {
-                        listener?.onExit()
+                        listener?.onExit(ctx)
                     }
                 }
             }

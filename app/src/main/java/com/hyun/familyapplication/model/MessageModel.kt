@@ -1,5 +1,6 @@
 package com.hyun.familyapplication.model
 
+import android.content.ContentValues
 import android.content.Context
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
@@ -14,6 +15,20 @@ class MessageModel {
             val url = context.getString(R.string.url) + "message/?receiver=${user?.email}"
 
             APIUtils.getMessageAsyncTask(listener).execute(url)
+        }
+
+        fun readMessage(context:Context, listener: MessageContract.Listener) {
+            val db = DBHelper(context)
+            val user = db.getUser()
+            val url = context.getString(R.string.url) + "messagereceive/" + user?.email + "/"
+
+            val cv = ContentValues()
+            cv.put("receiver", user?.email)
+            cv.put("count", 0)
+            val json = APIUtils.makeJson(cv)
+
+            // put messagereceive
+            APIUtils.putMessageReceive2AsyncTask(listener).execute(url, json)
         }
 
         fun parseArray(result:String):ArrayList<Message> {

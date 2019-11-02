@@ -14,6 +14,9 @@ interface WriteMessageContract {
     }
 
     interface Listener {
+        fun onWriteSuccess(context: Context, result:String)
+        fun onGetMessageCount(context: Context, result:String)
+        fun onCreateMessageReceive(context: Context, receiver:String)
         fun onSuccess()
     }
 }

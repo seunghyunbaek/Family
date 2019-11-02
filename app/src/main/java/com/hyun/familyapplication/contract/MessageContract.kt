@@ -12,6 +12,7 @@ class MessageContract {
 
     interface Presenter:BasePresenter<View> {
         fun getData(context: Context)
+        fun readMessage(context:Context)
     }
 
     interface Listener {

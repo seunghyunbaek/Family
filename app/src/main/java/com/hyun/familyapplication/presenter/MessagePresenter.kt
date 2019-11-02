@@ -19,6 +19,11 @@ class MessagePresenter : MessageContract.Presenter, MessageContract.Listener {
         MessageModel.getData(context, this)
     }
 
+    override fun readMessage(context: Context) {
+        MessageModel.readMessage(context, this)
+    }
+
+    // Listener
     override fun onSuccess(result: String) {
         val list = MessageModel.parseArray(result)
         view?.setData(list)

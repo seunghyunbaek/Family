@@ -64,11 +64,10 @@ class WriteMessageActivity : BaseActivity(), WriteMessageContract.View {
             }
 
             // 메세지 보내기
-            presenter?.sendMessage(this, edit_email_wrmessage.text.toString(), edit_content_wrmessage.text.toString())
+            presenter?.sendMessage(this, edit_email_wrmessage.text.toString().replace(".", "_"), edit_content_wrmessage.text.toString().replace(".", "_"))
         }
 
     }
-
 
     fun showToast(msg: String) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()

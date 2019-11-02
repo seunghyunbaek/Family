@@ -12,6 +12,7 @@ interface FamilyContract {
         fun hideLoading()
         fun transferActivity()
         fun mainActivity()
+        fun exitRoom(bool:Boolean)
     }
 
     // Family Presenter가 구현해야할 인터페이스
@@ -19,12 +20,15 @@ interface FamilyContract {
         fun getFamily(context: Context)
         fun findFamily()
         fun takeAdapter(adapter:FamilyAdapter)
+        fun getHost(context: Context)
     }
 
     interface Listener {
         fun onSuccess(result:String, email:String)
         fun onDeleteRoom(context: Context)
         fun onDelSuccess(context:Context)
-        fun onExit()
+        fun onExit(context: Context)
+        fun onExitRoom(context:Context, result:String, bool:Boolean)
+        fun getHostResult(context:Context, result:String)
     }
 }

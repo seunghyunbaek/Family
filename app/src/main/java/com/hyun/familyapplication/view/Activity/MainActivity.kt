@@ -6,24 +6,25 @@ import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
+import com.hyun.familyapplication.contract.MainContract
+import com.hyun.familyapplication.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity(), MainContract.View {
+
+    private var presenter: MainPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         val date: String // 작성일
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             var current = LocalDate.now()
             var formatter = DateTimeFormatter.ofPattern("MM월 dd일")
@@ -42,6 +43,19 @@ class MainActivity : AppCompatActivity() {
         setButton()
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (presenter == null) {
+            initPresenter()
+        }
+        presenter?.checkMessage(this)
+    }
+
+    override fun onDestroy() {
+        presenter?.dropView()
+        super.onDestroy()
+    }
+
     fun setButton() {
 
         image_profile_btn.setOnClickListener {
@@ -51,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         image_signout.setOnClickListener {
-//            val mAuth = FirebaseAuth.getInstance()
+            //            val mAuth = FirebaseAuth.getInstance()
 //            mAuth.signOut()
             val db = DBHelper(this)
             db.deleteUser()
@@ -76,10 +90,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnMessage.setOnClickListener {
-//            Intent(this, TestDB::class.java).let {
+            //            Intent(this, TestDB::class.java).let {
 //                startActivity(it)
 //            }
-            Intent(this, MessageActivity::class.java).let{
+            Intent(this, MessageActivity::class.java).let {
                 startActivity(it)
             }
         }
@@ -99,6 +113,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
     companion object {
         fun getLaunchIntent(from: Context) = Intent(from, SignInActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -108,5 +123,23 @@ class MainActivity : AppCompatActivity() {
     override fun onBackPressed() {
 //        super.onBackPressed()
         finishAffinity()
+    }
+
+    override fun initPresenter() {
+        presenter = MainPresenter()
+        presenter?.takeView(this)
+    }
+
+    override fun showError(error: String) {
+        Toast.makeText(this, error, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun checkMessage(count: Int) {
+        if (count == 0) {
+            textMessageCount.visibility = View.INVISIBLE
+        } else {
+            textMessageCount.visibility = View.VISIBLE
+            textMessageCount.text = count.toString()
+        }
     }
 }

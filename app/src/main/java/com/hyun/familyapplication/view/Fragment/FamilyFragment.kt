@@ -89,6 +89,13 @@ class FamilyFragment : BaseFragment(), FamilyContract.View {
 
     }
 
+    override fun exitRoom(bool:Boolean) {
+        if(bool)
+            transferActivity()
+        else
+            mainActivity()
+    }
+
     override fun transferActivity() {
         Intent(context, TransferActivity::class.java).let {
             startActivity(it)
