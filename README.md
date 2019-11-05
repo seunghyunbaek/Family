@@ -6,6 +6,3 @@
 * MVP Pattern
 * Django
 * restframework
-
-
-### History
