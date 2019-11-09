@@ -65,5 +65,11 @@ class WriteMessageModel {
 
             APIUtils.putMessageReceiveAsyncTask(listener).execute(url, json)
         }
+
+        fun checkReceiver(context: Context, receiver: String, listener: WriteMessageContract.Listener){
+            val url = context.getString(R.string.url) + "user/" + receiver + "/"
+
+            APIUtils.getCheckReceiveAsyncTask(listener).execute(url)
+        }
     }
 }

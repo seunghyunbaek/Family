@@ -18,6 +18,9 @@ class WriteMessagePresenter : WriteMessageContract.Presenter, WriteMessageContra
         this.view = null
     }
 
+    override fun checkReceiver(context: Context, receiver: String) {
+        WriteMessageModel.checkReceiver(context, receiver, this)
+    }
 
     // Listener
     override fun onWriteSuccess(context: Context, result:String) {
@@ -35,5 +38,13 @@ class WriteMessagePresenter : WriteMessageContract.Presenter, WriteMessageContra
 
     override fun onSuccess() {
         view?.success()
+    }
+
+    override fun checkSuccess() {
+        view?.checkSuccess()
+    }
+
+    override fun checkFailure() {
+        view?.checkFailure()
     }
 }

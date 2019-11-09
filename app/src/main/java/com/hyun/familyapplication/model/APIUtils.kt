@@ -89,6 +89,50 @@ class APIUtils {
         }
     }
 
+    // GET checkReceive
+    class getCheckReceiveAsyncTask(listener: WriteMessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener:WriteMessageContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            with(url.openConnection() as HttpURLConnection) {
+                requestMethod = "GET"
+
+                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                    BufferedReader(InputStreamReader(inputStream)).use {
+                        val response = it.readText()
+                        println("---------------GET CHECKRECEIVE-------------------------")
+                        println("연결주소 : $urlString")
+                        println("응답코드 : $responseCode")
+                        println("응답메세지 : $responseMessage")
+                        println("받은 데이터 : $response")
+                        println("----------------------------------------------------------")
+                        return response
+                    }
+                }
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.checkSuccess()
+                println("$result")
+            } else {
+                listener.checkFailure()
+            }
+        }
+    }
+
     // GET MessageReceive
     class getMessageCountAsyncTask(context:Context, listener:WriteMessageContract.Listener, receiver:String) :
         AsyncTask<String, Any, String?>() {

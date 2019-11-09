@@ -13,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_write_message.*
 class WriteMessageActivity : BaseActivity(), WriteMessageContract.View {
 
     private var presenter:WriteMessagePresenter? = null
+    private var possible:Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +39,7 @@ class WriteMessageActivity : BaseActivity(), WriteMessageContract.View {
 //                        clear_wrmessage.visibility = View.VISIBLE
 //                    }
 //                }
+                possible = false
                 if (s?.length!! > 0) clear_wrmessage.visibility = View.VISIBLE
                 else clear_wrmessage.visibility = View.INVISIBLE
             }
@@ -45,6 +47,10 @@ class WriteMessageActivity : BaseActivity(), WriteMessageContract.View {
         // 이메일 지우기
         clear_wrmessage.setOnClickListener {
             edit_email_wrmessage.text = null
+        }
+
+        btn_check_wrmessage.setOnClickListener {
+            presenter?.checkReceiver(this, edit_email_wrmessage.text.toString())
         }
 
         // 메세지 보내기
@@ -60,6 +66,11 @@ class WriteMessageActivity : BaseActivity(), WriteMessageContract.View {
             if (edit_content_wrmessage.text.toString().equals("")) {
                 showToast("메세지를 작성해주세요")
 //                Toast.makeText(this, "메세지를 작성해주세요", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            if(!possible) {
+                showToast("수신인을 확인해주세요")
                 return@setOnClickListener
             }
 
@@ -79,6 +90,16 @@ class WriteMessageActivity : BaseActivity(), WriteMessageContract.View {
 
     override fun success() {
         finish()
+    }
+
+    override fun checkSuccess() {
+        showToast("수신인이 확인되었습니다")
+        possible = true
+    }
+
+    override fun checkFailure() {
+        showToast("수신인을 다시 작성해주세요")
+        possible = false
     }
 
     override fun showError(error: String) {
