@@ -24,6 +24,11 @@ class MainPresenter : MainContract.Presenter, MainContract.Listener {
         MainModel.checkRecord(context, this)
     }
 
+    override fun signOut(context: Context) {
+        MainModel.signOut(context)
+        view?.signInActivity()
+    }
+
     // Listener
     override fun checkMessage(result: String) {
         val count = MainModel.getCount(result)

@@ -57,5 +57,10 @@ class MainModel {
 
             return count
         }
+
+        fun signOut(context:Context) {
+            val db = DBHelper(context)
+            db.deleteUser()
+        }
     }
 }

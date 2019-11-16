@@ -1,11 +1,14 @@
 package com.hyun.familyapplication.view.Activity
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.MainContract
@@ -68,8 +71,26 @@ class MainActivity : BaseActivity(), MainContract.View {
         image_signout.setOnClickListener {
             //            val mAuth = FirebaseAuth.getInstance()
 //            mAuth.signOut()
-            val db = DBHelper(this)
-            db.deleteUser()
+
+//            val db = DBHelper(this)
+
+            var dialogListener = object : DialogInterface.OnClickListener {
+                override fun onClick(dialog: DialogInterface?, which: Int) {
+                    when (which) {
+                        DialogInterface.BUTTON_POSITIVE -> {
+//                            db.deleteUser()
+                            presenter?.signOut(this@MainActivity)
+                        }
+                    }
+                }
+            }
+
+            val dialog = AlertDialog.Builder(this)
+            dialog.setMessage("로그아웃 하시겠습니까?")
+            dialog.setPositiveButton("예", dialogListener)
+            dialog.setNegativeButton("아니오", dialogListener)
+            dialog.show()
+//            db.deleteUser()
         }
 
         btnMyHome.setOnClickListener(View.OnClickListener {
@@ -121,7 +142,24 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     override fun onBackPressed() {
 //        super.onBackPressed()
-        finishAffinity()
+//        finishAffinity()
+
+        var dialogListener = object : DialogInterface.OnClickListener {
+            override fun onClick(dialog: DialogInterface?, which: Int) {
+                when (which) {
+                    DialogInterface.BUTTON_POSITIVE -> {
+//                            db.deleteUser()
+                        finishAffinity()
+                    }
+                }
+            }
+        }
+
+        val dialog = AlertDialog.Builder(this)
+        dialog.setMessage("앱을 종료하시겠습니까?")
+        dialog.setPositiveButton("예", dialogListener)
+        dialog.setNegativeButton("아니오", dialogListener)
+        dialog.show()
     }
 
     override fun initPresenter() {
@@ -148,6 +186,13 @@ class MainActivity : BaseActivity(), MainContract.View {
         } else {
             textRecordCount.visibility = View.VISIBLE
             textRecordCount.text = count.toString()
+        }
+    }
+
+    override fun signInActivity() {
+        Intent(this, SignInActivity::class.java).let {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(it)
         }
     }
 }

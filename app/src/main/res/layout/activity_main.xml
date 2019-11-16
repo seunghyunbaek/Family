@@ -38,7 +38,7 @@
             android:layout_gravity="center_vertical"
             android:background="#008D1A1A"
             android:padding="5dp"
-            app:srcCompat="@drawable/ic_bell_outline" />
+            app:srcCompat="@drawable/logout" />
     </LinearLayout>
 
     <LinearLayout

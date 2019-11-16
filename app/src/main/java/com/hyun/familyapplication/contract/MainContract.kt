@@ -9,11 +9,13 @@ interface MainContract {
     interface View : BaseView {
         fun checkMessage(count:Int)
         fun checkRecord(count:Int)
+        fun signInActivity()
     }
 
     interface Presenter : BasePresenter<View> {
         fun checkMessage(context: Context)
         fun checkRecord(context:Context)
+        fun signOut(context:Context)
     }
 
     interface Listener {
