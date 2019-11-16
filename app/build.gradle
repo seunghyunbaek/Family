@@ -80,6 +80,7 @@ dependencies {
     implementation group: 'cz.msebera.android', name: 'httpclient', version: '4.5.3'
     // photo view
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
+    implementation 'com.github.WindSekirun:RollingBanner:1.0.7-androidx'
 }
 
 apply plugin: 'com.google.gms.google-services'

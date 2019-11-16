@@ -30,7 +30,8 @@ class RecordActivity : AppCompatActivity() {
             text_date_record_activity.text = date
 
             val adapter = SliderAdapter(this, imglist)
-            viewpager_record_activity.adapter = adapter
+            viewpager_record_activity.setAdapter(adapter)
+//            viewpager_record_activity.adapter = adapter
         } else {
             val name = b.getString("name")
             val content = b.getString("content")

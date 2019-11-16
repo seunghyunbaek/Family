@@ -45,8 +45,21 @@ class RecordAdapter(
                         imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
                     }
                     val adapter = SliderAdapter(context!!, imglist)
-                    viewPager.adapter = adapter
+                    viewPager.setAdapter(adapter)
+//                    viewPager.adapter = adapter
                     viewPager.visibility = View.VISIBLE
+                    viewPager.setOnClickListener {
+                        Intent(context, RecordActivity::class.java).let {
+                            var imglist = ArrayList<String>()
+                            for(imgobjidx in 0 ..(item.record_images!!.length() -1 )) {
+                                imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                            }
+                            it.putExtra("name", item.name)
+                            it.putExtra("content", item.content)
+                            it.putExtra("date", item.date)
+                            it.putStringArrayListExtra("imglist", imglist)
+                        }
+                    }
                 } else {
                     viewPager.visibility = View.GONE
                 }

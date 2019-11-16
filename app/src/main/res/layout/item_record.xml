@@ -36,12 +36,20 @@
             <!--android:visibility="gone"-->
             <!--tools:srcCompat="@tools:sample/avatars" />-->
 
-        <androidx.viewpager.widget.ViewPager
+        <pyxis.uzuki.live.rollingbanner.RollingBanner
             android:id="@+id/viewpager_item_record"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:layout_below="@id/tv_main_content"
             android:layout_marginTop="10dp" />
+
+        <!-- 기존 코드-->
+        <!--<androidx.viewpager.widget.ViewPager-->
+            <!--android:id="@+id/viewpager_item_record"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:layout_below="@id/tv_main_content"-->
+            <!--android:layout_marginTop="10dp" />-->
     </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>
