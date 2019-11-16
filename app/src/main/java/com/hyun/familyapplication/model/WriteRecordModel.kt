@@ -27,10 +27,10 @@ class WriteRecordModel {
         APIUtils.postWRAsyncTask(mOnListener, context, uriList).execute(url, json)
     }
 
-    fun saveImageInServer(context: Context, str:String, uriList: MutableList<String>?) {
-        val jsonObject = JSONObject(str)
-        val id:Int = jsonObject.getInt("id")
-        val room:Int = jsonObject.getInt("room")
+    fun saveImageInServer(context: Context, recordResult:String, uriList: MutableList<String>?) {
+//        val jsonObject = JSONObject(str)
+//        val id:Int = jsonObject.getInt("id")
+//        val room:Int = jsonObject.getInt("room")
 
 //        val contentValues = ContentValues()
 //        contentValues.put("record", id)
@@ -39,6 +39,7 @@ class WriteRecordModel {
 //        val json = APIUtils.makeJson(contentValues)
 
         val url = context.getString(R.string.url) + "image/"
-        APIUtils.postImageAsyncTask(mOnListener, context, uriList).execute(url, str)
+//        APIUtils.postImageAsyncTask(mOnListener, context, uriList).execute(url, recordResult) // str : {id:01, name:hyun .... }
+        APIUtils.postImageAsyncTask(mOnListener, context, recordResult, uriList).execute(url) // str : {id:01, name:hyun .... }
     }
 }

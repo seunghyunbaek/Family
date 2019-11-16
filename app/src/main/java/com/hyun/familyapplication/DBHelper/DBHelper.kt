@@ -299,6 +299,7 @@ class DBHelper(
     fun deleteUser() {
         val db = this.writableDatabase
         db.delete(PROFILE_TABLE_NAME, null, null)
+        db.close()
     }
     // [END User TABLE]
 
@@ -338,7 +339,7 @@ class DBHelper(
 
     companion object {
         private val DATABASE_NAME = "KFAMILY.db"
-        private val DATABASE_VER = 3
+        private val DATABASE_VER = 9
 
         private val RECORD_TABLE_NAME = "Record"
         private val RECORD_COOL_ID = "id"

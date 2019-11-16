@@ -6,12 +6,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
+import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.R
+import com.hyun.familyapplication.contract.FamilyContract
+import com.hyun.familyapplication.presenter.FamilyPresenter
+import com.hyun.familyapplication.view.Activity.FindActivity
 import com.hyun.familyapplication.view.Activity.MainActivity
+import com.hyun.familyapplication.view.Activity.TransferActivity
 import com.hyun.familyapplication.view.Adapter.FamilyAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,9 +27,11 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class FamilyFragment : BaseFragment() {
+class FamilyFragment : BaseFragment(), FamilyContract.View {
 
-    lateinit var invitePeople: LinearLayout
+    private lateinit var mPresenter: FamilyPresenter
+    private lateinit var recyclerView: RecyclerView
+    private var adapter: FamilyAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,25 +39,77 @@ class FamilyFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+        super.onCreateView(inflater, container, savedInstanceState)
         val view: View = inflater.inflate(R.layout.fragment_family, container, false)
 
-        invitePeople = view.findViewById(R.id.linear_group_invite_family)
-        invitePeople.setOnClickListener {
-            Intent(view.context, MainActivity::class.java).let {
+        val imgRight = view.findViewById<ImageView>(R.id.imgRightFamily)
+        imgRight.setOnClickListener {
+            Intent(context, FindActivity::class.java).let {
                 startActivity(it)
             }
         }
+        mPresenter.takeView(this)
 
-        val mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_family)
-        mRecyclerView.layoutManager = LinearLayoutManager(view.context)
-        mRecyclerView.adapter = FamilyAdapter()
+        recyclerView = view.findViewById(R.id.recyclerview_family)
+        recyclerView.layoutManager = LinearLayoutManager(view.context)
+        adapter = FamilyAdapter(view.context)
+        mPresenter.takeAdapter(adapter!!)
+        adapter!!.setDialog(context!!)
+        recyclerView.adapter = adapter
 
         return view
     }
 
-
     override fun initPresenter() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        mPresenter = FamilyPresenter()
     }
 
+    fun refreshData() {
+        mPresenter.getFamily(context!!)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (mPresenter == null) {
+            initPresenter()
+        }
+        refreshData()
+    }
+
+    override fun onDestroy() {
+        mPresenter.dropView()
+        super.onDestroy()
+    }
+
+
+    override fun showLoading() {
+    }
+
+    override fun hideLoading() {
+
+    }
+
+    override fun exitRoom(bool:Boolean) {
+        if(bool)
+            transferActivity()
+        else
+            mainActivity()
+    }
+
+    override fun transferActivity() {
+        Intent(context, TransferActivity::class.java).let {
+            startActivity(it)
+        }
+    }
+
+    override fun mainActivity() {
+        Intent(context, MainActivity()::class.java).let {
+            it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            startActivity(it)
+        }
+
+    }
+
+    override fun showError(error: String) {
+    }
 }

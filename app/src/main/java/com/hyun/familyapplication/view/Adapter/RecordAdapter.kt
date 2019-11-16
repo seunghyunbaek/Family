@@ -4,12 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
+import com.hyun.familyapplication.view.Activity.RecordActivity
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import kotlinx.android.synthetic.main.item_record.view.*
 
@@ -30,39 +31,68 @@ class RecordAdapter(
                 tvTitle.text = item.name
                 tvContent.text = item.content
 //                val rslt = DBUtils.getImageList(item.id, lstImages)
-//                val adapter = SliderAdapter(context!!, rslt)
-//                viewPager.adapter = adapter
-                for (ri in lstImages) {
-                    if (ri.record == item.id) {
-                        viewPager.visibility = View.VISIBLE
-                        Glide.with(context!!).load(ri.uri)
-                            .into(viewPager)
-//                        notifyDataSetChanged()
-                        break
-                    } else {
-                        viewPager.visibility = View.GONE
+
+                println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+                println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+                println("item.record_images?.length():$position")
+                println(item.record_images?.length())
+                println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+                println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+
+                if (item.record_images!!.length() > 0) {
+                    var imglist = ArrayList<String>()
+                    for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
+                        imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                    }
+                    val adapter = SliderAdapter(context!!, imglist)
+                    viewPager.setAdapter(adapter)
+//                    viewPager.adapter = adapter
+                    viewPager.visibility = View.VISIBLE
+                    viewPager.setOnClickListener {
+                        Intent(context, RecordActivity::class.java).let {
+                            var imglist = ArrayList<String>()
+                            for(imgobjidx in 0 ..(item.record_images!!.length() -1 )) {
+                                imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                            }
+                            it.putExtra("name", item.name)
+                            it.putExtra("content", item.content)
+                            it.putExtra("date", item.date)
+                            it.putStringArrayListExtra("imglist", imglist)
+                        }
+                    }
+                } else {
+                    viewPager.visibility = View.GONE
+                }
+//                for (ri in lstImages) {
+//                    if (ri.record == item.id) {
+//                        viewPager.visibility = View.VISIBLE
+//                        Glide.with(context!!).load(ri.uri)
+//                            .into(viewPager)
+//                        break
+//                    } else {
+//                        viewPager.visibility = View.GONE
+//                    }
+//                }
+                this.itemView.setOnClickListener {
+                    Intent(context, RecordActivity::class.java).let{
+                        if(viewPager.visibility == View.VISIBLE) {
+                            var imglist = ArrayList<String>()
+                            for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
+                                imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                            }
+                            it.putExtra("name", item.name)
+                            it.putExtra("content", item.content)
+                            it.putExtra("date", item.date)
+                            it.putStringArrayListExtra("imglist", imglist)
+                        } else {
+                            it.putExtra("name", item.name)
+                            it.putExtra("content", item.content)
+                            it.putExtra("date", item.date)
+                        }
+                        context!!.startActivity(it)
                     }
                 }
             }
-
-
-//            holder.itemView.setOnClickListener {
-//                //                    tvTitle.text = "hi"
-//
-//                val record = Record()
-//                record.id = lstRecord[position].id
-//                record.name = lstRecord[position].name
-//                record.date = lstRecord[position].date
-//                record.content = lstRecord[position].content
-//
-//                val db = RecordDBHelper(context)
-//                db.deleteRecord(record)
-//
-//                lstRecord = db.allRecord
-//
-//                this.notifyDataSetChanged()
-//            }
-
 
         }
     }

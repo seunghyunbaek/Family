@@ -63,10 +63,14 @@ class WriteRecordPresenter : WriteRecordContract.Presenter, WriteRecordContract.
     }
 
 
-    override fun onSuccess(context: Context, str: String, uriList: MutableList<String>?) {
-        if (uriList?.size == 0) wrView?.successRecord()
-        else {
-            writeRecordModel.saveImageInServer(context, str, uriList)
+    override fun onSuccess(context: Context, recordResult_: String, uriList: MutableList<String>?) {
+        if (uriList?.size == 0) {
+            onEnd(context, recordResult_)
+//            wrView?.successRecord()
+        } else {
+            // str : {id:01, name:hyun .... }
+            val recordResult: String = recordResult_
+            writeRecordModel.saveImageInServer(context, recordResult, uriList)
         }
     }
 
@@ -74,6 +78,7 @@ class WriteRecordPresenter : WriteRecordContract.Presenter, WriteRecordContract.
     }
 
     override fun onEnd(context: Context, result: String?) {
+        wrView?.hideLoading()
         wrView?.successRecord()
     }
 }

@@ -25,7 +25,8 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
-class TodoFragment : BaseFragment() {
+class
+TodoFragment : BaseFragment() {
 
     override fun initPresenter() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

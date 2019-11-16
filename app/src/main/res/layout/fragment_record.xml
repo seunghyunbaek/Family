@@ -7,10 +7,16 @@
     android:orientation="vertical"
     tools:context=".view.Fragment.RecordFragment" >
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperefresh_record"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview_record"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_record"

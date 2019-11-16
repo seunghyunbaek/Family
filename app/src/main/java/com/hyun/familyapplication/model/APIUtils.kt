@@ -3,10 +3,7 @@ package com.hyun.familyapplication.model
 import android.content.ContentValues
 import android.content.Context
 import android.os.AsyncTask
-import com.hyun.familyapplication.contract.MyHomeCheckContract
-import com.hyun.familyapplication.contract.RecordContract
-import com.hyun.familyapplication.contract.SignInContract
-import com.hyun.familyapplication.contract.WriteRecordContract
+import com.hyun.familyapplication.contract.*
 import cz.msebera.android.httpclient.client.methods.HttpPost
 import cz.msebera.android.httpclient.entity.ContentType
 import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode
@@ -20,6 +17,7 @@ import java.io.File
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.net.HttpURLConnection
+import java.net.NoRouteToHostException
 import java.net.URL
 import java.net.URLEncoder
 
@@ -60,45 +58,660 @@ class APIUtils {
     class getAsyncTask() :
         AsyncTask<String, Any, String?>() {
 
-
         override fun doInBackground(vararg params: String?): String? {
             val urlString: String? = params[0]
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "GET"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
 
-                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        val response = it.readText()
-                        println("----------------------------------------------------------")
-                        println("연결주소 : $urlString")
-                        println("응답코드 : $responseCode")
-                        println("응답메세지 : $responseMessage")
-                        println("받은 데이터 : $response")
-                        println("----------------------------------------------------------")
-                        return response
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
                     }
                 }
+            } catch (e: Exception) {
+                println("----------getAsync------")
+                e.printStackTrace()
             }
             return null
         }
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            if(result != null) {
+            if (result != null) {
                 println("$result")
             }
         }
     }
 
-    // GET Image
-    class getImageAsyncTask(mOnListener:RecordContract.onRecordListener) :
+    // GET checkReceive
+    class getCheckReceiveAsyncTask(listener: WriteMessageContract.Listener) :
         AsyncTask<String, Any, String?>() {
 
-        val mOnListener:RecordContract.onRecordListener
+        private var listener: WriteMessageContract.Listener
 
-        init{
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("---------------GET CHECKRECEIVE-------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----getCheckReceiveAsyncTask Error----")
+                e.printStackTrace()
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.checkSuccess()
+                println("$result")
+            } else {
+                listener.checkFailure()
+            }
+        }
+    }
+
+    // GET MessageReceive
+    class getMessageCountAsyncTask(
+        context: Context,
+        listener: WriteMessageContract.Listener,
+        receiver: String
+    ) :
+        AsyncTask<String, Any, String?>() {
+
+        private var context: Context
+        private var listener: WriteMessageContract.Listener
+        private var receiver: String
+
+        init {
+            this.context = context
+            this.listener = listener
+            this.receiver = receiver
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("------getMessageCountAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.onGetMessageCount(context, result)
+                println("$result")
+            } else {
+                listener.onCreateMessageReceive(context, receiver)
+            }
+        }
+    }
+
+    // GET MessageReceive
+    // GET checkMessage
+    class getCheckMessageAsyncTask(listener: MainContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener: MainContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e: NoRouteToHostException) {
+                println("----------------------try1:getCheckMessageAsyncTask Error-----------------")
+                e.printStackTrace()
+//                listener.onError("서버 점검중입니다")
+                println("----------------------------------------------------------")
+            } catch (e: Exception) {
+                println("-------------------------try2:getCheckMessageAsyncTask Error-----------")
+                e.printStackTrace()
+//                listener.onError("앱을 다시 실행해주세요")
+                println("----------------------------------------------------------")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.checkMessage(result)
+            }
+        }
+    }
+
+    // GET RecordReceive
+    // GET RecordCount
+    class getRecordReceiveAsyncTask(context: Context, listener: MainContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener: MainContract.Listener
+        private var context: Context
+
+        init {
+            this.listener = listener
+            this.context = context
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----getRecordReceiveAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onCheckRecord(context, result)
+            }
+        }
+    }
+
+    // GET Host
+    class getHostAsyncTask(context: Context, listener: FamilyContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var context: Context
+        private var listener: FamilyContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("-----------------GET Message-----------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch(e:Exception) {
+                println("---getHostAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.getHostResult(context, result)
+            }
+        }
+    }
+
+    // GET Message
+    class getMessageAsyncTask(listener: MessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener: MessageContract.Listener? = null
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("-----------------GET Message-----------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch(e:Exception) {
+                println("-----getMessageAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener?.onSuccess(result)
+//                println("$result")
+            }
+        }
+    }
+
+    // GET Invited
+    class getInvitedAsyncTask(listener: InvitedContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        val listener: InvitedContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("-------------GET Invited----------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch(e:Exception) {
+                println("-----getInvitedAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result)
+            }
+        }
+    }
+
+    // GET SignIn
+    class getSignInAsyncTask(
+        mOnListener: SignInContract.onSignInListener,
+        context: Context,
+        email: String,
+        name: String
+    ) :
+        AsyncTask<String, Any, String?>() {
+
+        val mOnListener: SignInContract.onSignInListener
+        val context: Context
+        val email: String
+        val name: String
+
+        init {
+            this.mOnListener = mOnListener
+            this.context = context
+            this.email = email
+            this.name = name
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch(e:Exception) {
+                println("-----getSignInAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            mOnListener.onGetUser(result, context, email, name)
+//            if (result != null) {
+//                println("$result")
+//            }
+        }
+    }
+
+    // GET Find
+    class getFindAsyncTask(listener: FindContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private val listener: FindContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch(e:Exception) {
+                println("------getFindAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result)
+            } else {
+
+                println("유저 못찾음")
+            }
+        }
+    }
+
+    // GET Transfer
+    class getTransferUserAsyncTask(listener: TransferContract.Listener, email: String?) :
+        AsyncTask<String, Any, String?>() {
+
+        private val listener: TransferContract.Listener
+        private val email: String
+
+        init {
+            this.listener = listener
+            this.email = email!!
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch(e:Exception) {
+                println("------getFindAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result, email)
+            } else {
+                println("--------------------------------------------")
+                println("룸 유저 : 통신 실패")
+                println("--------------------------------------------")
+            }
+        }
+    }
+
+    // GET Family
+    class getFamilyUserAsyncTask(listener: FamilyContract.Listener, email: String?) :
+        AsyncTask<String, Any, String?>() {
+
+        private val listener: FamilyContract.Listener
+        private val email: String
+
+        init {
+            this.listener = listener
+            this.email = email!!
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-------getFamilyUserAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                listener.onSuccess(result, email)
+            } else {
+                println("--------------------------------------------")
+                println("룸 유저 : 통신 실패")
+                println("--------------------------------------------")
+            }
+        }
+    }
+
+    // GET Image
+    class getPictureAsyncTask(mListener: PictureContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private val mListener: PictureContract.Listener
+
+        init {
+            this.mListener = mListener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    } else {
+                        println("--------------------------------------------------------------")
+                        println("실패 코드 : $responseCode")
+                        println("실패 메세지 : $responseMessage")
+                        println("--------------------------------------------------------------")
+                    }
+                }
+            } catch (e:Exception) {
+                println("----getPictureAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                mListener.onSeccess(result)
+            } else {
+                println("Picture 통신 실패")
+            }
+        }
+    }
+
+    // GET Image
+    class getImageAsyncTask(mOnListener: RecordContract.onRecordListener) :
+        AsyncTask<String, Any, String?>() {
+
+        val mOnListener: RecordContract.onRecordListener
+
+        init {
             this.mOnListener = mOnListener
         }
 
@@ -106,28 +719,32 @@ class APIUtils {
             val urlString: String? = params[0]
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "GET"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
 
-                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        val response = it.readText()
-                        println("----------------------------------------------------------")
-                        println("연결주소 : $urlString")
-                        println("응답코드 : $responseCode")
-                        println("응답메세지 : $responseMessage")
-                        println("받은 데이터 : $response")
-                        println("----------------------------------------------------------")
-                        return response
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
                     }
                 }
+            } catch (e:Exception) {
+                println("-------getImageAsyncTask Error")
             }
             return null
         }
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            if(result != null) {
+            if (result != null) {
                 println("$result")
                 mOnListener.onEnd(result)
             }
@@ -135,12 +752,60 @@ class APIUtils {
     }
 
     // GET Record
-    class getRecordAsyncTask(mOnListener:RecordContract.onRecordListener) :
+    class getRecordMainAsyncTask(count: String, mOnListener: MainContract.Listener) :
         AsyncTask<String, Any, String?>() {
 
-        val mOnListener:RecordContract.onRecordListener
+        val mOnListener: MainContract.Listener
+        val count: String
 
-        init{
+        init {
+            this.mOnListener = mOnListener
+            this.count = count
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("---------------------GET RECORD-------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("------getRecordMainAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                println("$result")
+                mOnListener.onRecord(count, result)
+            }
+        }
+    }
+
+    // GET Record
+    class getRecordAsyncTask(mOnListener: RecordContract.onRecordListener) :
+        AsyncTask<String, Any, String?>() {
+
+        val mOnListener: RecordContract.onRecordListener
+
+        init {
             this.mOnListener = mOnListener
         }
 
@@ -148,28 +813,32 @@ class APIUtils {
             val urlString: String? = params[0]
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "GET"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "GET"
 
-                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        val response = it.readText()
-                        println("----------------------------------------------------------")
-                        println("연결주소 : $urlString")
-                        println("응답코드 : $responseCode")
-                        println("응답메세지 : $responseMessage")
-                        println("받은 데이터 : $response")
-                        println("----------------------------------------------------------")
-                        return response
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("---------------------GET RECORD-------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
                     }
                 }
+            } catch (e:Exception) {
+                println("----getRecordAsyncTask Error")
             }
             return null
         }
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
-            if(result != null) {
+            if (result != null) {
                 println("$result")
                 mOnListener.onSuccess(result)
             }
@@ -186,21 +855,25 @@ class APIUtils {
 
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "POST"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
 
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(data)
-                wr.flush()
-                wr.close()
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
 
-                println("---------------------------------------")
-                println("연결주소 : $urlString")
-                println("응답코드 : $responseCode") // 200 201 등등
-                println("응답메세지 : $responseMessage") // Created
-                println("보낸 데이터 : $data")
-                println("---------------------------------------")
-                return responseCode.toString()
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode") // 200 201 등등
+                    println("응답메세지 : $responseMessage") // Created
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    return responseCode.toString()
+                }
+            } catch (e:Exception) {
+                println("------postAsyncTask Error")
             }
             return null
         }
@@ -219,20 +892,206 @@ class APIUtils {
         }
     }
 
+    // POST Message Receive
+    class postMessageReceiveAsyncTask(context: Context, listener: WriteMessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var context: Context
+        private var listener: WriteMessageContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("------------POST MessageReceive-----------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode") // 200 201 등등
+                    println("응답메세지 : $responseMessage") // Created
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    return responseCode.toString()
+                }
+            } catch(e:Exception) {
+                println("----postMessageReceiveAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result?.toInt() == 201) {
+                println("----------------------------POST MessageReceive------------------------------")
+                println("-----------------       post onPostExecute(성공)      -------------------")
+                println("-------------------------------------------------------------------------")
+                listener.onSuccess()
+            } else {
+                println("----------------------------POST MessageReceive------------------------------")
+                println("-----------------       post onPostExecute(실패)      -------------------")
+                println("-------------------------------------------------------------------------")
+            }
+        }
+    }
+
+
+    // POST Message
+    class postMessageAsyncTask(context: Context, listener: WriteMessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var context: Context
+        private var listener: WriteMessageContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("------------POST WR Message-----------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode") // 200 201 등등
+                    println("응답메세지 : $responseMessage") // Created
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+//                return responseCode.toString()
+                    if (responseCode == 201) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----postMessageAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.onWriteSuccess(context, result)
+            }
+//            if (result?.toInt() == 201) {
+//                println("----------------------------POST WR Messaeg------------------------------")
+//                println("-----------------       post onPostExecute(성공)      -------------------")
+//                println("-------------------------------------------------------------------------")
+//                listener.onWriteSuccess(context)
+//            } else {
+//                println("----------------------------POST WR Messaeg------------------------------")
+//                println("-----------------       post onPostExecute(실패)      -------------------")
+//                println("-------------------------------------------------------------------------")
+//            }
+        }
+    }
+
+    // POST Invite
+    class postInviteAsyncTask(listener: FindContract.Listener) : AsyncTask<String, Any, String?>() {
+
+        val listener: FindContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode") // 200 201 등등
+                    println("응답메세지 : $responseMessage") // Created
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    return responseCode.toString()
+                }
+            } catch (e:Exception) {
+                println("------postInviteAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result?.toInt() == 201) {
+                println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostInviteExecute(성공)      -------------------")
+                println("-------------------------------------------------------------------------")
+            } else {
+                println("-------------------------------------------------------------------------")
+                println("-----------------       post onPostInviteExecute(실패)      -------------------")
+                println("-------------------------------------------------------------------------")
+            }
+        }
+    }
+
     // POST Image
     class postImageAsyncTask(
         mOnListener: WriteRecordContract.onRecordListener,
         context: Context,
+        recordResult: String,
         uriList: MutableList<String>?
     ) : AsyncTask<String, Any, String?>() {
 
         val mOnListener: WriteRecordContract.onRecordListener
         val context: Context
+        val recordResult: String
         val uriList: MutableList<String>?
 
         init {
             this.mOnListener = mOnListener
             this.context = context
+            this.recordResult = recordResult
             this.uriList = uriList
         }
 
@@ -240,19 +1099,22 @@ class APIUtils {
         override fun doInBackground(vararg params: String?): String? {
 
             val urlString = params[0]
-            val data = params[1]
+//            val data = params[1]
 
-            val json = JSONObject(data)
+//            val json = JSONObject(data)
+//            val record = json.getInt("id")
+//            val room = json.getInt("room")
+
+            val json = JSONObject(recordResult)
             val record = json.getInt("id")
             val room = json.getInt("room")
 
-//            var bitmap: Bitmap? = null
-            var file: File? = null
+//            var file: File? = null
+//            for (filePath in uriList!!) {
+//                file = File(filePath)
+//            }
 
-            for (filePath in uriList!!) {
-//                bitmap = BitmapFactory.decodeFile(filePath)
-                file = File(filePath)
-            }
+            var file: File = File(uriList!!.get(0))
 
             val fileBody: FileBody = FileBody(file, ContentType.DEFAULT_BINARY)
             val recordBody = StringBody(record.toString(), ContentType.MULTIPART_FORM_DATA)
@@ -267,32 +1129,39 @@ class APIUtils {
             builder.addPart("room", roomBody)
             builder.addPart("uri", fileBody)
 
-            var entity = builder.build()
-            postRequest.setEntity(entity)
+            try {
 
-            val response = httpClient.execute(postRequest)
+                var entity = builder.build()
+                postRequest.setEntity(entity)
 
-            val reader = BufferedReader(
-                InputStreamReader(
-                    response.entity.content, "UTF-8"
+                val response = httpClient.execute(postRequest)
+
+                val reader = BufferedReader(
+                    InputStreamReader(
+                        response.entity.content, "UTF-8"
+                    )
                 )
-            )
 
-            var sResponse: String?
-            var s: StringBuilder = StringBuilder()
+                var sResponse: String?
+                var s: StringBuilder = StringBuilder()
 
-            sResponse = reader.readLine()
-            while (sResponse != null) {
-                s = s.append(sResponse)
                 sResponse = reader.readLine()
+                while (sResponse != null) {
+                    s = s.append(sResponse)
+                    sResponse = reader.readLine()
+                }
+
+                println("------------------------------------------")
+                println("Response:  " + s)
+                println("------------------------------------------")
+
+                if (!s.toString().equals("")) {
+                    uriList.removeAt(0)
+                    return s.toString()
+                }
+            } catch (e:Exception) {
+                println("------postImageAsyncTask Error")
             }
-
-            println("------------------------------------------")
-            println("Response:  " + s)
-            println("------------------------------------------")
-
-            if (!s.toString().equals(""))
-                return s.toString()
 
             return null
         }
@@ -300,8 +1169,10 @@ class APIUtils {
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
 
-            if (!result.equals(""))
-                mOnListener.onEnd(context, result)
+            if (!result.equals("")) {
+                mOnListener.onSuccess(context, recordResult, uriList)
+//                mOnListener.onEnd(context, result)
+            }
 //            if (result?.toInt() == 201) {
 //                println("-------------------------------------------------------------------------")
 //                println("-----------------       post onPostExecute(성공)      -------------------")
@@ -338,35 +1209,31 @@ class APIUtils {
 
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "POST"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
 
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(data)
-                wr.flush()
-                wr.close()
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
 
-//                println("---------------------------------------")
-//                println("연결주소 : $urlString")
-//                println("응답코드 : $responseCode") // 200 201 등등
-//                println("응답메세지 : $responseMessage") // Created
-//                println("보낸 데이터 : $data")
-//                println("---------------------------------------")
-
-                if (responseCode == 201) { // 성공 했을 때에만 데이터 읽어오기
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        val response = it.readText()
-                        println("----------------------------------------------------------")
-                        println("연결주소 : $urlString")
-                        println("응답코드 : $responseCode")
-                        println("응답메세지 : $responseMessage")
-                        println("받은 데이터 : $response")
-                        println("----------------------------------------------------------")
-                        return response
+                    if (responseCode == 201) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
                     }
                 }
+            } catch (e:Exception) {
+                println("------postWRAsyncTask Error")
             }
-
             return null
         }
 
@@ -376,7 +1243,7 @@ class APIUtils {
                 println("-------------------------------------------------------------------------")
                 println("-----------------       post onPostExecute(성공)      -------------------")
                 println("-------------------------------------------------------------------------")
-                mOnListener.onSuccess(context, result, uriList)
+                mOnListener.onSuccess(context, result, uriList) // {id:01, name:hyun .... }
             } else {
                 println("-------------------------------------------------------------------------")
                 println("-----------------       post onPostExecute(실패)      -------------------")
@@ -408,33 +1275,37 @@ class APIUtils {
 
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "POST"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
 
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(data)
-                wr.flush()
-                wr.close()
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
 
-                println("---------------------------------------")
-                println("연결주소 : $urlString")
-                println("응답코드 : $responseCode") // 200 201 등등
-                println("응답메세지 : $responseMessage") // Created
-                println("보낸 데이터 : $data")
-                println("---------------------------------------")
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode") // 200 201 등등
+                    println("응답메세지 : $responseMessage") // Created
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
 
-                if (responseCode == 201) { // 성공 했을 때에만 데이터 읽어오기
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        val response = it.readText()
-                        println("----------------------------------------------------------")
-                        println("연결주소 : $urlString")
-                        println("응답코드 : $responseCode")
-                        println("응답메세지 : $responseMessage")
-                        println("받은 데이터 : $response")
-                        println("----------------------------------------------------------")
-                        return response
+                    if (responseCode == 201) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
                     }
                 }
+            } catch (e:Exception) {
+                println("-----postRoomAsyncTask Error")
             }
 
             return null
@@ -484,21 +1355,25 @@ class APIUtils {
 
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "POST"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "POST"
 
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(data)
-                wr.flush()
-                wr.close()
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
 
-                println("---------------------------------------")
-                println("연결주소 : $urlString")
-                println("응답코드 : $responseCode") // 200 201 등등
-                println("응답메세지 : $responseMessage") // Created
-                println("보낸 데이터 : $data")
-                println("---------------------------------------")
-                return responseCode.toString()
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode") // 200 201 등등
+                    println("응답메세지 : $responseMessage") // Created
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    return responseCode.toString()
+                }
+            } catch (e:Exception) {
+                println("----postSignInAsyncTask Error")
             }
 
             return null
@@ -520,8 +1395,350 @@ class APIUtils {
         }
     }
 
-
     // PUT
+    class putAsyncTask : AsyncTask<String, Any, String?>() {
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                }
+            } catch (e:Exception) {
+                println("--------putAsyncTask Error")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+        }
+    }
+
+    // PUT MessageReceive2
+    class putMessageReceive2AsyncTask(listener: MessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener: MessageContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("-------------PUT MessageReceive-------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    if (responseCode == 200) {
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------PUT MessageReceive RESULT----------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----putMessageReceive2AsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                // loading 없애기
+            }
+        }
+    }
+
+
+    // PUT MessageReceive
+    class putMessageReceiveAsyncTask(listener: WriteMessageContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var listener: WriteMessageContract.Listener
+
+        init {
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("-------------PUT MessageReceive-------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    if (responseCode == 200) {
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------PUT MessageReceive RESULT----------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----putMessageReceiveAsyncTask Error")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.onSuccess()
+            }
+        }
+    }
+
+    // PUT User
+    class putUserAsyncTask(context: Context, listener: TransferContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+        val context: Context
+        val listener: TransferContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("------------PUT User -----------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    if (responseCode == 200) {
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------PUT USER RESULT----------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----putUserAsyncTask Error")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+//                listener.onSuccess()
+                listener.onUserChangeSQLite(context, result)
+            }
+        }
+    }
+
+    // PUT User2
+    class putUser2AsyncTask(context: Context, listener: FamilyContract.Listener, bool: Boolean) :
+        AsyncTask<String, Any, String?>() {
+        val context: Context
+        val listener: FamilyContract.Listener
+        val bool: Boolean
+
+        init {
+            this.context = context
+            this.listener = listener
+            this.bool = bool
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("------------PUT User -----------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+                    if (responseCode == 200) {
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------PUT USER RESULT----------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----putUser2AsyncTask Error")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                listener.onExitRoom(context, result, bool)
+//                listener.onSuccess()
+
+            }
+        }
+    }
+
+    // PUT Invited
+    class putInvitedAsyncTask(
+        mOnListener: InvitedContract.Listener,
+        context: Context
+    ) : AsyncTask<String, Any, String?>() {
+
+        val mOnListener: InvitedContract.Listener
+        val context: Context
+
+        init {
+            this.mOnListener = mOnListener
+            this.context = context
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString = params[0]
+            val data = params[1]
+
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
+
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
+
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
+
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("---------------PUT Invited-------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----putInvitedAsyncTask Error")
+            }
+
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result != null) {
+                mOnListener.onPutEnd(context, result)
+            }
+        }
+    }
+
+    // PUT Room
     class putRoomAsyncTask(
         mOnListener: MyHomeCheckContract.onMyHomeCheckListener,
         context: Context
@@ -541,35 +1758,37 @@ class APIUtils {
 
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "PUT"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
 
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(data)
-                wr.flush()
-                wr.close()
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
 
+                    println("---------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸 데이터 : $data")
+                    println("---------------------------------------")
 
-
-                println("---------------------------------------")
-                println("연결주소 : $urlString")
-                println("응답코드 : $responseCode")
-                println("응답메세지 : $responseMessage")
-                println("보낸 데이터 : $data")
-                println("---------------------------------------")
-
-                if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        val response = it.readText()
-                        println("----------------------------------------------------------")
-                        println("연결주소 : $urlString")
-                        println("응답코드 : $responseCode")
-                        println("응답메세지 : $responseMessage")
-                        println("받은 데이터 : $response")
-                        println("----------------------------------------------------------")
-                        return response
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return response
+                        }
                     }
                 }
+            } catch(e:Exception) {
+                println("------putRoomAsyncTask Error")
             }
 
             return null
@@ -583,28 +1802,55 @@ class APIUtils {
         }
     }
 
-    // PUT
-    class putAsyncTask : AsyncTask<String, Any, String?>() {
+    // PUT Transfer
+    class putTransferAsyncTask(context: Context, listener: TransferContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        private var context: Context
+        private var listener: TransferContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
         override fun doInBackground(vararg params: String?): String? {
             val urlString = params[0]
             val data = params[1]
 
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "PUT"
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "PUT"
 
-                val wr = OutputStreamWriter(outputStream)
-                wr.write(data)
-                wr.flush()
-                wr.close()
+                    val wr = OutputStreamWriter(outputStream)
+                    wr.write(data)
+                    wr.flush()
+                    wr.close()
 
-                println("---------------------------------------")
-                println("연결주소 : $urlString")
-                println("응답코드 : $responseCode")
-                println("응답메세지 : $responseMessage")
-                println("보낸 데이터 : $data")
-                println("---------------------------------------")
+                    println("--------------PUT Transfer-------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("보낸데이터 : $data")
+                    println("---------------------------------------")
+                    if (responseCode == 200) { // 성공 했을 때에만 데이터 읽어오기
+//                    BufferedReader(InputStreamReader(inputStream)).use {
+//                        val response = it.readText()
+//                        println("----------------------------------------------------------")
+//                        println("연결주소 : $urlString")
+//                        println("응답코드 : $responseCode")
+//                        println("응답메세지 : $responseMessage")
+//                        println("받은 데이터 : $response")
+//                        println("----------------------------------------------------------")
+//                        return response
+//                    }
+                        return responseCode.toString()
+                    }
+                }
+            } catch (e:Exception) {
+                println("------putTransferAsyncTask Error")
             }
 
             return null
@@ -612,6 +1858,8 @@ class APIUtils {
 
         override fun onPostExecute(result: String?) {
             super.onPostExecute(result)
+            if (result.equals("200"))
+                listener.onUserChange(context)
         }
     }
 
@@ -621,13 +1869,17 @@ class APIUtils {
             val urlString: String? = params[0]
             val url = URL(urlString)
 
-            with(url.openConnection() as HttpURLConnection) {
-                requestMethod = "DELETE"
-                println("----------------------------------------------------------")
-                println("연결주소 : $urlString")
-                println("응답코드 : $responseCode")
-                println("응답메세지 : $responseMessage")
-                println("----------------------------------------------------------")
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "DELETE"
+                    println("----------------------------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("----------------------------------------------------------")
+                }
+            } catch (e:Exception) {
+                println("-----delAsyncTask Error")
             }
             return null
         }
@@ -637,5 +1889,54 @@ class APIUtils {
         }
     }
 
+    // DELETE Room
+    class delRoomAsyncTask(context: Context, listener: FamilyContract.Listener) :
+        AsyncTask<String, Any, String?>() {
+
+        val context: Context
+        val listener: FamilyContract.Listener
+
+        init {
+            this.context = context
+            this.listener = listener
+        }
+
+        override fun doInBackground(vararg params: String?): String? {
+            val urlString: String? = params[0]
+            val url = URL(urlString)
+
+            try {
+                with(url.openConnection() as HttpURLConnection) {
+                    requestMethod = "DELETE"
+                    println("----------------------------------------------------------")
+                    println("연결주소 : $urlString")
+                    println("삭제응답코드 : $responseCode")
+                    println("응답메세지 : $responseMessage")
+                    println("----------------------------------------------------------")
+                    if (responseCode == 204) { // 성공 했을 때에만 데이터 읽어오기
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            val response = it.readText()
+                            println("----------------------------------------------------------")
+                            println("연결주소 : $urlString")
+                            println("응답코드 : $responseCode")
+                            println("응답메세지 : $responseMessage")
+                            println("받은 데이터 : $response")
+                            println("----------------------------------------------------------")
+                            return responseCode.toString()
+                        }
+                    }
+                }
+            } catch (e:Exception) {
+                println("-----delRoomAsyncTask Error")
+            }
+            return null
+        }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (result.equals("204"))
+                listener.onDelSuccess(context)
+        }
+    }
 
 }

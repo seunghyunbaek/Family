@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.User
 import kotlinx.android.synthetic.main.activity_profile.*
@@ -27,7 +28,10 @@ class ProfileActivity : AppCompatActivity() {
         setContentView(R.layout.activity_profile)
         stringUrl = getString(R.string.url)
 
-        getAsyncTask(this@ProfileActivity).execute(stringUrl + "family/signin/", null, null)
+        val dbHelper = DBHelper(this)
+        val user = dbHelper.getUser()
+
+        getAsyncTask(this@ProfileActivity).execute(stringUrl + "user/" + user?.email, null, null)
 
         image_profile_back.setOnClickListener {
             // 뒤로가기
@@ -79,19 +83,23 @@ class ProfileActivity : AppCompatActivity() {
 
                 val url = params[0]
                 val obj = URL(url)
-                with(obj.openConnection() as HttpURLConnection) {
-                    // optional dfault is GET
-                    requestMethod = "GET"
-                    println("\nSending 'GET' request to URL : $url")
-                    println("Response Code : $responseCode")
-                    BufferedReader(InputStreamReader(inputStream)).use {
-                        var response = it.readText()
+                try {
+                    with(obj.openConnection() as HttpURLConnection) {
+                        // optional dfault is GET
+                        requestMethod = "GET"
+                        println("\nSending 'GET' request to URL : $url")
+                        println("Response Code : $responseCode")
+                        BufferedReader(InputStreamReader(inputStream)).use {
+                            var response = it.readText()
 //                        Log.d("HttpClientActivity", response)
-                        println(response)
+                            println(response)
 //                        val obj = JSONObject(response)
 //                        println("json Object : " + obj.getString("email"))
-                        return response
+                            return response
+                        }
                     }
+                } catch (e:Exception) {
+                    println("------getAsyncTask Error : ProfileActivity")
                 }
                 return null
             }
@@ -142,16 +150,20 @@ class ProfileActivity : AppCompatActivity() {
 
                 val mURL = URL(url)
 
-                with(mURL.openConnection() as HttpURLConnection) {
-                    requestMethod = "POST"
+                try {
+                    with(mURL.openConnection() as HttpURLConnection) {
+                        requestMethod = "POST"
 
-                    val wr = OutputStreamWriter(outputStream)
-                    wr.write(reqParam)
-                    wr.flush()
+                        val wr = OutputStreamWriter(outputStream)
+                        wr.write(reqParam)
+                        wr.flush()
 
-                    println("URL : $url")
-                    println("Response Code : $responseCode")
-                    println("d $responseMessage")
+                        println("URL : $url")
+                        println("Response Code : $responseCode")
+                        println("d $responseMessage")
+                    }
+                } catch (e:Exception) {
+                    println("------sendAsyncTask Error : ProfileActivity")
                 }
                 return null
             }

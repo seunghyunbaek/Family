@@ -55,5 +55,9 @@
     <!-- Profile Anniversary Item -->
     <string name="profile_birth">생일</string>
 
+    <string name="title_activity_fullscreen">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
 
 </resources>

@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.BitmapFactory
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.WriteRecordContract
@@ -80,6 +80,13 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View, View.OnCli
     override fun showError(error: String) {
     }
 
+    override fun showLoading() {
+        progress_write_record.visibility = View.VISIBLE
+    }
+
+    override fun hideLoading() {
+        progress_write_record.visibility = View.GONE
+    }
 
     private fun pickImageFromGallery() {
         // intent to pick image
@@ -240,6 +247,8 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View, View.OnCli
             }
             // 저장하기
             R.id.text_save_write_record -> {
+                showLoading()
+
                 val date: String // 작성일
                 val content: String // 작성내용
 
@@ -282,7 +291,8 @@ class WriteRecordActivity : BaseActivity(), WriteRecordContract.View, View.OnCli
                 }
             }
             R.id.image_video_write_record -> {
-
+                progress_write_record.visibility =
+                    if (!progress_write_record.isVisible) View.VISIBLE else View.GONE
             }
         }
     }

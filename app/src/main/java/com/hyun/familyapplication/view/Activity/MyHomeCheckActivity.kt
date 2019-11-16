@@ -65,7 +65,9 @@ class MyHomeCheckActivity : BaseActivity(), MyHomeCheckContract.View, View.OnCli
             }
             R.id.button_next_my_home_check -> {
                 if (!check_host_my_home_check.isChecked)
-                    createdRoom()
+                    Intent(this, InvitedActivity::class.java).let{
+                        startActivity(it)
+                    }
                 else
                     mPresenter.createRoom(this)
             }

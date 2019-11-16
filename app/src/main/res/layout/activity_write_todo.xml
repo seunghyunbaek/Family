@@ -76,14 +76,14 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="2019년 8월 4일 일요일" />
+            android:hint="날짜를 선택해주세요" />
 
         <TextView
             android:id="@+id/text_time_write_todo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:text="오전 08:40" />
+            android:text="00:00" />
     </LinearLayout>
 
     <LinearLayout
@@ -109,7 +109,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="알람" />
+            android:hint="알람 없음" />
 
         <TextView
             android:id="@+id/text_alert_write_todo"

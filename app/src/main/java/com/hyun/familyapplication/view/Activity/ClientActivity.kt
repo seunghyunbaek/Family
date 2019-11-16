@@ -6,7 +6,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.AsyncTask
@@ -20,18 +19,19 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.hyun.familyapplication.R
 import cz.msebera.android.httpclient.HttpResponse
-import cz.msebera.android.httpclient.client.HttpClient
 import cz.msebera.android.httpclient.client.methods.HttpPost
 import cz.msebera.android.httpclient.entity.ContentType
 import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode
 import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder
-import cz.msebera.android.httpclient.entity.mime.content.ByteArrayBody
 import cz.msebera.android.httpclient.entity.mime.content.FileBody
 import cz.msebera.android.httpclient.entity.mime.content.StringBody
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient
 import kotlinx.android.synthetic.main.activity_client.*
 import org.json.JSONObject
-import java.io.*
+import java.io.BufferedReader
+import java.io.File
+import java.io.InputStreamReader
+import java.io.OutputStreamWriter
 import java.lang.ref.WeakReference
 import java.net.HttpURLConnection
 import java.net.URL
@@ -43,6 +43,7 @@ class ClientActivity : AppCompatActivity() {
     private lateinit var url: String
     private lateinit var uristring: Uri
     private lateinit var tempFile: File
+    private var lst: ArrayList<File>? = ArrayList<File>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -217,10 +218,14 @@ class ClientActivity : AppCompatActivity() {
         }
 
         btn_client_setimage.setOnClickListener {
-            var getUrl = "http://172.30.1.13:8000/post/" // 유저 데이터 조회 url
+            var getUrl = "http://172.30.1.35:8000/blog/subimage/" // 유저 데이터 조회 url
 
-            setImageAsyncTask().execute(getUrl, tempFile.path)
+            setImageAsyncTask(lst!!).execute(getUrl, tempFile.path)
         }
+    }
+
+    private fun getList(): ArrayList<File>? {
+        return this!!.lst
     }
 
     private fun tedPermission() {
@@ -262,7 +267,8 @@ class ClientActivity : AppCompatActivity() {
                     cursor.moveToFirst();
 
                     tempFile = File(cursor.getString(column_index));
-                    val f:File = File(tempFile.path)
+                    val f: File = File(tempFile.path)
+                    lst?.add(tempFile)
 
                     val options: BitmapFactory.Options = BitmapFactory.Options();
                     val originalBm = BitmapFactory.decodeFile(tempFile.getAbsolutePath(), options);
@@ -350,7 +356,6 @@ class ClientActivity : AppCompatActivity() {
                 println(obj.get("cover"))
                 println("---------------------------------------------")
 
-
                 val activity = activityReference.get()
                 Glide.with(activity!!).load(obj.get("cover"))
                     .into(activity.findViewById(R.id.image_client))
@@ -358,43 +363,71 @@ class ClientActivity : AppCompatActivity() {
             }
         }
 
-        class setImageAsyncTask : AsyncTask<String, Any, String?>() {
-            override fun doInBackground(vararg params: String?): String? {
+        fun kk(farray: ArrayList<File>) {
+            var arr = farray
+            if (arr.size > 0)
+                arr.removeAt(0)
+            if (!arr.isEmpty()) {
+                println("=========================================================")
+                println("     이미지 업로드 완료까지 남은 개수: ${arr.size}")
+                println("=========================================================")
+                setImageAsyncTask(arr).execute("url", arr.get(0).path)
+            } else {
+                println("=========================================================")
+                println("           이미지 업로드 끝                               ")
+                println("=========================================================")
+            }
+        }
 
+
+        class setImageAsyncTask(lst: ArrayList<File>) : AsyncTask<String, Any, String?>() {
+
+            var lst: ArrayList<File>
+
+            init {
+                this.lst = lst
+            }
+
+            override fun doInBackground(vararg params: String?): String? {
 //                val url = params[0]
 //                val url = "http://172.30.1.13:8000/users/"
-                val url = "http://172.30.1.13:8000/post/"
+                val url = "http://172.30.1.35:8000/blog/subimage/" // 유저 데이터 조회 url
+
                 val jsonString = params[1]
                 val uri = Uri.parse(jsonString)
 
                 ////////////////////////////////////////////////////////
 
-                val bitmap = BitmapFactory.decodeFile(uri.path)
+//                val bitmap = BitmapFactory.decodeFile(uri.path)
 
-                val bos: ByteArrayOutputStream = ByteArrayOutputStream()
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, bos)
-                val data: ByteArray = bos.toByteArray()
+//                val bos: ByteArrayOutputStream = ByteArrayOutputStream()
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 75, bos)
+//                val data: ByteArray = bos.toByteArray()
 
                 val httpClient = DefaultHttpClient()
                 val postRequest = HttpPost(url)
 
-                val f:File = File(jsonString)
+                val f: File = File(jsonString)
 
-                val bab: ByteArrayBody = ByteArrayBody(data, jsonString)
-                val fileBody:FileBody = FileBody(f, ContentType.DEFAULT_BINARY)
+//                val bab: ByteArrayBody = ByteArrayBody(data, jsonString)
+                val fileBody: FileBody = FileBody(f, ContentType.DEFAULT_BINARY)
                 val stringbody1: StringBody =
                     StringBody("strbody@gmail_com", ContentType.MULTIPART_FORM_DATA)
                 val stringbody2: StringBody = StringBody("strbody", ContentType.MULTIPART_FORM_DATA)
+                val meeting: StringBody = StringBody(
+                    "http://172.30.1.35:8000/blog/meeting/1/",
+                    ContentType.MULTIPART_FORM_DATA
+                )
 
-
-                val builder:MultipartEntityBuilder = MultipartEntityBuilder.create()
+                val builder: MultipartEntityBuilder = MultipartEntityBuilder.create()
                 builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE)
 //                builder.addPart("cover", bab)
 //                builder.addPart("title", StringBody("title_6", ContentType.MULTIPART_FORM_DATA))
 //                builder.addPart("email", stringbody1)
 //                builder.addPart("name", stringbody1)
-                builder.addPart("title", stringbody1)
-                builder.addPart("cover", fileBody)
+//                builder.addPart("title", stringbody1)
+                builder.addPart("meeting", meeting)
+                builder.addPart("path", fileBody)
 
 //                val reqEntity: MultipartEntity =
 //                    MultipartEntity(HttpMultipartMode.BROWSER_COMPATIBLE)
@@ -454,6 +487,7 @@ class ClientActivity : AppCompatActivity() {
             override fun onPostExecute(result: String?) {
                 super.onPostExecute(result)
                 println(result)
+                kk(lst)
             }
         }
 
