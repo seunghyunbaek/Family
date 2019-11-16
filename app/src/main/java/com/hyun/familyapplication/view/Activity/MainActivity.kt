@@ -49,6 +49,7 @@ class MainActivity : BaseActivity(), MainContract.View {
             initPresenter()
         }
         presenter?.checkMessage(this)
+//        presenter?.checkRecord(this)
     }
 
     override fun onDestroy() {
@@ -110,9 +111,7 @@ class MainActivity : BaseActivity(), MainContract.View {
                 startActivity(it)
             }
         }
-
     }
-
 
     companion object {
         fun getLaunchIntent(from: Context) = Intent(from, SignInActivity::class.java).apply {
@@ -140,6 +139,15 @@ class MainActivity : BaseActivity(), MainContract.View {
         } else {
             textMessageCount.visibility = View.VISIBLE
             textMessageCount.text = count.toString()
+        }
+    }
+
+    override fun checkRecord(count: Int) {
+        if (count < 0) {
+            textRecordCount.visibility = View.INVISIBLE
+        } else {
+            textRecordCount.visibility = View.VISIBLE
+            textRecordCount.text = count.toString()
         }
     }
 }

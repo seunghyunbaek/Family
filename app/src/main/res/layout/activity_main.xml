@@ -110,11 +110,29 @@
                 android:background="@drawable/round2"
                 android:orientation="vertical">
 
-                <TextView
-                    style="@style/margin_10dp_text_white_font_24dp"
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="나의 홈" />
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        style="@style/margin_10dp_text_white_font_24dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="나의 홈" />
+
+                    <TextView
+                        android:id="@+id/textRecordCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="10dp"
+                        android:text="1"
+                        android:textColor="@color/white"
+                        android:textSize="16dp"
+                        android:textStyle="italic"
+                        android:visibility="invisible" />
+                </FrameLayout>
 
                 <TextView
                     style="@style/margin_10dp_text_white"

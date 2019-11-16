@@ -20,11 +20,27 @@ class MainPresenter : MainContract.Presenter, MainContract.Listener {
         MainModel.checkMessage(context, this)
     }
 
+    override fun checkRecord(context: Context) {
+        MainModel.checkRecord(context, this)
+    }
+
     // Listener
     override fun checkMessage(result: String) {
         val count = MainModel.getCount(result)
         view?.checkMessage(count)
     }
 
+    override fun onCheckRecord(context:Context, result: String) {
+        // 데이터 가져왔을 때
+        MainModel.getRecord(context, result, this)
+    }
 
+    override fun onRecord(count: String, result: String) {
+        val cnt = MainModel.getNewCount(count, result)
+        view?.checkRecord(cnt)
+    }
+
+    override fun onError(msg: String) {
+        view?.showError(msg)
+    }
 }

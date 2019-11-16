@@ -14,8 +14,12 @@ class ImageActivity : AppCompatActivity() {
         val uri = intent.getStringExtra("uri")
         Glide.with(this).load(uri).into(image_image)
 
-        image_image.setOnClickListener {
+        button_back_image.setOnClickListener {
             onBackPressed()
+        }
+
+        image_image.setOnClickListener {
+//            onBackPressed()
         }
     }
 

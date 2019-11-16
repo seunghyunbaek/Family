@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.RecordContract
@@ -20,6 +21,8 @@ import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import com.hyun.familyapplication.view.Adapter.RecordAdapter
+import kotlinx.android.synthetic.main.fragment_record.*
+import kotlinx.android.synthetic.main.fragment_record.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -42,6 +45,7 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
     lateinit var db: DBHelper
     var lstRecrods: List<Record> = ArrayList<Record>()
     var lstImages: List<RecordImage> = ArrayList<RecordImage>()
+    var swiperefresh: SwipeRefreshLayout? = null
 
     lateinit var mRecyclerView: RecyclerView
 
@@ -63,8 +67,19 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
             }
         }
 
+        swiperefresh = view.findViewById<SwipeRefreshLayout>(R.id.swiperefresh_record)
+
+        swiperefresh?.setOnRefreshListener {
+            getDatas()
+        }
+
         mRecyclerView = view.findViewById<RecyclerView>(R.id.recyclerview_record)
-        mRecyclerView.layoutManager = LinearLayoutManager(view.context)
+        val layoutManager = LinearLayoutManager(view.context)
+        layoutManager.reverseLayout = true
+        layoutManager.stackFromEnd = true
+//        mRecyclerView.layoutManager = LinearLayoutManager(view.context)
+        mRecyclerView.layoutManager = layoutManager
+
 //        refreshData()
         getDatas()
 
@@ -76,6 +91,10 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
         if(db.getUser()?.room != null) {
             val url = getString(R.string.url) + "record/?room=" + db.getUser()?.room
             APIUtils.getRecordAsyncTask(this@RecordFragment).execute(url)
+
+//            if(swiperefresh?.isRefreshing!!) {
+//                swiperefresh?.isRefreshing = false
+//            }
         }
     }
 
@@ -148,6 +167,9 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
         adapter.notifyDataSetChanged()
         println("adapter.notifyDataSetChanged()")
         println("-------------------------------------------")
+        if(swiperefresh?.isRefreshing!!) {
+            swiperefresh?.isRefreshing = false
+        }
     }
 
     override fun onFailed() {
