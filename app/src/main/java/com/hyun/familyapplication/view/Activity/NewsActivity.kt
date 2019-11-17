@@ -20,4 +20,8 @@ class NewsActivity : AppCompatActivity() {
 
         image_back_news.setOnClickListener { onBackPressed() }
     }
+
+    fun getNews(){
+        
+    }
 }

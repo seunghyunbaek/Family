@@ -118,7 +118,7 @@ class ProfileActivity : AppCompatActivity() {
                     val anniversary = activity.findViewById<TextView>(R.id.text_profile_anniversary)
 
                     val data = JSONObject(result)
-                    email.setText(data.getString("email"))
+                    email.setText(data.getString("email").replace("_", "."))
                     name.setText(data.getString("name"))
 //                    hoching.setText(data.getString("hoching"))
                     hoching.setText("나")

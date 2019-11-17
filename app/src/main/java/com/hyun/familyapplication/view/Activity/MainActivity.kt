@@ -128,9 +128,17 @@ class MainActivity : BaseActivity(), MainContract.View {
         }
 
         btnFeedBack.setOnClickListener {
-            Intent(this, ClientActivity::class.java).let {
-                startActivity(it)
-            }
+//            Intent(this, ClientActivity::class.java).let {
+//                startActivity(it)
+//            }
+            val email:Intent  = Intent(Intent.ACTION_SEND);
+            email.setType("text/plain");
+//            val eee:Array<String> = arrayOf("back947@naver.com")
+            email.putExtra(Intent.EXTRA_EMAIL, arrayOf("back947@naver.com"));
+            email.putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + " " + "report" + ">");
+            email.putExtra(Intent.EXTRA_TEXT, "앱 버전 (AppVersion):" + "1.0" + "\n기기명 (Device):\n안드로이드 OS (Android OS):\n내용 (Content):\n");
+            email.setType("message/rfc822");
+            startActivity(email);
         }
     }
 

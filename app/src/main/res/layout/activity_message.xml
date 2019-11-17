@@ -7,33 +7,30 @@
     tools:context="com.hyun.familyapplication.view.Activity.MessageActivity">
 
 
-    <ImageView
-        android:id="@+id/button_back_message"
-        style="@style/size_40dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:adjustViewBounds="true"
-        android:padding="5dp"
-        android:scaleType="fitCenter"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_left_thin" />
-
     <TextView
         android:id="@+id/text_message"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_marginStart="10dp"
-        android:layout_marginLeft="10dp"
         android:gravity="center_vertical"
         android:text="메세지 함"
         android:textSize="16dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/button_back_message"
         app:layout_constraintTop_toTopOf="@+id/button_back_message" />
+
+    <ImageView
+        android:id="@+id/button_back_message"
+        style="@style/size_40dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:adjustViewBounds="true"
+        android:padding="5dp"
+        android:scaleType="fitCenter"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_arrow_left_thin" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperefresh_message"
