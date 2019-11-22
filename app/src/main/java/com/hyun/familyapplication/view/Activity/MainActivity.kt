@@ -1,5 +1,7 @@
 package com.hyun.familyapplication.view.Activity
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -7,8 +9,12 @@ import android.content.IntentFilter
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.Window
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
+import androidx.transition.Explode
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.MainContract
@@ -62,6 +68,49 @@ class MainActivity : BaseActivity(), MainContract.View {
 
     fun setButton() {
 
+        profileimg.setOnClickListener {
+            val intent = Intent(this, ClientActivity::class.java)
+            val options = ActivityOptionsCompat
+                .makeSceneTransitionAnimation(
+                    this@MainActivity, profileimg,
+                    ViewCompat.getTransitionName(profileimg)!!
+                )
+            startActivity(intent, options.toBundle())
+        }
+
+//        btnFriends.setOnClickListener {
+//            btnFriends.animate()
+//                .rotationY(360f) // 회전 각도
+//                .rotationYBy(180f) // 180도씩 회전
+//                .setDuration(500) // 애니메이션 시간
+//                .setListener(object : AnimatorListenerAdapter() {
+//                    override fun onAnimationRepeat(animation: Animator?) {
+//                        super.onAnimationRepeat(animation)
+//                    }
+//
+//                    override fun onAnimationEnd(animation: Animator?) {
+//                        super.onAnimationEnd(animation)
+//                    }
+//
+//                    override fun onAnimationCancel(animation: Animator?) {
+//                        super.onAnimationCancel(animation)
+//                    }
+//
+//                    override fun onAnimationPause(animation: Animator?) {
+//                        super.onAnimationPause(animation)
+//                    }
+//
+//                    override fun onAnimationStart(animation: Animator?) {
+//                        super.onAnimationStart(animation)
+//                    }
+//
+//                    override fun onAnimationResume(animation: Animator?) {
+//                        super.onAnimationResume(animation)
+//                    }
+//                })
+//                .start()
+//        }
+
         image_profile_btn.setOnClickListener {
             Intent(this@MainActivity, ProfileActivity::class.java).let {
                 startActivity(it)
@@ -96,12 +145,14 @@ class MainActivity : BaseActivity(), MainContract.View {
         btnMyHome.setOnClickListener(View.OnClickListener {
             Intent(this, MyHomeCheckActivity::class.java).let {
                 startActivity(it)
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout)
             }
         })
 
         btnNews.setOnClickListener {
             Intent(this, NewsActivity::class.java).let {
                 startActivity(it)
+                overridePendingTransition(R.anim.slidedown, R.anim.slideup)
             }
         }
 
@@ -136,7 +187,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 //            val eee:Array<String> = arrayOf("back947@naver.com")
             email.putExtra(Intent.EXTRA_EMAIL, arrayOf("back947@naver.com"));
             email.putExtra(Intent.EXTRA_SUBJECT, "<" + getString(R.string.app_name) + " " + "report" + ">");
-            email.putExtra(Intent.EXTRA_TEXT, "앱 버전 (AppVersion):" + "1.0" + "\n기기명 (Device):\n안드로이드 OS (Android OS):\n내용 (Content):\n");
+            email.putExtra(Intent.EXTRA_TEXT, "앱 버전 (AppVersion):" + "1.0" + "\n모델명 (Device):${Build.MODEL}\n안드로이드 OS (Android OS):${Build.VERSION.RELEASE}\n문의내용 (Content):\n");
             email.setType("message/rfc822");
             startActivity(email);
         }
@@ -163,11 +214,15 @@ class MainActivity : BaseActivity(), MainContract.View {
             }
         }
 
-        val dialog = AlertDialog.Builder(this)
-        dialog.setMessage("앱을 종료하시겠습니까?")
-        dialog.setPositiveButton("예", dialogListener)
-        dialog.setNegativeButton("아니오", dialogListener)
-        dialog.show()
+        val dialogbuilder = AlertDialog.Builder(this)
+        dialogbuilder.setMessage("앱을 종료하시겠습니까?")
+        dialogbuilder.setPositiveButton("예", dialogListener)
+        dialogbuilder.setNegativeButton("아니오", dialogListener)
+//        dialogbuilder.show()
+
+        val alertDialog = dialogbuilder.create()
+        alertDialog.window.attributes.windowAnimations = R.anim.slidedown
+        alertDialog.show()
     }
 
     override fun initPresenter() {

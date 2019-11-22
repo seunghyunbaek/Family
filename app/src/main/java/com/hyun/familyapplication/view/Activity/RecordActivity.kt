@@ -2,6 +2,7 @@ package com.hyun.familyapplication.view.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.view.Adapter.SliderAdapter
@@ -12,6 +13,11 @@ class RecordActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_record)
+
+        button_back_record_activity.setOnClickListener {
+            onBackPressed()
+        }
+
 
         val i = intent
 
@@ -42,5 +48,10 @@ class RecordActivity : AppCompatActivity() {
             text_date_record_activity.text = date
         }
 
+    }
+
+    override fun onBackPressed() {
+        button_back_record_activity.visibility = View.INVISIBLE
+        super.onBackPressed()
     }
 }

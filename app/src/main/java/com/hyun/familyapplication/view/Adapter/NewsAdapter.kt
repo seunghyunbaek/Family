@@ -1,23 +1,25 @@
 package com.hyun.familyapplication.view.Adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.MainData
+import com.hyun.familyapplication.model.News
+import com.hyun.familyapplication.view.Activity.NewsDetailActivity
 import kotlinx.android.synthetic.main.item_news.view.*
 
-class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(context: Context, newsList:ArrayList<News>) : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
-    var items: MutableList<MainData> = mutableListOf(
-        MainData("김김일", "Content1"),
-        MainData("김김이", "Content2"), MainData("김김삼", "Content3"),
-        MainData("김김사", "Content4"), MainData("김김오", "Content5"),
-        MainData("김김육", "Content6"), MainData("김김칠", "Content7"),
-        MainData("김김팔", "Content8"), MainData("김김구", "Content9"),
-        MainData("김김십", "Content10")
-    )
+    var context:Context
+    var items: ArrayList<News>
+    init {
+        this.context = context
+        this.items = newsList
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder =
         NewsViewHolder(parent)
@@ -28,9 +30,17 @@ class NewsAdapter : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
         items[position].let { item ->
             with(holder) {
                 tvTitle.text = item.title
-                tvTime.text = "19년 8월 4일"
-                if (position % 2 == 0)
-                    imgNews.visibility = View.VISIBLE
+                tvTime.text = item.subtitle
+//                if (position % 2 == 0)
+//                    imgNews.visibility = View.VISIBLE
+                this.itemView.setOnClickListener {
+                    Intent(context, NewsDetailActivity::class.java).let {
+                        it.putExtra("title", item.title)
+                        it.putExtra("subtitle", item.subtitle)
+                        it.putExtra("content", item.content)
+                        context.startActivity(it)
+                    }
+                }
             }
         }
     }

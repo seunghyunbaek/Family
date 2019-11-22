@@ -191,12 +191,14 @@
         android:orientation="horizontal">
 
         <LinearLayout
+            android:id="@+id/btnFriends"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/profileimg"
                 style="@style/margin_10dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -204,7 +206,9 @@
                 android:adjustViewBounds="true"
                 android:cropToPadding="true"
                 android:scaleType="fitCenter"
-                app:srcCompat="@drawable/user" />
+                app:srcCompat="@drawable/user"
+                android:transitionName="icon_android"
+                />
 
             <TextView
                 android:layout_width="match_parent"

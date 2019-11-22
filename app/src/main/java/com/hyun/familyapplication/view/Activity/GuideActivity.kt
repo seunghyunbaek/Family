@@ -28,6 +28,7 @@ class GuideActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide)
 
+
         val guideRecyclerView = findViewById<RecyclerView>(R.id.recyclerview_guide)
         guideRecyclerView.layoutManager = LinearLayoutManager(this)
         guideRecyclerView.adapter = GuideAdapter(this, getGuide())

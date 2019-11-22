@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.hyun.familyapplication.view.Activity.RecordActivity">
+    tools:context="com.hyun.familyapplication.view.Activity.RecordActivity"
+    android:transitionName="record_detail">
 
     <ImageView
         android:id="@+id/button_back_record_activity"
@@ -19,7 +20,14 @@
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_left_thin" />
+        app:srcCompat="@drawable/ic_arrow_left_thin"
+        android:visibility="invisible"/>
+
+    <!--<androidx.constraintlayout.widget.Group-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--app:constraint_referenced_ids="container_record_activity, text_name_record_activity,text_date_record_activity,text_content_record_activity,viewpager_record_activity"-->
+        <!--android:transitionName="record_detail"/>-->
 
     <TextView
         android:id="@+id/text_name_record_activity"

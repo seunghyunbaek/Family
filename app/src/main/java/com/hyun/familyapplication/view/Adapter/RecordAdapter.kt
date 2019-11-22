@@ -4,17 +4,22 @@ import android.content.Context
 import android.content.Intent
 import android.view.*
 import android.widget.Toast
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
+import com.hyun.familyapplication.view.Activity.MyHomeActivity
 import com.hyun.familyapplication.view.Activity.RecordActivity
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import kotlinx.android.synthetic.main.item_record.view.*
 
 class RecordAdapter(
+    internal val activity:MyHomeActivity,
     internal val context: Context?,
     internal var lstRecord: List<Record>,
     internal var lstImages: List<RecordImage>
@@ -74,7 +79,7 @@ class RecordAdapter(
 //                    }
 //                }
                 this.itemView.setOnClickListener {
-                    Intent(context, RecordActivity::class.java).let{
+                     val intent = Intent(context, RecordActivity::class.java).let{
                         if(viewPager.visibility == View.VISIBLE) {
                             var imglist = ArrayList<String>()
                             for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
@@ -89,8 +94,15 @@ class RecordAdapter(
                             it.putExtra("content", item.content)
                             it.putExtra("date", item.date)
                         }
-                        context!!.startActivity(it)
-                    }
+
+                         val options = ActivityOptionsCompat
+                             .makeSceneTransitionAnimation(
+                                 activity, itemView,
+                                 ViewCompat.getTransitionName(itemView)!!
+                             )
+                         context!!.startActivity(it, options.toBundle())
+                     }
+
                 }
             }
 

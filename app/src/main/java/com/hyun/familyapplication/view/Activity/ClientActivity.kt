@@ -1,3 +1,66 @@
+//package com.hyun.familyapplication.view.Activity
+//
+//import android.Manifest
+//import android.app.Activity
+//import android.content.ContentValues
+//import android.content.Intent
+//import android.content.pm.PackageManager
+//import android.database.Cursor
+//import android.graphics.BitmapFactory
+//import android.net.Uri
+//import android.os.AsyncTask
+//import android.os.Build
+//import android.os.Bundle
+//import android.provider.MediaStore
+//import android.widget.ImageView
+//import android.widget.Toast
+//import androidx.appcompat.app.AppCompatActivity
+//import androidx.core.app.ActivityOptionsCompat
+//import androidx.core.view.ViewCompat
+//import com.bumptech.glide.Glide
+//import com.google.firebase.auth.FirebaseAuth
+//import com.hyun.familyapplication.R
+//import cz.msebera.android.httpclient.HttpResponse
+//import cz.msebera.android.httpclient.client.methods.HttpPost
+//import cz.msebera.android.httpclient.entity.ContentType
+//import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode
+//import cz.msebera.android.httpclient.entity.mime.MultipartEntityBuilder
+//import cz.msebera.android.httpclient.entity.mime.content.FileBody
+//import cz.msebera.android.httpclient.entity.mime.content.StringBody
+//import cz.msebera.android.httpclient.impl.client.DefaultHttpClient
+//import kotlinx.android.synthetic.main.activity_client.*
+//import org.json.JSONObject
+//import java.io.BufferedReader
+//import java.io.File
+//import java.io.InputStreamReader
+//import java.io.OutputStreamWriter
+//import java.lang.ref.WeakReference
+//import java.net.HttpURLConnection
+//import java.net.URL
+//import java.net.URLEncoder
+//
+//class ClientActivity : AppCompatActivity() {
+//
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        super.onCreate(savedInstanceState)
+//        setContentView(R.layout.activity_client)
+//        iv_android_icon.setOnClickListener {
+//            val intent = Intent(this, MainActivity::class.java)
+//            val options = ActivityOptionsCompat
+//                .makeSceneTransitionAnimation(
+//                    this@ClientActivity, iv_android_icon,
+//                    ViewCompat.getTransitionName(iv_android_icon)!!
+//                )
+//            startActivity(intent, options.toBundle())
+//        }
+//    }
+//}
+
+
+
+// =====================================================================================
+
+
 package com.hyun.familyapplication.view.Activity
 
 import android.Manifest

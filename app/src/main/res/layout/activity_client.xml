@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".view.Activity.ClientActivity">
+    tools:context=".view.Activity.ClientActivity"
+    android:transitionName="icon_android">
 
     <EditText
         android:id="@+id/edit_client_id"
@@ -29,7 +30,8 @@
         android:id="@+id/btn_client_send"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Send" />
+        android:text="Send"
+        />
 
     <Button
         android:id="@+id/btn_client_get"
@@ -80,3 +82,35 @@
         tools:srcCompat="@tools:sample/avatars" />
 
 </LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+    <!--<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context=".view.Activity.ClientActivity">-->
+
+    <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/profileimg"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="0dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:src="@drawable/ic_profile"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_constraintEnd_toEndOf="parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+    <!--&lt;!&ndash;app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_android_icon"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="parent"-->
+    <!--app:layout_constraintLeft_toLeftOf="parent"-->
+    <!--android:src="@mipmap/ic_launcher"-->
+    <!--android:transitionName="icon_android"/>-->
+
+    <!--</androidx.constraintlayout.widget.ConstraintLayout>-->
+
+    <!-- ==============================================================================================- -->

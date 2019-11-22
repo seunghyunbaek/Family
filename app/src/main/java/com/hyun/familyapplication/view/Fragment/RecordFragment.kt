@@ -19,6 +19,7 @@ import com.hyun.familyapplication.contract.RecordContract
 import com.hyun.familyapplication.model.APIUtils
 import com.hyun.familyapplication.model.Record
 import com.hyun.familyapplication.model.RecordImage
+import com.hyun.familyapplication.view.Activity.MyHomeActivity
 import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import com.hyun.familyapplication.view.Adapter.RecordAdapter
 import kotlinx.android.synthetic.main.fragment_record.*
@@ -40,6 +41,7 @@ private const val ARG_PARAM2 = "param2"
  * A simple [Fragment] subclass.
  *
  */
+
 class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
 
     lateinit var db: DBHelper
@@ -101,7 +103,8 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
     fun refreshData() {
         lstRecrods = db.allRecord
         lstImages = db.allImages
-        val adapter = RecordAdapter(context, lstRecrods, lstImages)
+        val ac = activity as MyHomeActivity
+        val adapter = RecordAdapter(ac ,context, lstRecrods, lstImages)
         mRecyclerView.adapter = adapter
     }
 
@@ -161,7 +164,8 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
         }
         lstImages = lst
 
-        val adapter = RecordAdapter(context, lstRecrods, lstImages)
+        val ac = activity as MyHomeActivity
+        val adapter = RecordAdapter(ac, context, lstRecrods, lstImages)
         mRecyclerView.adapter = adapter
         println("-------------------------------------------")
         adapter.notifyDataSetChanged()
