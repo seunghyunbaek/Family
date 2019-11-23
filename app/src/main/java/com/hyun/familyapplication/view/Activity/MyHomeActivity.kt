@@ -92,6 +92,7 @@ class MyHomeActivity : AppCompatActivity() {
         Intent(this, MainActivity::class.java).let {
             it.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(it)
+            overridePendingTransition(R.anim.fadein, R.anim.fadeout)
         }
     }
 }

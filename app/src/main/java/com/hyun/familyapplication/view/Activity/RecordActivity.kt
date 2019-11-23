@@ -18,14 +18,13 @@ class RecordActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-
         val i = intent
 
         val b = i.extras
 
         if(b.getStringArrayList("imglist") != null) {
-            println("11111111111111111111111111111111111111111111111111")
-            println(b.getStringArrayList("imglist"))
+//            println("11111111111111111111111111111111111111111111111111")
+//            println(b.getStringArrayList("imglist"))
             val name = b.getString("name")
             val content = b.getString("content")
             val date = b.getString("date")
@@ -35,7 +34,7 @@ class RecordActivity : AppCompatActivity() {
             text_content_record_activity.text = content
             text_date_record_activity.text = date
 
-            val adapter = SliderAdapter(this, imglist)
+            val adapter = SliderAdapter(this,this, imglist)
             viewpager_record_activity.setAdapter(adapter)
 //            viewpager_record_activity.adapter = adapter
         } else {
@@ -50,8 +49,14 @@ class RecordActivity : AppCompatActivity() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        button_back_record_activity.visibility = View.VISIBLE
+    }
+
     override fun onBackPressed() {
-        button_back_record_activity.visibility = View.INVISIBLE
+        button_back_record_activity.visibility = View.GONE
+        text_date_record_activity.visibility = View.GONE
         super.onBackPressed()
     }
 }

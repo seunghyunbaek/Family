@@ -10,5 +10,6 @@
         android:id="@+id/image_item_slider"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@tools:sample/avatars"
+        android:transitionName="image_transition"/>
 </LinearLayout>

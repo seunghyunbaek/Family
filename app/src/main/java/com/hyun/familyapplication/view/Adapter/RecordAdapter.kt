@@ -3,11 +3,10 @@ package com.hyun.familyapplication.view.Adapter
 import android.content.Context
 import android.content.Intent
 import android.view.*
+import android.view.animation.AlphaAnimation
 import android.widget.Toast
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.view.ViewCompat
-import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.DBHelper.DBHelper
 import com.hyun.familyapplication.R
@@ -19,12 +18,14 @@ import com.hyun.familyapplication.view.Activity.WriteRecordActivity
 import kotlinx.android.synthetic.main.item_record.view.*
 
 class RecordAdapter(
-    internal val activity:MyHomeActivity,
+    internal val activity: MyHomeActivity,
     internal val context: Context?,
     internal var lstRecord: List<Record>,
     internal var lstImages: List<RecordImage>
 ) : RecyclerView.Adapter<RecordAdapter.RecordViewHolder>() {
 
+    var previousPosition: Int = Int.MAX_VALUE
+//    var oldestPosition:Int = previousPosition
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = RecordViewHolder(parent)
 
@@ -36,6 +37,14 @@ class RecordAdapter(
                 tvTitle.text = item.name
                 tvContent.text = item.content
 //                val rslt = DBUtils.getImageList(item.id, lstImages)
+//                println("previoutPosition:$previousPosition // position:$position")
+//                if(oldestPosition > previousPosition) {
+//
+//                }
+                if (previousPosition > position) {
+                    fade_out(this.itemView)
+                    previousPosition = position
+                }
 
                 println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
                 println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
@@ -49,15 +58,19 @@ class RecordAdapter(
                     for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
                         imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
                     }
-                    val adapter = SliderAdapter(context!!, imglist)
+                    val adapter = SliderAdapter(activity, context!!, imglist)
                     viewPager.setAdapter(adapter)
 //                    viewPager.adapter = adapter
                     viewPager.visibility = View.VISIBLE
                     viewPager.setOnClickListener {
                         Intent(context, RecordActivity::class.java).let {
                             var imglist = ArrayList<String>()
-                            for(imgobjidx in 0 ..(item.record_images!!.length() -1 )) {
-                                imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                            for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
+                                imglist.add(
+                                    item.record_images!!.getJSONObject(imgobjidx).getString(
+                                        "uri"
+                                    )
+                                )
                             }
                             it.putExtra("name", item.name)
                             it.putExtra("content", item.content)
@@ -79,11 +92,15 @@ class RecordAdapter(
 //                    }
 //                }
                 this.itemView.setOnClickListener {
-                     val intent = Intent(context, RecordActivity::class.java).let{
-                        if(viewPager.visibility == View.VISIBLE) {
+                    val intent = Intent(context, RecordActivity::class.java).let {
+                        if (viewPager.visibility == View.VISIBLE) {
                             var imglist = ArrayList<String>()
                             for (imgobjidx in 0..(item.record_images!!.length() - 1)) {
-                                imglist.add(item.record_images!!.getJSONObject(imgobjidx).getString("uri"))
+                                imglist.add(
+                                    item.record_images!!.getJSONObject(imgobjidx).getString(
+                                        "uri"
+                                    )
+                                )
                             }
                             it.putExtra("name", item.name)
                             it.putExtra("content", item.content)
@@ -95,18 +112,35 @@ class RecordAdapter(
                             it.putExtra("date", item.date)
                         }
 
-                         val options = ActivityOptionsCompat
-                             .makeSceneTransitionAnimation(
-                                 activity, itemView,
-                                 ViewCompat.getTransitionName(itemView)!!
-                             )
-                         context!!.startActivity(it, options.toBundle())
-                     }
+                        val options = ActivityOptionsCompat
+                            .makeSceneTransitionAnimation(
+                                activity, itemView,
+                                ViewCompat.getTransitionName(itemView)!!
+                            )
+                        context!!.startActivity(it, options.toBundle())
+                    }
 
                 }
             }
 
         }
+
+    }
+
+    private fun fade_out(view: View) {
+        //AnimationSet set = new AnimationSet(true);
+        val a: AlphaAnimation = AlphaAnimation(0.0f, 1.0f)
+        a.setFillAfter(true); // 에니메이션이 끝난 뒤 상태를 유지하는 설정, 설정하지 않으면 duration 이후 원래 상태로 되돌아감
+        a.setDuration(1000);
+        view.startAnimation(a);
+    }
+
+    private fun fade_in(view: View) {
+        //AnimationSet set = new AnimationSet(true);
+        val a: AlphaAnimation = AlphaAnimation(1.0f, 0.0f)
+        a.setFillAfter(true); // 에니메이션이 끝난 뒤 상태를 유지하는 설정, 설정하지 않으면 duration 이후 원래 상태로 되돌아감
+        a.setDuration(1000);
+        view.startAnimation(a);
     }
 
 

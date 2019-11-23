@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AlphaAnimation
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hyun.familyapplication.R
 import com.hyun.familyapplication.contract.PictureContract
 import com.hyun.familyapplication.model.RecordImage
 import com.hyun.familyapplication.presenter.PicturePresenter
+import com.hyun.familyapplication.view.Activity.MyHomeActivity
 import com.hyun.familyapplication.view.Adapter.PictureAdapter
 
 // TODO: Rename parameter arguments, choose names that match
@@ -30,6 +33,7 @@ class PicturesFragment : BaseFragment(), PictureContract.View {
     private lateinit var pictureRecyclerView: RecyclerView
     private var pictureAdapter: PictureAdapter? = null
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,8 +46,13 @@ class PicturesFragment : BaseFragment(), PictureContract.View {
         mPresenter.takeView(this)
 
         pictureRecyclerView = view.findViewById(R.id.recyclerview_picture)
-        pictureRecyclerView.layoutManager = GridLayoutManager(view.context, 4)
-        pictureAdapter = PictureAdapter(context!!)
+//        val layoutManager = GridLayoutManager(view.context, 4, RecyclerView.VERTICAL,true)
+//        layoutManager.reverseLayout = true
+//        layoutManager.stackFromEnd = true
+//        pictureRecyclerView.layoutManager =  layoutManager
+        pictureRecyclerView.layoutManager = GridLayoutManager(view.context, 4) as RecyclerView.LayoutManager?
+        val ac = activity as MyHomeActivity
+        pictureAdapter = PictureAdapter(ac, context!!)
         mPresenter.takeAdapter(pictureAdapter!!)
         pictureRecyclerView.adapter = pictureAdapter
 
@@ -54,8 +63,12 @@ class PicturesFragment : BaseFragment(), PictureContract.View {
         super.onStart()
         if (mPresenter == null)
             initPresenter()
+    }
 
+    override fun onResume() {
+        super.onResume()
         refreshData()
+
     }
 
     override fun onDestroy() {
@@ -82,4 +95,5 @@ class PicturesFragment : BaseFragment(), PictureContract.View {
     fun refreshData() {
         mPresenter.getPictures(context!!)
     }
+
 }

@@ -146,19 +146,22 @@ class MainActivity : BaseActivity(), MainContract.View {
             Intent(this, MyHomeCheckActivity::class.java).let {
                 startActivity(it)
                 overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+//                overridePendingTransition(R.anim.fadeout, R.anim.fadein)
             }
         })
 
         btnNews.setOnClickListener {
             Intent(this, NewsActivity::class.java).let {
                 startActivity(it)
-                overridePendingTransition(R.anim.slidedown, R.anim.slideup)
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+//                overridePendingTransition(R.anim.slidedown, R.anim.slideup)
             }
         }
 
         btnGuide.setOnClickListener {
             Intent(this, GuideActivity::class.java).let {
                 startActivity(it)
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout)
             }
         }
 
@@ -168,6 +171,7 @@ class MainActivity : BaseActivity(), MainContract.View {
 //            }
             Intent(this, MessageActivity::class.java).let {
                 startActivity(it)
+                overridePendingTransition(R.anim.fadein, R.anim.fadeout)
             }
         }
 

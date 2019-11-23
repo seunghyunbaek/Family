@@ -2,6 +2,7 @@ package com.hyun.familyapplication.view.Activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.bumptech.glide.Glide
 import com.hyun.familyapplication.R
 import kotlinx.android.synthetic.main.activity_image.*
@@ -23,4 +24,8 @@ class ImageActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+//        button_back_image.visibility = View.GONE
+        super.onBackPressed()
+    }
 }

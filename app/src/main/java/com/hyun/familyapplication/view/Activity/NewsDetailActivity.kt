@@ -14,7 +14,7 @@ class NewsDetailActivity : AppCompatActivity() {
         val i = intent
         val title = i.extras.getString("title")
         val subtitle = i.extras.getString("subtitle")
-        val description = i.extras.getString("description")
+        val description = i.extras.getString("content")
 //        val image = i.extras.getInt("images")
 
         text_news_detail_title.text = title
@@ -24,5 +24,9 @@ class NewsDetailActivity : AppCompatActivity() {
 
         text_desc_news_detail.text = description
 //        image_news_detail.setImageResource(image)
+
+        button_back_news_detail.setOnClickListener {
+            onBackPressed()
+        }
     }
 }

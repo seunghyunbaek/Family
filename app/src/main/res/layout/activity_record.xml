@@ -5,29 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.hyun.familyapplication.view.Activity.RecordActivity"
-    android:transitionName="record_detail">
+    android:transitionName="record_detail"
+    >
 
     <ImageView
         android:id="@+id/button_back_record_activity"
         style="@style/size_40dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginLeft="20dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:adjustViewBounds="true"
         android:padding="5dp"
         android:scaleType="fitCenter"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_arrow_left_thin"
-        android:visibility="invisible"/>
+        app:srcCompat="@drawable/ic_arrow_left_thin" />
 
     <!--<androidx.constraintlayout.widget.Group-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--app:constraint_referenced_ids="container_record_activity, text_name_record_activity,text_date_record_activity,text_content_record_activity,viewpager_record_activity"-->
-        <!--android:transitionName="record_detail"/>-->
+        <!--android:layout_width="34dp"-->
+        <!--android:layout_height="58dp"-->
+        <!--app:constraint_referenced_ids="button_back_record_activity"-->
+        <!--app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:layout_constraintTop_toTopOf="parent" />-->
 
     <TextView
         android:id="@+id/text_name_record_activity"

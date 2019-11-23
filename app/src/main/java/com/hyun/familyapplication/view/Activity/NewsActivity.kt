@@ -22,6 +22,16 @@ class NewsActivity : AppCompatActivity() {
         image_back_news.setOnClickListener { onBackPressed() }
     }
 
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        finish()
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+    }
+
     fun getNews():ArrayList<News>{
         var newsList = ArrayList<News>()
 

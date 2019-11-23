@@ -6,13 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.Glide
 import com.hyun.familyapplication.R
+import com.hyun.familyapplication.view.Activity.BaseActivity
 import com.hyun.familyapplication.view.Activity.ImageActivity
+import com.hyun.familyapplication.view.Activity.RecordActivity
 import pyxis.uzuki.live.rollingbanner.RollingViewPagerAdapter
 
-class SliderAdapter(context: Context, lstImages: ArrayList<String>) :
+class SliderAdapter(internal val activity: AppCompatActivity, context: Context, lstImages: ArrayList<String>) :
     RollingViewPagerAdapter<String>(context, lstImages) {
     private var layoutInflater: LayoutInflater? = null
     var images: ArrayList<String>
@@ -38,7 +43,8 @@ class SliderAdapter(context: Context, lstImages: ArrayList<String>) :
 
                 Intent(context, ImageActivity::class.java).let {
                     it.putExtra("uri", images[position])
-                    context.startActivity(it)
+                    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, image, ViewCompat.getTransitionName(image)!!)
+                    context.startActivity(it, options.toBundle())
                 }
             }
         }

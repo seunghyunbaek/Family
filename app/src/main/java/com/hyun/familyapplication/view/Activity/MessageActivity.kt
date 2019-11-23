@@ -21,6 +21,9 @@ class MessageActivity : BaseActivity(), MessageContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
 
+//        val activity:MessageActivity = this
+//        activity.overridePendingTransition(R.anim.fadein, R.anim.fadeout)
+
         presenter?.takeView(this)
 
         swiperefresh_message.setOnRefreshListener {
@@ -40,6 +43,11 @@ class MessageActivity : BaseActivity(), MessageContract.View {
                 startActivity(it)
             }
         }
+    }
+
+    override fun onBackPressed() {
+//        super.onBackPressed()
+        finish()
     }
 
     override fun initPresenter() {
@@ -75,5 +83,10 @@ class MessageActivity : BaseActivity(), MessageContract.View {
 
     fun readMessage() {
         presenter?.readMessage(this)
+    }
+
+    override fun finish() {
+        super.finish()
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout)
     }
 }
