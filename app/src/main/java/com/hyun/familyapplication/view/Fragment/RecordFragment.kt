@@ -115,7 +115,7 @@ class RecordFragment : BaseFragment(), RecordContract.onRecordListener {
     override fun onResume() {
         super.onResume()
 //        refreshData()
-        getDatas()
+//        getDatas()
     }
 
     override fun onSuccess(result:String) {
